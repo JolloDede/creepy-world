@@ -1,0 +1,2 @@
+The grid runs from 0 to 47 in the vertical (y) direction and from 0 to 69 in the horizontal (x) direction.
+(0,0) is in the top-left, (69,47) is in the bottom-right (you can see this in the map editor).
