@@ -10,5 +10,6 @@ export class Player extends Structure {
         this.engery = 0;
         this.active = true;
         this.collectors = [];
+        this.setPos({ x: 40, y: 50});
     }
 }

@@ -15,13 +15,14 @@ export class Drawing {
      * name
      */
     public draw(game: Game) {
-        let cellHeight = this.height / game.getUniverse().getHeight();
-        let cellWidth = this.width / game.getUniverse().getWidth();
+        let cellHeight =  Math.floor(this.height / game.getUniverse().getHeight());
+        let cellWidth =  Math.floor(this.width / game.getUniverse().getWidth());
 
         // paint map
         for (let i = 0; i < game.getUniverse().getHeight(); i++) {
             for (let ii = 0; ii < game.getUniverse().getWidth(); ii++) {
                 // Graustufen zeichnen
+                
                 switch (game.getUniverse().getMap()[i][ii]) {
                     case 0:
                         this.crc.fillStyle = "#706660";
@@ -56,7 +57,7 @@ export class Drawing {
 
         // draw Player
         this.crc.strokeStyle = "red";
-        this.crc.rect(game.getPlayer().getPos().x, game.getPlayer().getPos().y, cellWidth*8, cellHeight*8);
+        this.crc.rect(game.getPlayer().getPos().x * cellWidth, game.getPlayer().getPos().y * cellHeight, cellWidth*7, cellHeight*7);
         this.crc.stroke();
 
         // game..forEach(element => {

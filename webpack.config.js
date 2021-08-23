@@ -17,5 +17,10 @@ module.exports = {
             exclude: /node_modules/,
             loader: 'babel-loader',
         }],
-    }
+    },
+    devServer: {
+        contentBase: path.join(__dirname, 'www'),
+        compress: true,
+        port: 8000,
+      },
 };

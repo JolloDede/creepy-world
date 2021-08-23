@@ -10,6 +10,10 @@ export class Structure {
     public getPos(): Point{
         return this.pos;
     }
+
+    setPos(p: Point) {
+        this.pos = p;
+    }
 }
 
 class Point {

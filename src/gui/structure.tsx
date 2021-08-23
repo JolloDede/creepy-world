@@ -1,4 +1,5 @@
 import React, { MouseEvent } from "react";
+import { DragManager } from "../manager/dragManager";
 
 type Struc = {
     name: string,
@@ -9,6 +10,7 @@ function Structure({ name }: Struc) {
     const onClickHandle = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         // Todo make a element drag
+        // var man = new DragManager(name);
         console.log("gamebar structurepanel click "+name);
     }
 
