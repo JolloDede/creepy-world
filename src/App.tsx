@@ -1,3 +1,4 @@
+import collector from "./img/Collector.png";
 
 function App() {
   return (
@@ -8,6 +9,7 @@ function App() {
       <div className="row w-100">
         <div className="col-5">
           <h2>Structure Buttons</h2>
+          <button>Collector<img src={collector} alt="Collector" /></button>
         </div>
         <div className="col-5">
           <h2>Other things</h2>
