@@ -1,5 +1,5 @@
 ## Step 1
-* [ ] Buttons for the structures
+* [X] Buttons for the structures
   * [ ] https://www.youtube.com/watch?v=3C-prYJMoRE for the pixelart for the
 
 ### Structures
