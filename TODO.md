@@ -3,12 +3,16 @@
   * [ ] https://www.youtube.com/watch?v=3C-prYJMoRE for the pixelart for the
 
 ### Structures
-  * [X] Collector
+  * [ ] Player
+    * [X] image
+  * [ ] Collector
+    * [X] image
   * [ ] Relay
   * [ ] Storage
   * [ ] Speed
   * [ ] Reactor
   * [ ] Blaster
+    * [X] image
   * [ ] Mortar
   * [ ] SAM
   * [ ] Drone
