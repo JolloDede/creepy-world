@@ -1,11 +1,11 @@
+import { Collector } from "./Collector";
 
 export default class Player {
-    private x = 41
-    private y = 35;
-    private width = 5;
-    private height = 6;
+    x = 40;
+    y = 36;
+    collectors: Collector[] = [];
 
     constructor() {
-        
+        this.collectors.push(new Collector(42, 29));
     }
 }
