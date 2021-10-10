@@ -22,12 +22,7 @@ export default class Main {
         this.draw.setWidthHeight(width, height);
     }
     
-    // fieldsize = maxwidth / fieldsx
-    // x = clientX/
-    onCanvasClick(e: any, canvasWidth: number, canvasHeight: number) {
-        // let x = Math.round(e.clientX / (canvasWidth / xFields));
-        // let y = Math.round(e.clientY / (canvasHeight / yFields));
-        // this.game.map[y][x] = this.game.map[y][x] == 2? 0: this.game.map[y][x]+1;
+    onCanvasClick() {
         this.clickHandler.canvasClick();
     }
 

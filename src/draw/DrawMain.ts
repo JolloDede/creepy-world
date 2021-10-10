@@ -14,8 +14,8 @@ export default class DrawMain {
 
     render() {
         if (this.g === undefined) return;
-        let pixelWidth = Math.round(this.width / 70);
-        let pixelHeight =  Math.round(this.height / 48);
+        let pixelWidth = Math.round(this.width / this.map.dimensions.x);
+        let pixelHeight =  Math.round(this.height / this.map.dimensions.y);
 
         for (let i = 0; i < this.map.dimensions.y; i++) {
             for (let ii = 0; ii < this.map.dimensions.x; ii++) {
