@@ -24,14 +24,15 @@ function App() {
   useEffect(() => {
     if (canvasWidth && canvasHeight) {
       main.setCanvasDim(canvasWidth, canvasHeight);
-      main.drawing(ctx);
+      main.draw.setRenderContext(ctx);
+      main.drawing();
     }
   }, [canvasHeight, canvasWidth]);
 
   return (
     <div className="m-0 p-0">
       <div className="row w-100">
-        <canvas className="p-0 w-100" onClick={() => main.onCanvasClick()} ref={canvasRef} width={canvasWidth} height={canvasHeight}></canvas>
+        <canvas className="p-0 w-100" onClick={(e) => main.onCanvasClick(e, Number(canvasWidth), Number(canvasHeight))} ref={canvasRef} width={canvasWidth} height={canvasHeight}></canvas>
       </div>
       <div className="row w-100">
         <div className="col-5">
