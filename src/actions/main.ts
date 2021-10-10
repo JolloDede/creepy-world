@@ -1,19 +1,16 @@
-import Player from "../chars/Player";
 import DrawMain from "../draw/DrawMain";
-import { GameMap } from "../game/GameMap";
 import { Curserstate, OnClickHandler } from "./OnClickHandler";
+import { Game } from "../chars/Game";
 
 export default class Main {
     clickHandler: OnClickHandler;
     draw: DrawMain;
-    game: GameMap;
-    player: Player;
+    game: Game;
 
     constructor() {
         this.clickHandler = new OnClickHandler();
-        this.game = new GameMap();
-        this.player = new Player();
-        this.draw = new DrawMain(this.game, this.player);
+        this.game = new Game();
+        this.draw = new DrawMain(this.game);
     }
 
     drawing(): void {

@@ -1,13 +1,16 @@
-import Player from "../chars/Player";
-import { GameMap } from "../game/GameMap";
 import PlayerPath from "../img/Player.png";
 import CollectorPath from "../img/Collector.png";
+import CreeperPath from "../img/Creeper.png";
+import { Game } from "../chars/Game";
 
 const PlayerImg = new Image();
 PlayerImg.src = PlayerPath;
 
 const CollectorImg = new Image();
 CollectorImg.src = CollectorPath;
+
+const CreeperImg = new Image();
+CreeperImg.src = CreeperPath;
 
 const playerWidth = 5;
 const playerHeigth = 5;
@@ -16,35 +19,34 @@ const collectorSize = 1;
 export default class DrawMain {
     width: number;
     height: number;
-    map: GameMap;
-    player: Player;
+    game: Game;
     g: CanvasRenderingContext2D | undefined;
 
-    constructor(map: GameMap, player: Player) {
+    constructor(game: Game) {
         this.width = 0;
         this.height = 0;
-        this.map = map;
-        this.player = player;
+        this.game = game;
     }
 
     render() {
         if (this.g === undefined) return;
-        let pixelWidth = Math.round(this.width / this.map.dimensions.x);
-        let pixelHeight = Math.round(this.height / this.map.dimensions.y);
+        let pixelWidth = Math.round(this.width / this.game.map.dimensions.x);
+        let pixelHeight = Math.round(this.height / this.game.map.dimensions.y);
 
         this.drawMap(pixelWidth, pixelHeight);
-        this.g.drawImage(PlayerImg, this.player.x * pixelWidth, this.player.y * pixelHeight, playerWidth * pixelWidth, playerHeigth * pixelHeight);
+        this.drawCreeper(pixelWidth, pixelHeight);
+        this.g.drawImage(PlayerImg, this.game.player.x * pixelWidth, this.game.player.y * pixelHeight, playerWidth * pixelWidth, playerHeigth * pixelHeight);
         this.drawCollectors(pixelWidth, pixelHeight);
     }
 
     drawMap(pixelWidth: number, pixelHeight: number) {
         if (this.g === undefined) return;
-        for (let i = 0; i < this.map.dimensions.y; i++) {
-            for (let ii = 0; ii < this.map.dimensions.x; ii++) {
+        for (let i = 0; i < this.game.map.dimensions.y; i++) {
+            for (let ii = 0; ii < this.game.map.dimensions.x; ii++) {
                 this.g.beginPath();
                 this.g.strokeStyle = "#FFFFFF";
                 this.g.strokeRect(pixelWidth * ii, pixelHeight * i, pixelWidth, pixelHeight);
-                switch (this.map.map[i][ii]) {
+                switch (this.game.map.map[i][ii]) {
                     case 0:
                         this.g.beginPath();
                         this.g.fillStyle = "#000000";
@@ -72,9 +74,17 @@ export default class DrawMain {
 
     drawCollectors(pixelWidth: number, pixelHeight: number) {
         if (this.g === undefined) return;
-        for (let i = 0; i < this.player.collectors.length; i++) {
-            const collector = this.player.collectors[i];
+        for (let i = 0; i < this.game.player.collectors.length; i++) {
+            const collector = this.game.player.collectors[i];
             this.g.drawImage(CollectorImg, collector.x * pixelWidth, collector.y * pixelHeight, collectorSize * pixelWidth, collectorSize * pixelHeight);
+        }
+    }
+
+    drawCreeper(pixelWidth: number, pixelHeight: number) {
+        if (this.g === undefined) return;
+        for (let i = 0; i < this.game.creepers.length; i++) {
+            const creeper = this.game.creepers[i];
+            this.g.drawImage(CreeperImg, creeper.x * pixelWidth, creeper.y * pixelHeight, collectorSize * pixelWidth, collectorSize * pixelHeight);
         }
     }
 
