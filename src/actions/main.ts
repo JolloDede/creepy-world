@@ -1,3 +1,4 @@
+import Player from "../chars/Player";
 import DrawMain from "../draw/DrawMain";
 import { GameMap } from "../game/GameMap";
 import { Curserstate, OnClickHandler } from "./OnClickHandler";
@@ -6,11 +7,13 @@ export default class Main {
     clickHandler: OnClickHandler;
     draw: DrawMain;
     game: GameMap;
+    player: Player;
 
     constructor() {
         this.clickHandler = new OnClickHandler();
         this.game = new GameMap();
-        this.draw = new DrawMain(this.game);
+        this.player = new Player();
+        this.draw = new DrawMain(this.game, this.player);
     }
 
     drawing(): void {
