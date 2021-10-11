@@ -1,11 +1,19 @@
 import { Collector } from "./Collector";
 
 export default class Player {
-    x = 40;
-    y = 36;
+    x: number;
+    y: number;
     collectors: Collector[] = [];
+    energy: number;
+    collection: number;
+    starvation: number;
 
     constructor() {
+        this.x = 40;
+        this.y = 36;
         this.collectors.push(new Collector(42, 29));
+        this.energy = 10;
+        this.collection = 0;
+        this.starvation = 0;
     }
 }
