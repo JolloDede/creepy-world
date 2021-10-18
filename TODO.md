@@ -9,10 +9,6 @@
   * [ ] draw connections (collecors, player)
   * [ ] draw creeper produced water
   * [ ] display Player atributes
-    * [ ] implement Player
-      * [ ] Energy
-      * [ ] Collection
-      * [ ] Starvation
 
 * [ ] game option buttons
   * [ ] Options
@@ -23,3 +19,11 @@
   * [ ] add collectors to the map
   * [ ] select Collector
   * [ ] select Player
+
+* [ ] implement Player
+  * [ ] Energy
+  * [ ] Collection
+  * [ ] Starvation
+  * [ ] Collector list
+    * [ ] add collector
+  * [ ] routes list (collectors to player)
