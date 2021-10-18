@@ -37,6 +37,7 @@ export default class DrawMain {
         this.drawCreeper(pixelWidth, pixelHeight);
         this.g.drawImage(PlayerImg, this.game.player.x * pixelWidth, this.game.player.y * pixelHeight, playerWidth * pixelWidth, playerHeigth * pixelHeight);
         this.drawCollectors(pixelWidth, pixelHeight);
+        this.drawRoutes(pixelWidth, pixelHeight);
     }
 
     drawMap(pixelWidth: number, pixelHeight: number) {
@@ -78,6 +79,20 @@ export default class DrawMain {
             const collector = this.game.player.collectors[i];
             this.g.drawImage(CollectorImg, collector.x * pixelWidth, collector.y * pixelHeight, collectorSize * pixelWidth, collectorSize * pixelHeight);
         }
+    }
+
+    drawRoutes(pixelWidth: number, pixelHeight: number) {
+        if (this.g === undefined) return;
+        for (let i = 0; i < this.game.player.routes.length; i++) {
+            const route = this.game.player.routes[i];
+            this.g.beginPath();
+            this.g.strokeStyle = "#354bea";
+            this.g.moveTo(route.a.x * pixelWidth, route.b.y * pixelHeight);
+            this.g.lineTo(route.b.x * pixelWidth, route.b.y * pixelHeight);
+            this.g.lineWidth = 5;
+            this.g.stroke();
+        }
+        this.g.lineWidth = 1;
     }
 
     drawCreeper(pixelWidth: number, pixelHeight: number) {
