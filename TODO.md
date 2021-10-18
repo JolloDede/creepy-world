@@ -8,18 +8,28 @@
   * [X] draw the water dispencers
   * [ ] draw connections (collecors, player)
   * [ ] draw creeper produced water
-  * [ ] display Player atributes
-    * [ ] implement Player
-      * [ ] Energy
-      * [ ] Collection
-      * [ ] Starvation
+  * [X] display Player atributes
 
-* [ ] game option buttons
-  * [ ] Options
-  * [ ] Help
-  * [ ] Exit game
+* [X] game option buttons
+  * [X] Options
+  * [X] Help
+  * [X] Exit game
 
 * [ ] Canvas Clicks
   * [ ] add collectors to the map
   * [ ] select Collector
   * [ ] select Player
+
+* [ ] implement Player
+  * [ ] Energy
+  * [ ] Collection
+  * [ ] Starvation
+  * [ ] Collector list
+    * [ ] add collector
+  * [ ] routes list (collectors to player)
+
+### Step 2
+* [ ] add functionality to the game options buttons
+  * [ ] Options display options
+  * [ ] Help display help
+  * [ ] Exit game exit the game
