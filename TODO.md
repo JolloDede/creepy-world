@@ -8,7 +8,7 @@
   * [X] draw the water dispencers
   * [ ] draw connections (collecors, player)
   * [ ] draw creeper produced water
-  * [ ] display Player atributes
+  * [X] display Player atributes
 
 * [X] game option buttons
   * [X] Options

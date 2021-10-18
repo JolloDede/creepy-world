@@ -39,7 +39,21 @@ function App() {
           <button onClick={() => main.onClick(Curserstate.Collector)}>Collector<img src={collector} alt="Collector" /></button>
         </div>
         <div className="col-5">
-          <h2>Other things</h2>
+          ENGERY
+          <div className="progress">
+            <div className={"progress-bar w-" + 100 / main.game.player.maxEnergy * main.game.player.energy} role="progressbar">{main.game.player.energy + "/" + main.game.player.maxEnergy}</div>
+          </div>
+          Collection <br />
+          {main.game.player.collection}
+          <br />
+          {/* <div className="progress">
+            <div className={"progress-bar w-" + 100 / main.game.player.maxEnergy * main.game.player.energy} role="progressbar">{main.game.player.collection}</div>
+          </div> */}
+          Starvation <br />
+          {main.game.player.starvation}
+          {/* <div className="progress">
+            <div className={"progress-bar w-"+100/main.game.player.collection*main.game.player.energy} role="progressbar">{main.game.player.starvation}</div>
+          </div> */}
         </div>
         <div className="col-2 row">
           <div className="col-2">
