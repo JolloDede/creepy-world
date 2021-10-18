@@ -8,4 +8,8 @@ export default class Player {
     constructor() {
         this.collectors.push(new Collector(42, 29));
     }
+
+    addCollector(x: number, y: number) {
+        this.collectors.push(new Collector(x, y));
+    }
 }
