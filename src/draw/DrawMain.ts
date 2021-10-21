@@ -12,8 +12,6 @@ CollectorImg.src = CollectorPath;
 const CreeperImg = new Image();
 CreeperImg.src = CreeperPath;
 
-const playerWidth = 5;
-const playerHeigth = 5;
 const collectorSize = 1;
 
 export default class DrawMain {
@@ -35,8 +33,10 @@ export default class DrawMain {
 
         this.drawMap(pixelWidth, pixelHeight);
         this.drawCreeper(pixelWidth, pixelHeight);
-        this.g.drawImage(PlayerImg, this.game.player.x * pixelWidth, this.game.player.y * pixelHeight, playerWidth * pixelWidth, playerHeigth * pixelHeight);
+        // draw player
+        this.drawPlayer(pixelWidth, pixelHeight);
         this.drawCollectors(pixelWidth, pixelHeight);
+        this.drawRoutes(pixelWidth, pixelHeight);
     }
 
     drawMap(pixelWidth: number, pixelHeight: number) {
@@ -49,19 +49,19 @@ export default class DrawMain {
                 switch (this.game.map.map[i][ii]) {
                     case 0:
                         this.g.beginPath();
-                        this.g.fillStyle = "#000000";
+                        this.g.fillStyle = "#7c6d68";
                         this.g.fillRect(pixelWidth * ii, pixelHeight * i, pixelWidth, pixelHeight);
                         break;
 
                     case 1:
                         this.g.beginPath();
-                        this.g.fillStyle = "#FF0000";
+                        this.g.fillStyle = "#95897e";
                         this.g.fillRect(pixelWidth * ii, pixelHeight * i, pixelWidth, pixelHeight);
                         break;
 
                     case 2:
                         this.g.beginPath();
-                        this.g.fillStyle = "#008000";
+                        this.g.fillStyle = "#bba6a5";
                         this.g.fillRect(pixelWidth * ii, pixelHeight * i, pixelWidth, pixelHeight);
                         break;
 
@@ -80,12 +80,31 @@ export default class DrawMain {
         }
     }
 
+    drawRoutes(pixelWidth: number, pixelHeight: number) {
+        if (this.g === undefined) return;
+        for (let i = 0; i < this.game.player.routes.length; i++) {
+            const route = this.game.player.routes[i];
+            this.g.beginPath();
+            this.g.strokeStyle = "#354bea";
+            this.g.moveTo(route.a.x * pixelWidth + Math.round(pixelWidth / 2), route.a.y * pixelHeight + Math.round(pixelHeight / 2));
+            this.g.lineTo(route.b.x * pixelWidth + Math.round(pixelWidth / 2), route.b.y * pixelHeight + Math.round(pixelHeight / 2));
+            this.g.lineWidth = 5;
+            this.g.stroke();
+        }
+        this.g.lineWidth = 1;
+    }
+
     drawCreeper(pixelWidth: number, pixelHeight: number) {
         if (this.g === undefined) return;
         for (let i = 0; i < this.game.creepers.length; i++) {
             const creeper = this.game.creepers[i];
             this.g.drawImage(CreeperImg, creeper.x * pixelWidth, creeper.y * pixelHeight, collectorSize * pixelWidth, collectorSize * pixelHeight);
         }
+    }
+
+    drawPlayer(pixelWidth: number, pixelHeight: number) {
+        if (this.g === undefined) return;
+        this.g.drawImage(PlayerImg, this.game.player.x * pixelWidth, this.game.player.y * pixelHeight, this.game.player.width * pixelWidth, this.game.player.height * pixelHeight);
     }
 
     setWidthHeight(width: number, height: number) {

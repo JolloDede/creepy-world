@@ -22,8 +22,14 @@ export default class Main {
         this.draw.setWidthHeight(width, height);
     }
     
-    onCanvasClick() {
-        this.clickHandler.canvasClick();
+    onCanvasClick(e: any, width?: number, heigth?: number) {
+        width = width ? width : 0;
+        heigth = heigth ? heigth : 0;
+        let pixelWidth = Math.round(width / this.game.map.dimensions.x);
+        let pixelHeight = Math.round(heigth / this.game.map.dimensions.y);
+        let x = Math.round(e.clientX / pixelWidth);
+        let y = Math.round(e.clientY / pixelHeight);
+        this.clickHandler.canvasClick(x, y, this.game);
     }
 
     onClick(state: Curserstate) {
