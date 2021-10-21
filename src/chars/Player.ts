@@ -11,24 +11,31 @@ export default class Player {
     starvation: number;
     collectors: Collector[] = [];
     routes: Route[] = [];
+    collectionFields: Point[];
 
-    constructor() {
-        this.x = 40;
-        this.y = 36;
+    constructor(x: number, y: number) {
+        this.x = x;
+        this.y = y;
         this.addCollector(42, 29);
         this.maxEnergy = 40;
         this.energy = 10;
         this.collection = 0;
         this.starvation = 0;
+        this.collectionFields = this.GetInitialCollectionFields();
+    }
+
+    GetInitialCollectionFields(): Point[] {
+        let fields: Point[] = [];
+        for (let i = 0; i < this.width; i++) {
+            for (let ii = 0; ii < this.width; ii++) {
+                fields.push({ x: this.x+i, y: this.y+ii });
+            }
+        }
+        return fields;
     }
 
     addCollector(x: number, y: number) {
-        if (!this.isOccupied(x, y)) {
-            this.maybeAddRoute(x, y);
-            this.collectors.push(new Collector(x, y));
-        }else {
-            console.log("failed to place a Collector at "+x+" "+y+" is occupied");
-        }
+        this.collectors.push(new Collector(x, y));
     }
 
     maybeAddRoute(x: number, y: number) {
@@ -44,21 +51,6 @@ export default class Player {
                 this.routes.push(new Route({ x: collector.x, y: collector.y }, { x: x, y: y }));
             }
         }
-    }
-
-    isOccupied(x: number, y: number) {
-        // player
-        if ((x >= this.x && x <= this.x + this.width) && (y >= this.y && y <= this.y + this.height)) {
-            return true;
-        }
-        // collectors
-        for (let i = 0; i < this.collectors.length; i++) {
-            const collector = this.collectors[i];
-            if (x == collector.x && y == collector.y) {
-                return true;
-            }
-        }
-        return false;
     }
 
     // Check whether a point lies strictly inside a given circle

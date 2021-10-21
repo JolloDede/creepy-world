@@ -32,6 +32,7 @@ export default class DrawMain {
         let pixelHeight = Math.round(this.height / this.game.map.dimensions.y);
 
         this.drawMap(pixelWidth, pixelHeight);
+        this.drawPlayerCollectionFields(pixelWidth, pixelHeight);
         this.drawCreeper(pixelWidth, pixelHeight);
         // draw player
         this.drawPlayer(pixelWidth, pixelHeight);
@@ -105,6 +106,16 @@ export default class DrawMain {
     drawPlayer(pixelWidth: number, pixelHeight: number) {
         if (this.g === undefined) return;
         this.g.drawImage(PlayerImg, this.game.player.x * pixelWidth, this.game.player.y * pixelHeight, this.game.player.width * pixelWidth, this.game.player.height * pixelHeight);
+    }
+
+    drawPlayerCollectionFields(pixelWidth: number, pixelHeight: number) {
+        if (this.g === undefined) return;
+        for (let i = 0; i < this.game.player.collectionFields.length; i++) {
+            const field = this.game.player.collectionFields[i];
+            this.g.beginPath();
+            this.g.fillStyle = "green";
+            this.g.fillRect(pixelWidth * field.x, pixelHeight * field.y, pixelWidth, pixelHeight);
+        }
     }
 
     setWidthHeight(width: number, height: number) {

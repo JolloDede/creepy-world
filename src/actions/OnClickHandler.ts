@@ -16,7 +16,7 @@ export class OnClickHandler {
 
             case Curserstate.Collector:
                 console.log("Try to place a Collector at " + x + " " + y);
-                game.player.addCollector(x, y);
+                game.addCollector(x, y);
                 break;
 
             case Curserstate.Blaster:
