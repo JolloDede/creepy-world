@@ -12,8 +12,6 @@ CollectorImg.src = CollectorPath;
 const CreeperImg = new Image();
 CreeperImg.src = CreeperPath;
 
-const playerWidth = 5;
-const playerHeigth = 5;
 const collectorSize = 1;
 
 export default class DrawMain {
@@ -51,19 +49,19 @@ export default class DrawMain {
                 switch (this.game.map.map[i][ii]) {
                     case 0:
                         this.g.beginPath();
-                        this.g.fillStyle = "#000000";
+                        this.g.fillStyle = "#7c6d68";
                         this.g.fillRect(pixelWidth * ii, pixelHeight * i, pixelWidth, pixelHeight);
                         break;
 
                     case 1:
                         this.g.beginPath();
-                        this.g.fillStyle = "#FF0000";
+                        this.g.fillStyle = "#95897e";
                         this.g.fillRect(pixelWidth * ii, pixelHeight * i, pixelWidth, pixelHeight);
                         break;
 
                     case 2:
                         this.g.beginPath();
-                        this.g.fillStyle = "#008000";
+                        this.g.fillStyle = "#bba6a5";
                         this.g.fillRect(pixelWidth * ii, pixelHeight * i, pixelWidth, pixelHeight);
                         break;
 
@@ -106,10 +104,7 @@ export default class DrawMain {
 
     drawPlayer(pixelWidth: number, pixelHeight: number) {
         if (this.g === undefined) return;
-        this.g.drawImage(PlayerImg, this.game.player.x * pixelWidth, this.game.player.y * pixelHeight, playerWidth * pixelWidth, playerHeigth * pixelHeight);
-        this.g.beginPath();
-        this.g.strokeStyle = "blue";
-        this.g.strokeRect(pixelWidth * this.game.player.x, pixelHeight * this.game.player.y, pixelWidth * this.game.player.width, pixelHeight * this.game.player.height);
+        this.g.drawImage(PlayerImg, this.game.player.x * pixelWidth, this.game.player.y * pixelHeight, this.game.player.width * pixelWidth, this.game.player.height * pixelHeight);
     }
 
     setWidthHeight(width: number, height: number) {

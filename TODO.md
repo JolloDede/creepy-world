@@ -16,7 +16,7 @@
   * [X] Exit game
 
 * [ ] Canvas Clicks
-  * [ ] add collectors to the map
+  * [X] add collectors to the map
   * [ ] select Collector
   * [ ] select Player
 
@@ -26,7 +26,7 @@
   * [ ] Starvation
   * [X] Collector list
     * [X] add collector
-  * [ ] routes list (collectors to player)
+  * [X] routes list (collectors to player)
     * [X] add collector makes routes
 
 ### Step 2
