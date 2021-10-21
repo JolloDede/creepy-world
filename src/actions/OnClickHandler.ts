@@ -26,6 +26,7 @@ export class OnClickHandler {
             default:
                 break;
         }
+        this.curserState = Curserstate.Null;
     }
 
     changeCurser(newCurser: Curserstate) {

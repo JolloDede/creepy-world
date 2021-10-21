@@ -35,7 +35,8 @@ export default class DrawMain {
 
         this.drawMap(pixelWidth, pixelHeight);
         this.drawCreeper(pixelWidth, pixelHeight);
-        this.g.drawImage(PlayerImg, this.game.player.x * pixelWidth, this.game.player.y * pixelHeight, playerWidth * pixelWidth, playerHeigth * pixelHeight);
+        // draw player
+        this.drawPlayer(pixelWidth, pixelHeight);
         this.drawCollectors(pixelWidth, pixelHeight);
         this.drawRoutes(pixelWidth, pixelHeight);
     }
@@ -87,8 +88,8 @@ export default class DrawMain {
             const route = this.game.player.routes[i];
             this.g.beginPath();
             this.g.strokeStyle = "#354bea";
-            this.g.moveTo(route.a.x * pixelWidth, route.b.y * pixelHeight);
-            this.g.lineTo(route.b.x * pixelWidth, route.b.y * pixelHeight);
+            this.g.moveTo(route.a.x * pixelWidth + Math.round(pixelWidth / 2), route.a.y * pixelHeight + Math.round(pixelHeight / 2));
+            this.g.lineTo(route.b.x * pixelWidth + Math.round(pixelWidth / 2), route.b.y * pixelHeight + Math.round(pixelHeight / 2));
             this.g.lineWidth = 5;
             this.g.stroke();
         }
@@ -101,6 +102,14 @@ export default class DrawMain {
             const creeper = this.game.creepers[i];
             this.g.drawImage(CreeperImg, creeper.x * pixelWidth, creeper.y * pixelHeight, collectorSize * pixelWidth, collectorSize * pixelHeight);
         }
+    }
+
+    drawPlayer(pixelWidth: number, pixelHeight: number) {
+        if (this.g === undefined) return;
+        this.g.drawImage(PlayerImg, this.game.player.x * pixelWidth, this.game.player.y * pixelHeight, playerWidth * pixelWidth, playerHeigth * pixelHeight);
+        this.g.beginPath();
+        this.g.strokeStyle = "blue";
+        this.g.strokeRect(pixelWidth * this.game.player.x, pixelHeight * this.game.player.y, pixelWidth * this.game.player.width, pixelHeight * this.game.player.height);
     }
 
     setWidthHeight(width: number, height: number) {

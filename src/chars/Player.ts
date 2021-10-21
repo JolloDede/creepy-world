@@ -3,6 +3,8 @@ import { Collector } from "./Collector";
 export default class Player {
     x: number;
     y: number;
+    width: number = 5;
+    height: number = 5;
     maxEnergy: number;
     energy: number;
     collection: number;
@@ -13,7 +15,7 @@ export default class Player {
     constructor() {
         this.x = 40;
         this.y = 36;
-        this.collectors.push(new Collector(42, 29));
+        this.addCollector(42, 29);
         this.maxEnergy = 40;
         this.energy = 10;
         this.collection = 0;
@@ -21,32 +23,51 @@ export default class Player {
     }
 
     addCollector(x: number, y: number) {
-        this.maybeAddRoute(x, y);
-        this.collectors.push(new Collector(x, y));
+        if (!this.isOccupied(x, y)) {
+            this.maybeAddRoute(x, y);
+            this.collectors.push(new Collector(x, y));
+        }else {
+            console.log("failed to place a Collector at "+x+" "+y+" is occupied");
+        }
     }
 
     maybeAddRoute(x: number, y: number) {
         // player
-        if (this.pointInRange(this.x, this.y, x, y)){
-            this.routes.push(new Route({ x: this.x, y: this.y }, { x: x, y: y }));
-            console.log("hurra player");
+        let px = this.x + Math.floor(this.width / 2);
+        let py = this.y + Math.floor(this.height / 2);
+        if (this.pointInRange(this.x + Math.floor(this.width / 2), this.y + Math.floor(this.height / 2), x, y)) {
+            this.routes.push(new Route({ x: px, y: py }, { x: x, y: y }));
         }
         for (let i = 0; i < this.collectors.length; i++) {
             const collector = this.collectors[i];
-            if (this.pointInRange(collector.x, collector.y, x, y)){
-                console.log("Hurra col");
+            if (this.pointInRange(collector.x, collector.y, x, y)) {
                 this.routes.push(new Route({ x: collector.x, y: collector.y }, { x: x, y: y }));
             }
         }
     }
 
+    isOccupied(x: number, y: number) {
+        // player
+        if ((x >= this.x && x <= this.x + this.width) && (y >= this.y && y <= this.y + this.height)) {
+            return true;
+        }
+        // collectors
+        for (let i = 0; i < this.collectors.length; i++) {
+            const collector = this.collectors[i];
+            if (x == collector.x && y == collector.y) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // Check whether a point lies strictly inside a given circle
     pointInRange(a: number, b: number, x: number, y: number) {
         let distPoints = (a - x) * (a - x) + (b - y) * (b - y);
-        let range = 6;
+        let range = 6 * 6;
         if (distPoints < range) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }
