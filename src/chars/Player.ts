@@ -11,7 +11,7 @@ export default class Player {
     starvation: number;
     collectors: Collector[] = [];
     routes: Route[] = [];
-    collectionFields: Point[];
+    collectionFields: Point[] = [];
 
     constructor(x: number, y: number) {
         this.x = x;
@@ -21,21 +21,22 @@ export default class Player {
         this.energy = 10;
         this.collection = 0;
         this.starvation = 0;
-        this.collectionFields = this.GetInitialCollectionFields();
-    }
-
-    GetInitialCollectionFields(): Point[] {
-        let fields: Point[] = [];
-        for (let i = 0; i < this.width; i++) {
-            for (let ii = 0; ii < this.width; ii++) {
-                fields.push({ x: this.x+i, y: this.y+ii });
-            }
-        }
-        return fields;
     }
 
     addCollector(x: number, y: number) {
         this.collectors.push(new Collector(x, y));
+    }
+
+    addCollectionField(field: Point) {
+        let found = false;
+        for (let i = 0; i < this.collectionFields.length; i++) {
+            if (field.x == this.collectionFields[i].x && field.y == this.collectionFields[i].y) {
+                found = true;
+            }
+        }
+        if (!found) {
+            this.collectionFields.push(field);
+        }
     }
 
     maybeAddRoute(x: number, y: number) {

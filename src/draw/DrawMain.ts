@@ -113,7 +113,7 @@ export default class DrawMain {
         for (let i = 0; i < this.game.player.collectionFields.length; i++) {
             const field = this.game.player.collectionFields[i];
             this.g.beginPath();
-            this.g.fillStyle = "green";
+            this.g.fillStyle = "rgba(0, 128, 0, 0.5)";
             this.g.fillRect(pixelWidth * field.x, pixelHeight * field.y, pixelWidth, pixelHeight);
         }
     }
