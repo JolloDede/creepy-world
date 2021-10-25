@@ -16,7 +16,6 @@ export default class Player {
     constructor(x: number, y: number) {
         this.x = x;
         this.y = y;
-        this.addCollector(42, 29);
         this.maxEnergy = 40;
         this.energy = 10;
         this.collection = 0;
@@ -36,6 +35,7 @@ export default class Player {
         }
         if (!found) {
             this.collectionFields.push(field);
+            this.collection = this.collectionFields.length;
         }
     }
 

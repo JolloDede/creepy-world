@@ -15,10 +15,11 @@ export class Game {
         this.creepers.push(new Creeper(17, 0));
         this.creepers.push(new Creeper(35, 0));
         this.creepers.push(new Creeper(69, 0));
-        this.PlayersCollection();
+        this.setPlayerCollectionFields();
+        this.addCollector(42, 29);
     }
 
-    PlayersCollection() {
+    setPlayerCollectionFields() {
         let x = this.player.x;
         let y = this.player.y;
         let lvl = this.map.map[y][x];
@@ -53,12 +54,28 @@ export class Game {
         }
     }
 
-    addCollector(x: number, y: number) {
+    addCollectorCollectionFields = (x: number, y: number) => {
+        let lvl = this.map.map[y][x];
+        for (let i = -2; i < 3; i++) {
+            for (let ii = -2; ii < 3; ii++) {
+                if (lvl == this.map.map[y + i][x + ii]) {
+                    this.player.addCollectionField({ x: x + ii, y: y + i });
+                }
+            }
+        }
+    }
+
+    collectorIsConnected() {
+
+    }
+
+    addCollector = (x: number, y: number) => {
         if (!this.fieldIsOccupied(x, y)) {
             this.player.maybeAddRoute(x, y);
             this.player.addCollector(x, y);
+            this.addCollectorCollectionFields(x, y);
         } else {
-            console.log("failed to place a Collector at " + x + " " + y + " is occupied");
+            console.log("failed to place a Collector at " + x + " " + y + " field is occupied");
         }
     }
 
