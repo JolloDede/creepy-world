@@ -34,9 +34,9 @@ export default class DrawMain {
         this.drawMap(pixelWidth, pixelHeight);
         this.drawCreeper(pixelWidth, pixelHeight);
         // draw player
+        this.drawRoutes(pixelWidth, pixelHeight);
         this.drawPlayer(pixelWidth, pixelHeight);
         this.drawCollectors(pixelWidth, pixelHeight);
-        this.drawRoutes(pixelWidth, pixelHeight);
     }
 
     drawMap(pixelWidth: number, pixelHeight: number) {
