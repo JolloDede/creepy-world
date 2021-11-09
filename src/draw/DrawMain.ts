@@ -83,8 +83,8 @@ export default class DrawMain {
 
     drawRoutes(pixelWidth: number, pixelHeight: number) {
         if (this.g === undefined) return;
-        for (let i = 0; i < this.game.player.routes.length; i++) {
-            const route = this.game.player.routes[i];
+        for (let i = 0; i < this.game.player.connections.length; i++) {
+            const route = this.game.player.connections[i];
             this.g.beginPath();
             this.g.strokeStyle = "#354bea";
             this.g.moveTo(route.a.x * pixelWidth + Math.round(pixelWidth / 2), route.a.y * pixelHeight + Math.round(pixelHeight / 2));
