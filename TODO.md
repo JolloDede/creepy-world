@@ -7,6 +7,7 @@
   * [X] draw collectors on the map
   * [X] draw the water dispencers
   * [X] draw connections (collecors, player)
+  * [ ] draw the collection fields
   * [ ] draw creeper produced water
   * [X] display Player atributes
 

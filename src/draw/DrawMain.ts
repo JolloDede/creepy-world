@@ -32,6 +32,7 @@ export default class DrawMain {
         let pixelHeight = Math.round(this.height / this.game.map.dimensions.y);
 
         this.drawMap(pixelWidth, pixelHeight);
+        this.drawPlayerCollectionFields(pixelWidth, pixelHeight);
         this.drawCreeper(pixelWidth, pixelHeight);
         // draw player
         this.drawRoutes(pixelWidth, pixelHeight);
@@ -82,8 +83,8 @@ export default class DrawMain {
 
     drawRoutes(pixelWidth: number, pixelHeight: number) {
         if (this.g === undefined) return;
-        for (let i = 0; i < this.game.player.routes.length; i++) {
-            const route = this.game.player.routes[i];
+        for (let i = 0; i < this.game.player.connections.length; i++) {
+            const route = this.game.player.connections[i];
             this.g.beginPath();
             this.g.strokeStyle = "#354bea";
             this.g.moveTo(route.a.x * pixelWidth + Math.round(pixelWidth / 2), route.a.y * pixelHeight + Math.round(pixelHeight / 2));
@@ -105,6 +106,16 @@ export default class DrawMain {
     drawPlayer(pixelWidth: number, pixelHeight: number) {
         if (this.g === undefined) return;
         this.g.drawImage(PlayerImg, this.game.player.x * pixelWidth, this.game.player.y * pixelHeight, this.game.player.width * pixelWidth, this.game.player.height * pixelHeight);
+    }
+
+    drawPlayerCollectionFields(pixelWidth: number, pixelHeight: number) {
+        if (this.g === undefined) return;
+        for (let i = 0; i < this.game.player.collectionFields.length; i++) {
+            const field = this.game.player.collectionFields[i];
+            this.g.beginPath();
+            this.g.fillStyle = "rgba(0, 128, 0, 0.3)";
+            this.g.fillRect(pixelWidth * field.x, pixelHeight * field.y, pixelWidth, pixelHeight);
+        }
     }
 
     setWidthHeight(width: number, height: number) {

@@ -3,6 +3,7 @@ import { Collector } from "./Collector";
 export default class Player {
     x: number;
     y: number;
+    pos: Point;
     width: number = 5;
     height: number = 5;
     maxEnergy: number;
@@ -10,12 +11,13 @@ export default class Player {
     collection: number;
     starvation: number;
     collectors: Collector[] = [];
-    routes: Route[] = [];
+    connections: Connection[] = [];
+    collectionFields: Point[] = [];
 
-    constructor() {
-        this.x = 40;
-        this.y = 36;
-        this.addCollector(42, 29);
+    constructor(x: number, y: number) {
+        this.x = x;
+        this.y = y;
+        this.pos = { x: this.x + Math.floor(this.width / 2), y: this.y + Math.floor(this.height / 2) };
         this.maxEnergy = 40;
         this.energy = 10;
         this.collection = 0;
@@ -23,57 +25,41 @@ export default class Player {
     }
 
     addCollector(x: number, y: number) {
-        if (!this.isOccupied(x, y)) {
-            this.maybeAddRoute(x, y);
-            this.collectors.push(new Collector(x, y));
-        }else {
-            console.log("failed to place a Collector at "+x+" "+y+" is occupied");
+        this.collectors.push(new Collector(x, y));
+    }
+
+    addCollectionField(field: Point) {
+        let found = false;
+        for (let i = 0; i < this.collectionFields.length; i++) {
+            if (field.x == this.collectionFields[i].x && field.y == this.collectionFields[i].y) {
+                found = true;
+            }
+        }
+        if (!found) {
+            this.collectionFields.push(field);
+            this.collection = this.collectionFields.length;
         }
     }
 
     maybeAddRoute(x: number, y: number) {
         // player
-        let px = this.x + Math.floor(this.width / 2);
-        let py = this.y + Math.floor(this.height / 2);
-        if (this.pointInRange(this.x + Math.floor(this.width / 2), this.y + Math.floor(this.height / 2), x, y)) {
-            this.routes.push(new Route({ x: px, y: py }, { x: x, y: y }));
+        if (pointInRange(this.x + Math.floor(this.width / 2), this.y + Math.floor(this.height / 2), x, y)) {
+            this.connections.push(new Connection({ x: this.pos.x, y: this.pos.y }, { x: x, y: y }));
         }
         for (let i = 0; i < this.collectors.length; i++) {
             const collector = this.collectors[i];
-            if (this.pointInRange(collector.x, collector.y, x, y)) {
-                this.routes.push(new Route({ x: collector.x, y: collector.y }, { x: x, y: y }));
+            if (pointInRange(collector.x, collector.y, x, y)) {
+                this.connections.push(new Connection({ x: collector.x, y: collector.y }, { x: x, y: y }));
             }
         }
     }
 
-    isOccupied(x: number, y: number) {
-        // player
-        if ((x >= this.x && x <= this.x + this.width) && (y >= this.y && y <= this.y + this.height)) {
-            return true;
-        }
-        // collectors
-        for (let i = 0; i < this.collectors.length; i++) {
-            const collector = this.collectors[i];
-            if (x == collector.x && y == collector.y) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    // Check whether a point lies strictly inside a given circle
-    pointInRange(a: number, b: number, x: number, y: number) {
-        let distPoints = (a - x) * (a - x) + (b - y) * (b - y);
-        let range = 6 * 6;
-        if (distPoints < range) {
-            return true;
-        } else {
-            return false;
-        }
+    collectEnergy() {
+        this.energy += this.collectionFields.length;
     }
 }
 
-class Route {
+export class Connection {
     a: Point;
     b: Point;
 
@@ -83,7 +69,7 @@ class Route {
     }
 }
 
-class Point {
+export class Point {
     x: number;
     y: number;
 
@@ -91,4 +77,19 @@ class Point {
         this.x = x;
         this.y = y;
     }
+}
+
+// Check whether a point lies strictly inside a given circle
+function pointInRange(a: number, b: number, x: number, y: number): boolean {
+    let distPoints = (a - x) * (a - x) + (b - y) * (b - y);
+    let range = 6 * 6;
+    if (distPoints < range) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+export function pointIsInRange(pointA: Point, pointB: Point): boolean {
+    return pointInRange(pointA.x, pointA.y, pointB.x, pointB.y);
 }
