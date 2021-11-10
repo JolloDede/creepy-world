@@ -6,6 +6,7 @@ export class Game {
     player: Player;
     map: GameMap;
     creepers: Creeper[] = [];
+    gameState: GameState;
 
     constructor() {
         this.player = new Player(40, 36);
@@ -16,6 +17,8 @@ export class Game {
         this.creepers.push(new Creeper(69, 0));
         this.setPlayerCollectionFields();
         this.addCollector(42, 29);
+        this.gameState = GameState.InGame;
+        this.playerCollection();
     }
 
     setPlayerCollectionFields() {
@@ -29,6 +32,10 @@ export class Game {
                 }
             }        
         }
+    }
+
+    playerCollection = () => {
+        setInterval(this.player.collectEnergy, 3000);
     }
 
     addCollectorCollectionFields = (x: number, y: number) => {
@@ -71,4 +78,8 @@ export class Game {
         }
         return false;
     }
+}
+
+export enum GameState {
+    InGame,
 }

@@ -25,7 +25,7 @@ function App() {
     if (canvasWidth && canvasHeight) {
       main.setCanvasDim(canvasWidth, canvasHeight);
       main.draw.setRenderContext(ctx);
-      main.drawing();
+      main.run();
     }
   }, [canvasHeight, canvasWidth]);
 

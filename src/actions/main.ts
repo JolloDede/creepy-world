@@ -1,6 +1,6 @@
 import DrawMain from "../draw/DrawMain";
 import { Curserstate, OnClickHandler } from "./OnClickHandler";
-import { Game } from "../chars/Game";
+import { Game, GameState } from "../chars/Game";
 
 export default class Main {
     clickHandler: OnClickHandler;
@@ -13,8 +13,16 @@ export default class Main {
         this.draw = new DrawMain(this.game);
     }
 
-    drawing(): void {
-        requestAnimationFrame(this.drawing.bind(this))
+    run = () => {
+        requestAnimationFrame(this.run);
+        this.render();
+    }
+
+    update = () => {
+        this.game.player.collectEnergy();
+    }
+
+    render(): void {
         this.draw.render();
     }
 
