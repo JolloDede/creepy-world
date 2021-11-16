@@ -30,9 +30,9 @@ function App() {
   }, [canvasHeight, canvasWidth]);
 
   return (
-    <div className="m-0 p-0">
+    <div className="container p-0">
       <div className="row w-100">
-        <canvas className="p-0 w-100" onClick={(e) => main.onCanvasClick(e, canvasWidth, canvasHeight)} ref={canvasRef} width={canvasWidth} height={canvasHeight}></canvas>
+        <canvas className="m-1 p-0 w-100" onClick={(e) => main.onCanvasClick(e, canvasWidth, canvasHeight)} ref={canvasRef} width={canvasWidth} height={canvasHeight}></canvas>
       </div>
       <div className="row w-100">
         <div className="col-5">

@@ -28,8 +28,9 @@ export default class DrawMain {
 
     render() {
         if (this.g === undefined) return;
-        let pixelWidth = Math.round(this.width / this.game.map.dimensions.x);
-        let pixelHeight = Math.round(this.height / this.game.map.dimensions.y);
+
+        let pixelWidth =(this.width / this.game.map.dimensions.x);
+        let pixelHeight = (this.height / this.game.map.dimensions.y);
 
         this.drawMap(pixelWidth, pixelHeight);
         this.drawPlayerCollectionFields(pixelWidth, pixelHeight);
@@ -44,6 +45,7 @@ export default class DrawMain {
         if (this.g === undefined) return;
         for (let i = 0; i < this.game.map.dimensions.y; i++) {
             for (let ii = 0; ii < this.game.map.dimensions.x; ii++) {
+                // todo draws the lines
                 this.g.beginPath();
                 this.g.strokeStyle = "#FFFFFF";
                 this.g.strokeRect(pixelWidth * ii, pixelHeight * i, pixelWidth, pixelHeight);
