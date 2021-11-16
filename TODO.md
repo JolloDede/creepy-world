@@ -33,7 +33,7 @@
     * [X] add collector makes routes
 
 #### style
-* [ ] canvas
+* [X] canvas
 
 ### Step 2
 * [ ] add functionality to the game options buttons
