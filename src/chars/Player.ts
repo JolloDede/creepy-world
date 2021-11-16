@@ -55,8 +55,9 @@ export default class Player {
     }
 
     collectEnergy = () => {
-        let addEnergy = this.collectionFields.length;
+        let addEnergy = (this.collectionFields.length / 100);
         this.energy += addEnergy;
+        this.energy = +this.energy.toFixed(2);
         console.log("Player update got " + addEnergy + " Energy player has now: " + this.energy);
     }
 }

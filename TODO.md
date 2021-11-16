@@ -7,9 +7,11 @@
   * [X] draw collectors on the map
   * [X] draw the water dispencers
   * [X] draw connections (collecors, player)
-  * [ ] draw the collection fields
+  * [X] draw the collection fields
   * [ ] draw creeper produced water
   * [X] display Player atributes
+  * [ ] draw the blaster
+    * [ ] Blasters fire on water
 
 * [X] game option buttons
   * [X] Options
@@ -22,13 +24,16 @@
   * [ ] select Player
 
 * [ ] implement Player
-  * [ ] Energy
-  * [ ] Collection
+  * [X] Energy
+  * [X] Collection
   * [ ] Starvation
   * [X] Collector list
     * [X] add collector
   * [X] routes list (collectors to player)
     * [X] add collector makes routes
+
+#### style
+* [ ] canvas
 
 ### Step 2
 * [ ] add functionality to the game options buttons
