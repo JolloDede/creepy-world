@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, MouseEvent } from "react";
 import Main from "../actions/main";
 import { Curserstate } from "../actions/OnClickHandler";
 import collector from "../img/Collector.png";
@@ -9,17 +9,28 @@ var ctx: CanvasRenderingContext2D;
 function App() {
   const [canvasWidth, setCanvasWidth] = useState<number>();
   const [canvasHeight, setCanvasHeight] = useState<number>();
+  const [canvasOffSetX, setCanvasOffSetX] = useState<number>();
+  const [canvasOffSetY, setCanvasOffSetY] = useState<number>();
 
   const canvasRef = useCallback(node => {
     if (node !== null) {
       let width = node.getBoundingClientRect().width;
       let height = node.getBoundingClientRect().height;
+      let offsetX = node.getBoundingClientRect().left;
+      let offsetY = node.getBoundingClientRect().top;
       setCanvasHeight(height);
       setCanvasWidth(width);
+      setCanvasOffSetX(offsetX);
+      setCanvasOffSetY(offsetY);
       main.setCanvasDim(width, height);
+      main.setCanvasOffset(offsetX, offsetY);
       ctx = node.getContext("2d");
     }
   }, []);
+
+  function handleCanvasClick(event: MouseEvent<HTMLCanvasElement>) {
+    main.onCanvasClick(event, canvasWidth, canvasHeight)
+  }
 
   useEffect(() => {
     if (canvasWidth && canvasHeight) {
@@ -32,7 +43,7 @@ function App() {
   return (
     <div className="container p-0">
       <div className="row w-100">
-        <canvas className="m-1 p-0 w-100" onClick={(e) => main.onCanvasClick(e, canvasWidth, canvasHeight)} ref={canvasRef} width={canvasWidth} height={canvasHeight}></canvas>
+        <canvas className="m-1 p-0 w-100" onClick={handleCanvasClick} ref={canvasRef} width={canvasWidth} height={canvasHeight}></canvas>
       </div>
       <div className="row w-100">
         <div className="col-5">

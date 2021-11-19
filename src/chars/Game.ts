@@ -1,53 +1,56 @@
-import { Creeper } from "./Creeper";
-import { GameMap } from "./Map";
+import { Emitter } from "./Emitter";
 import Player, { Point } from "./Player";
+import World from "../helper/World";
+import WaterCreation from "../clocks/WaterCreation";
+import WaterDistribution from "../clocks/WaterDistribution";
 
 export class Game {
     player: Player;
-    map: GameMap;
-    creepers: Creeper[] = [];
+    emitters: Emitter[] = [];
     gameState: GameState;
+    world: World;
+    // buildings: Building[];
 
     constructor() {
         this.player = new Player(40, 36);
-        this.map = new GameMap();
-        this.creepers.push(new Creeper(0, 0));
-        this.creepers.push(new Creeper(17, 0));
-        this.creepers.push(new Creeper(35, 0));
-        this.creepers.push(new Creeper(69, 0));
+        this.world = new World({ x: 70, y: 48 });
+        this.world.createWorld();
+        this.emitters.push(new Emitter({ x: 0, y: 0 }, this));
+        this.emitters.push(new Emitter({ x: 17, y: 0 }, this));
+        this.emitters.push(new Emitter({ x: 35, y: 0 }, this));
+        this.emitters.push(new Emitter({ x: 69, y: 0 }, this));
         this.setPlayerCollectionFields();
         this.addCollector(42, 29);
         this.gameState = GameState.InGame;
-        this.playerCollection();
+
+        // clocks
+        new WaterCreation(this);
+        new WaterDistribution(this);
     }
 
     setPlayerCollectionFields() {
-        let x = this.player.x - 1;
-        let y = this.player.y - 1;
-        let lvl = this.map.map[y][x];
-        for (let i = 0; i < 7; i++) {
-            for (let ii = 0; ii < 7; ii++) {
-                if (lvl == this.map.map[y+i][x+ii]) {
-                    this.player.addCollectionField({ x: x + ii, y: y + i })
-                }
-            }        
-        }
-    }
-
-    playerCollection = () => {
-        setInterval(this.player.collectEnergy, 3000);
+        // let x = this.player.x - 1;
+        // let y = this.player.y - 1;
+        // let lvl = this.terain[y][x];
+        // for (let i = 0; i < 7; i++) {
+        //     for (let ii = 0; ii < 7; ii++) {
+        //         if (lvl == this.terain[y+i][x+ii]) {
+        //             this.player.addCollectionField({ x: x + ii, y: y + i })
+        //         }
+        //     }        
+        // }
     }
 
     addCollectorCollectionFields = (x: number, y: number) => {
-        let lvl = this.map.map[y][x];
-        // if (!this.collectorIsConnectedToPlayer({ x, y })) return;
-        for (let i = -2; i < 3; i++) {
-            for (let ii = -2; ii < 3; ii++) {
-                if (lvl == this.map.map[y + i][x + ii]) {
-                    this.player.addCollectionField({ x: x + ii, y: y + i });
-                }
-            }
-        }
+        // let lvl = this.terain[y][x];
+        // // if (!this.collectorIsConnectedToPlayer({ x, y })) return;
+        // for (let i = -2; i < 3; i++) {
+        //     for (let ii = -2; ii < 3; ii++) {
+        //         if (lvl == this.terain[y + i][x + ii]) {
+        //             this.player.addCollectionField({ x: x + ii, y: y + i });
+        //         }
+        //     }
+        // }
     }
 
     isPointEqual = (pointA: Point, pointB: Point) => {
@@ -78,6 +81,10 @@ export class Game {
         }
         return false;
     }
+
+    // getHeight = (pos: Point): number => {
+    //     // return this.terain[pos.y][pos.x] + this.waters[pos.y][pos.x];
+    // }
 }
 
 export enum GameState {

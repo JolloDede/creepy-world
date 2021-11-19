@@ -1,11 +1,13 @@
 import DrawMain from "../draw/DrawMain";
 import { Curserstate, OnClickHandler } from "./OnClickHandler";
 import { Game, GameState } from "../chars/Game";
+import { Point } from "../chars/Player";
 
 export default class Main {
     clickHandler: OnClickHandler;
     draw: DrawMain;
     game: Game;
+    offset: Point = { x: 0, y: 0 };
 
     constructor() {
         this.clickHandler = new OnClickHandler();
@@ -29,14 +31,18 @@ export default class Main {
     setCanvasDim(width: number, height: number) {
         this.draw.setWidthHeight(width, height);
     }
+
+    setCanvasOffset(x: number, y: number) {
+        this.offset = { x, y };
+    }
     
     onCanvasClick(e: any, width?: number, heigth?: number) {
         width = width ? width : 0;
         heigth = heigth ? heigth : 0;
-        let pixelWidth = Math.round(width / this.game.map.dimensions.x);
-        let pixelHeight = Math.round(heigth / this.game.map.dimensions.y);
-        let x = Math.round(e.clientX / pixelWidth);
-        let y = Math.round(e.clientY / pixelHeight);
+        let pixelWidth = Math.round(width / this.game.world.dimensions.x);
+        let pixelHeight = Math.round(heigth / this.game.world.dimensions.y);
+        let x = Math.round((e.clientX - this.offset.x) / pixelWidth);
+        let y = Math.round((e.clientY - this.offset.y) / pixelHeight);
         this.clickHandler.canvasClick(x, y, this.game);
     }
 
