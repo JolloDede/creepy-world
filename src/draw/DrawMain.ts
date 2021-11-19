@@ -54,33 +54,27 @@ export default class DrawMain {
                 this.g.beginPath();
                 this.g.strokeStyle = "#FFFFFF";
                 this.g.strokeRect(pixelWidth * i, pixelHeight * j, pixelWidth, pixelHeight);
-                for (let k = 5; k > -1; k--) {
-                    if (this.game.world.tiles[i][j][k].full) {
-                        switch (k) {
-                            case 0:
-                                this.g.beginPath();
-                                this.g.fillStyle = "#bba6a5";
-                                this.g.fillRect(pixelWidth * i, pixelHeight * j, pixelWidth, pixelHeight);
-                                break;
-
-                            case 1:
-                                this.g.beginPath();
-                                this.g.fillStyle = "#95897e";
-                                this.g.fillRect(pixelWidth * i, pixelHeight * j, pixelWidth, pixelHeight);
-                                break;
-
-                            case 2:
-                                this.g.beginPath();
-                                this.g.fillStyle = "#7c6d68";
-                                this.g.fillRect(pixelWidth * i, pixelHeight * j, pixelWidth, pixelHeight);
-                                break;
-
-                            default:
-                                break;
-                        }
-                        // going for the next stack of tiles
+                switch (this.game.world.tiles[i][j].height) {
+                    case 0:
+                        this.g.beginPath();
+                        this.g.fillStyle = "#bba6a5";
+                        this.g.fillRect(pixelWidth * i, pixelHeight * j, pixelWidth, pixelHeight);
                         break;
-                    }
+
+                    case 1:
+                        this.g.beginPath();
+                        this.g.fillStyle = "#95897e";
+                        this.g.fillRect(pixelWidth * i, pixelHeight * j, pixelWidth, pixelHeight);
+                        break;
+
+                    case 2:
+                        this.g.beginPath();
+                        this.g.fillStyle = "#7c6d68";
+                        this.g.fillRect(pixelWidth * i, pixelHeight * j, pixelWidth, pixelHeight);
+                        break;
+
+                    default:
+                        break;
                 }
             }
         }
@@ -137,40 +131,38 @@ export default class DrawMain {
         for (let i = -this.game.world.dimensions.x; i <= this.game.world.dimensions.x; i++) {
             for (let j = -this.game.world.dimensions.x; j <= this.game.world.dimensions.y; j++) {
                 if (this.game.world.withinWorld(i, j)) {
-                    if (this.game.world.tiles[i][j][0].creep > 0) {
-                        // this.g.beginPath();
-                        // this.g.fillStyle = "rgba(0, 0, 256, 0.5)";
-                        // this.g.fillRect(pixelWidth * i, pixelHeight * j, pixelWidth, pixelHeight);
+                    let height = this.game.world.tiles[i][j].height;
 
-                        let creep = this.game.world.tiles[i][j][0].creep;
+                    for (let k = 0; k < 6; k++) {
+                        if (this.game.world.tiles[i][j].creep > k) {
+                            let left = 0, right = 0, up = 0, down = 0;
+                            if (i - 1 < 0) {
+                                left = 0;
+                            } else if (this.game.world.tiles[i - 1][j].creep > k || this.game.world.tiles[i - 1][j].height > height) {
+                                left = 1;
+                            }
+                            if (i + 1 > this.game.world.dimensions.x - 1) {
+                                right = 0;
+                            } else if (this.game.world.tiles[i + 1][j].creep > k || this.game.world.tiles[i + 1][j].height > height) {
+                                right = 1;
+                            }
+                            if (j - 1 < 0) {
+                                up = 0;
+                            } else if (this.game.world.tiles[i][j - 1].creep > k || this.game.world.tiles[i][j - 1].height > height) {
+                                up = 1;
+                            }
+                            if (j + 1 > this.game.world.dimensions.y - 1) {
+                                down = 0;
+                            } else if (this.game.world.tiles[i][j + 1].creep > k || this.game.world.tiles[i][j + 1].height > height) {
+                                down = 1;
+                            }
 
-                        let left = 0, right = 0, up = 0, down = 0;
-                        if (i - 1 < 0) {
-                            left = 0;
-                        } else if (Math.ceil(this.game.world.tiles[i - 1][j][0].creep) >= creep) {
-                            left = 1;
+                            // index of the Images image 1is right image 2 is up image 4 is left image 8 is down
+                            let index = (8 * down) + (4 * left) + (2 * up) + right;
+                            this.g.beginPath();
+                            this.g.drawImage(CreeperImg, index * crepperTileSize, 0, crepperTileSize, crepperTileSize,
+                                pixelWidth * i, pixelHeight * j, pixelWidth, pixelHeight);
                         }
-                        if (i + 1 > this.game.world.dimensions.x - 1) {
-                            right = 0;
-                        } else if (Math.ceil(this.game.world.tiles[i + 1][j][0].creep) >= creep) {
-                            right = 1;
-                        }
-                        if (j - 1 < 0) {
-                            up = 0;
-                        } else if (Math.ceil(this.game.world.tiles[i][j - 1][0].creep) >= creep) {
-                            up = 1;
-                        }
-                        if (j + 1 > this.game.world.dimensions.y - 1) {
-                            down = 0;
-                        } else if (Math.ceil(this.game.world.tiles[i][j + 1][0].creep) >= creep) {
-                            down = 1;
-                        }
-
-                        // index of the Images image 1is right image 2 is up image 4 is left image 8 is down
-                        let index = (8 * down) + (4 * left) + (2 * up) + right;
-                        this.g.beginPath();
-                        this.g.drawImage(CreeperImg, index * crepperTileSize, (creep - 1) * crepperTileSize, crepperTileSize, crepperTileSize,
-                            pixelWidth * i, pixelHeight * j, pixelWidth, pixelHeight);
                     }
                 }
             }

@@ -14,7 +14,7 @@ export default class WaterDistribution {
         // Copy the current creep away
         for (let i = 0; i < this.game.world.dimensions.x; i++) {
             for (let j = 0; j < this.game.world.dimensions.y; j++) {
-                this.game.world.tiles[i][j][0].newcreep = this.game.world.tiles[i][j][0].creep;
+                this.game.world.tiles[i][j].newcreep = this.game.world.tiles[i][j].creep;
             }
         }
 
@@ -25,22 +25,22 @@ export default class WaterDistribution {
                 // right side neighbor
                 if (i + 1 < this.game.world.dimensions.x) {
                     let height2 = this.game.world.getHighestTile(new Point(i + 1, j));
-                    this.transferCreep(height, height2, this.game.world.tiles[i][j][0], this.game.world.tiles[i + 1][j][0]);
+                    this.transferCreep(height, height2, this.game.world.tiles[i][j], this.game.world.tiles[i + 1][j]);
                 }
                 // left side neighbor
                 if (i - 1 > -1) {
                     let height2 = this.game.world.getHighestTile(new Point(i - 1, j));
-                    this.transferCreep(height, height2, this.game.world.tiles[i][j][0], this.game.world.tiles[i - 1][j][0]);
+                    this.transferCreep(height, height2, this.game.world.tiles[i][j], this.game.world.tiles[i - 1][j]);
                 }
                 // top side neighbor
                 if (j + 1 < this.game.world.dimensions.y) {
                     let height2 = this.game.world.getHighestTile(new Point(i, j + 1));
-                    this.transferCreep(height, height2, this.game.world.tiles[i][j][0], this.game.world.tiles[i][j + 1][0]);
+                    this.transferCreep(height, height2, this.game.world.tiles[i][j], this.game.world.tiles[i][j + 1]);
                 }
                 // botton side neighbor
                 if (j - 1 > -1) {
                     let height2 = this.game.world.getHighestTile(new Point(i, j - 1));
-                    this.transferCreep(height, height2, this.game.world.tiles[i][j][0], this.game.world.tiles[i][j - 1][0]);
+                    this.transferCreep(height, height2, this.game.world.tiles[i][j], this.game.world.tiles[i][j - 1]);
                 }
             }
         }
@@ -48,11 +48,11 @@ export default class WaterDistribution {
         // put the values back to draw and fix the creep amount
         for (let i = 0; i < this.game.world.dimensions.x; i++) {
             for (let j = 0; j < this.game.world.dimensions.y; j++) {
-                this.game.world.tiles[i][j][0].creep = this.game.world.tiles[i][j][0].newcreep;
-                if (this.game.world.tiles[i][j][0].creep > 6) {
-                    this.game.world.tiles[i][j][0].creep = 6;
-                } else if (this.game.world.tiles[i][j][0].creep < 0.1) {
-                    this.game.world.tiles[i][j][0].creep = 0;
+                this.game.world.tiles[i][j].creep = this.game.world.tiles[i][j].newcreep;
+                if (this.game.world.tiles[i][j].creep > 6) {
+                    this.game.world.tiles[i][j].creep = 6;
+                } else if (this.game.world.tiles[i][j].creep < 0.1) {
+                    this.game.world.tiles[i][j].creep = 0;
                 }
             }
         }

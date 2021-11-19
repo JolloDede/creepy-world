@@ -6,4 +6,5 @@ export default class Tile {
     collector: Collector | null = null;
     creep = 0;
     newcreep = 0;
+    height = 0;
 }
