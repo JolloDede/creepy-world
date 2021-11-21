@@ -134,7 +134,7 @@ export default class DrawMain {
                 if (this.game.world.withinWorld(i, j)) {
                     let height = this.game.world.tiles[i][j].height;
 
-                    for (let k = 0; k < 6; k++) {
+                    for (let k = 0; k < 9; k++) {
                         if (this.game.world.tiles[i][j].creep > k) {
                             let left = 0, right = 0, up = 0, down = 0;
                             if (i - 1 < 0) {

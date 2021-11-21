@@ -1,7 +1,6 @@
 import { Game } from "../chars/Game";
 import Tile from "../helper/Tile";
 
-
 export default class CreeperUpdate {
     game: Game;
     creeperCounter: number;
@@ -18,6 +17,7 @@ export default class CreeperUpdate {
         this.emitterCounter++;
         if (this.emitterCounter >= 25) {
             this.spawnInCreeper();
+            this.emitterCounter = 0;
         }
 
         for (let i = 0; i < this.game.world.dimensions.x; i++) {
@@ -53,8 +53,8 @@ export default class CreeperUpdate {
             // // put the values back to draw and fix the creep amount
             for (let i = 0; i < this.game.world.dimensions.x; i++) {
                 for (let j = 0; j < this.game.world.dimensions.y; j++) {
-                    if (this.game.world.tiles[i][j].newcreep > 6) {
-                        this.game.world.tiles[i][j].newcreep = 6;
+                    if (this.game.world.tiles[i][j].newcreep > 10) {
+                        this.game.world.tiles[i][j].newcreep = 10;
                     } else if (this.game.world.tiles[i][j].newcreep < 0.1) {
                         this.game.world.tiles[i][j].newcreep = 0;
                     }
@@ -65,7 +65,7 @@ export default class CreeperUpdate {
     }
 
     transferCreep = (source: Tile, target: Tile) => {
-        let tranferRate = .2;
+        let tranferRate = 0.2;
 
         if (source.height > -1 && target.height > -1) {
             if (source.creep > 0) {
@@ -74,12 +74,12 @@ export default class CreeperUpdate {
                 let delta = 0;
                 if (sourceTotal > targetTotal) {
                     delta = sourceTotal - targetTotal;
-                    if (delta > sourceTotal)
-                        delta = sourceTotal;
-                    let tranferDelta = delta * tranferRate;
+                    if (delta > source.creep)
+                        delta = source.creep;
+                    let adjustedDelta = delta * tranferRate;
 
-                    source.newcreep -= tranferDelta;
-                    target.newcreep += tranferDelta;
+                    source.newcreep -= adjustedDelta;
+                    target.newcreep += adjustedDelta;
                 }
             }
         }
