@@ -20,6 +20,12 @@ export default class CreeperUpdate {
             this.spawnInCreeper();
         }
 
+        for (let i = 0; i < this.game.world.dimensions.x; i++) {
+            for (let j = 0; j < this.game.world.dimensions.y; j++) {
+                this.game.world.tiles[i][j].newcreep = this.game.world.tiles[i][j].creep;
+            }
+        }
+
         this.creeperCounter++;
         if (this.creeperCounter > 25) {
             this.creeperCounter -= 25;
