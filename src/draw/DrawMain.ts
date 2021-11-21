@@ -84,7 +84,7 @@ export default class DrawMain {
         if (this.g === undefined) return;
         for (let i = 0; i < this.game.player.collectors.length; i++) {
             const collector = this.game.player.collectors[i];
-            this.g.drawImage(CollectorImg, collector.x * pixelWidth, collector.y * pixelHeight, collectorSize * pixelWidth, collectorSize * pixelHeight);
+            this.g.drawImage(CollectorImg, collector.pos.x * pixelWidth, collector.pos.y * pixelHeight, collectorSize * pixelWidth, collectorSize * pixelHeight);
         }
     }
 
@@ -127,6 +127,7 @@ export default class DrawMain {
 
     drawCreeper(pixelWidth: number, pixelHeight: number) {
         let crepperTileSize = 16;
+
         if (this.g === undefined) return;
         for (let i = -this.game.world.dimensions.x; i <= this.game.world.dimensions.x; i++) {
             for (let j = -this.game.world.dimensions.x; j <= this.game.world.dimensions.y; j++) {
@@ -157,7 +158,7 @@ export default class DrawMain {
                                 down = 1;
                             }
 
-                            // index of the Images image 1is right image 2 is up image 4 is left image 8 is down
+                            // index of the Images image 1 is right image 2 is up image 4 is left image 8 is down
                             let index = (8 * down) + (4 * left) + (2 * up) + right;
                             this.g.beginPath();
                             this.g.drawImage(CreeperImg, index * crepperTileSize, 0, crepperTileSize, crepperTileSize,

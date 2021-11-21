@@ -8,7 +8,7 @@
   * [X] draw the water dispencers
   * [X] draw connections (collecors, player)
   * [X] draw the collection fields
-  * [ ] draw creeper produced water
+  * [X] draw creeper produced water
   * [X] display Player atributes
   * [ ] draw the blaster
     * [ ] Blasters fire on water

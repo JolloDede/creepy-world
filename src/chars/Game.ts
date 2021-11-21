@@ -1,8 +1,7 @@
 import { Emitter } from "./Emitter";
 import Player, { Point } from "./Player";
 import World from "../helper/World";
-import WaterCreation from "../clocks/WaterCreation";
-import WaterDistribution from "../clocks/WaterDistribution";
+import CreeperUpdate from "../clocks/CreeperUpdate";
 
 export class Game {
     player: Player;
@@ -15,17 +14,16 @@ export class Game {
         this.player = new Player(40, 36);
         this.world = new World({ x: 70, y: 48 });
         this.world.createWorld();
-        this.emitters.push(new Emitter({ x: 0, y: 0 }, this));
-        this.emitters.push(new Emitter({ x: 17, y: 0 }, this));
-        this.emitters.push(new Emitter({ x: 35, y: 0 }, this));
-        this.emitters.push(new Emitter({ x: 69, y: 0 }, this));
+        this.emitters.push(new Emitter(new Point(0, 0), this));
+        this.emitters.push(new Emitter(new Point(17, 0), this));
+        this.emitters.push(new Emitter(new Point(35, 0), this));
+        this.emitters.push(new Emitter(new Point(69, 0), this));
         this.setPlayerCollectionFields();
         this.addCollector(42, 29);
         this.gameState = GameState.InGame;
 
         // clocks
-        new WaterCreation(this);
-        new WaterDistribution(this);
+        new CreeperUpdate(this);
     }
 
     setPlayerCollectionFields() {
@@ -75,7 +73,7 @@ export class Game {
         // collectors
         for (let i = 0; i < this.player.collectors.length; i++) {
             const collector = this.player.collectors[i];
-            if (x == collector.x && y == collector.y) {
+            if (x == collector.pos.x && y == collector.pos.y) {
                 return true;
             }
         }

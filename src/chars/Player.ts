@@ -25,7 +25,7 @@ export default class Player {
     }
 
     addCollector(x: number, y: number) {
-        this.collectors.push(new Collector(x, y));
+        this.collectors.push(new Collector(new Point(x, y)));
     }
 
     addCollectionField(field: Point) {
@@ -48,8 +48,8 @@ export default class Player {
         }
         for (let i = 0; i < this.collectors.length; i++) {
             const collector = this.collectors[i];
-            if (pointInRange(collector.x, collector.y, x, y)) {
-                this.connections.push(new Connection({ x: collector.x, y: collector.y }, { x: x, y: y }));
+            if (pointInRange(collector.pos.x, collector.pos.y, x, y)) {
+                this.connections.push(new Connection({ x: collector.pos.x, y: collector.pos.y }, { x: x, y: y }));
             }
         }
     }

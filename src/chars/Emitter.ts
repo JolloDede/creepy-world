@@ -9,10 +9,10 @@ export class Emitter {
     constructor(pos: Point, game: Game) {
         this.game = game;
         this.pos = pos;
-        this.strength = 5;
+        this.strength = 25;
     }
 
-    spawnCreeper() {
-        this.game.world.tiles[this.pos.x][this.pos.y].creep += this.strength;
+    spawnCreeper = () => {
+        this.game.world.tiles[this.pos.x][this.pos.y].creep = this.strength;
     }
 }
