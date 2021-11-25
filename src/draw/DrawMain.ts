@@ -3,6 +3,8 @@ import CollectorPath from "../img/Collector.png";
 import EmitterPath from "../img/Emitter.png";
 import CreeperPath from "../img/Creeper.png";
 import { Game } from "../chars/Game";
+import { Collector } from "../chars/Collector";
+import Player from "../chars/Player";
 
 const PlayerImg = new Image();
 PlayerImg.src = PlayerPath;
@@ -16,7 +18,7 @@ EmitterImg.src = EmitterPath;
 const CreeperImg = new Image();
 CreeperImg.src = CreeperPath;
 
-const collectorSize = 1;
+const emitterSize = 1;
 
 export default class DrawMain {
     width: number;
@@ -37,12 +39,10 @@ export default class DrawMain {
         let pixelHeight = (this.height / this.game.world.dimensions.y);
 
         this.drawTerain(pixelWidth, pixelHeight);
-        this.drawPlayerCollectionFields(pixelWidth, pixelHeight);
         this.drawEmitter(pixelWidth, pixelHeight);
         // draw player
         this.drawRoutes(pixelWidth, pixelHeight);
-        this.drawPlayer(pixelWidth, pixelHeight);
-        this.drawCollectors(pixelWidth, pixelHeight);
+        this.drawBuildings(pixelWidth, pixelHeight);
         this.drawCreeper(pixelWidth, pixelHeight);
     }
 
@@ -76,52 +76,48 @@ export default class DrawMain {
                     default:
                         break;
                 }
+                if (this.game.world.tiles[i][j].collector && this.game.world.tiles[i][j].collector?.connected) {
+                    this.g.beginPath();
+                    this.g.fillStyle = "rgba(124,252,0, 0.3)";
+                    this.g.fillRect(pixelWidth * i, pixelHeight * j, pixelWidth, pixelHeight);
+                }
             }
         }
     }
 
-    drawCollectors(pixelWidth: number, pixelHeight: number) {
+    drawBuildings = (pixelWidth: number, pixelHeight: number) => {
         if (this.g === undefined) return;
-        for (let i = 0; i < this.game.player.collectors.length; i++) {
-            const collector = this.game.player.collectors[i];
-            this.g.drawImage(CollectorImg, collector.pos.x * pixelWidth, collector.pos.y * pixelHeight, collectorSize * pixelWidth, collectorSize * pixelHeight);
+        for (let i = 0; i < this.game.buildings.length; i++) {
+            const building = this.game.buildings[i];
+            if (building instanceof Collector) {
+                this.g.drawImage(CollectorImg, building.pos.x * pixelWidth, building.pos.y * pixelHeight, building.size * pixelWidth, building.size * pixelHeight);
+            } else if (building instanceof Player) {
+                this.g.drawImage(PlayerImg, this.game.player.pos.x * pixelWidth, this.game.player.pos.y * pixelHeight, this.game.player.size * pixelWidth, this.game.player.size * pixelHeight);
+            } else {
+                console.log("error cant draw this building");
+            }
         }
     }
 
     drawRoutes(pixelWidth: number, pixelHeight: number) {
-        if (this.g === undefined) return;
-        for (let i = 0; i < this.game.player.connections.length; i++) {
-            const route = this.game.player.connections[i];
-            this.g.beginPath();
-            this.g.strokeStyle = "#354bea";
-            this.g.moveTo(route.a.x * pixelWidth + Math.round(pixelWidth / 2), route.a.y * pixelHeight + Math.round(pixelHeight / 2));
-            this.g.lineTo(route.b.x * pixelWidth + Math.round(pixelWidth / 2), route.b.y * pixelHeight + Math.round(pixelHeight / 2));
-            this.g.lineWidth = 5;
-            this.g.stroke();
-        }
-        this.g.lineWidth = 1;
+        // if (this.g === undefined) return;
+        // for (let i = 0; i < this.game.player.connections.length; i++) {
+        //     const route = this.game.player.connections[i];
+        //     this.g.beginPath();
+        //     this.g.strokeStyle = "#354bea";
+        //     this.g.moveTo(route.a.x * pixelWidth + Math.round(pixelWidth / 2), route.a.y * pixelHeight + Math.round(pixelHeight / 2));
+        //     this.g.lineTo(route.b.x * pixelWidth + Math.round(pixelWidth / 2), route.b.y * pixelHeight + Math.round(pixelHeight / 2));
+        //     this.g.lineWidth = 5;
+        //     this.g.stroke();
+        // }
+        // this.g.lineWidth = 1;
     }
 
     drawEmitter(pixelWidth: number, pixelHeight: number) {
         if (this.g === undefined) return;
         for (let i = 0; i < this.game.emitters.length; i++) {
             const creeper = this.game.emitters[i];
-            this.g.drawImage(EmitterImg, creeper.pos.x * pixelWidth, creeper.pos.y * pixelHeight, collectorSize * pixelWidth, collectorSize * pixelHeight);
-        }
-    }
-
-    drawPlayer(pixelWidth: number, pixelHeight: number) {
-        if (this.g === undefined) return;
-        this.g.drawImage(PlayerImg, this.game.player.x * pixelWidth, this.game.player.y * pixelHeight, this.game.player.width * pixelWidth, this.game.player.height * pixelHeight);
-    }
-
-    drawPlayerCollectionFields(pixelWidth: number, pixelHeight: number) {
-        if (this.g === undefined) return;
-        for (let i = 0; i < this.game.player.collectionFields.length; i++) {
-            const field = this.game.player.collectionFields[i];
-            this.g.beginPath();
-            this.g.fillStyle = "rgba(0, 128, 0, 0.3)";
-            this.g.fillRect(pixelWidth * field.x, pixelHeight * field.y, pixelWidth, pixelHeight);
+            this.g.drawImage(EmitterImg, creeper.pos.x * pixelWidth, creeper.pos.y * pixelHeight, emitterSize * pixelWidth, emitterSize * pixelHeight);
         }
     }
 

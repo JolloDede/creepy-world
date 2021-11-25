@@ -1,5 +1,5 @@
+import Point from "../helper/Point";
 import { Game } from "./Game";
-import { Point } from "./Player";
 
 export class Emitter {
     pos: Point;

@@ -1,7 +1,7 @@
 import DrawMain from "../draw/DrawMain";
 import { Curserstate, OnClickHandler } from "./OnClickHandler";
 import { Game, GameState } from "../chars/Game";
-import { Point } from "../chars/Player";
+import Point from "../helper/Point";
 
 export default class Main {
     clickHandler: OnClickHandler;
@@ -18,10 +18,6 @@ export default class Main {
     run = () => {
         requestAnimationFrame(this.run);
         this.render();
-    }
-
-    update = () => {
-        this.game.player.collectEnergy();
     }
 
     render(): void {

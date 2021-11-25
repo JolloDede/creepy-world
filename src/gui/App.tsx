@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState, MouseEvent } from "react";
+import { useCallback, useEffect, useState, MouseEvent } from "react";
 import Main from "../actions/main";
 import { Curserstate } from "../actions/OnClickHandler";
 import collector from "../img/Collector.png";
@@ -55,13 +55,13 @@ function App() {
             <div className={"progress-bar w-" + 100 / main.game.player.maxEnergy * main.game.player.energy} role="progressbar">{main.game.player.energy + "/" + main.game.player.maxEnergy}</div>
           </div>
           Collection <br />
-          {main.game.player.collection}
+          {/* {main.game.player.collection} */}
           <br />
           {/* <div className="progress">
             <div className={"progress-bar w-" + 100 / main.game.player.maxEnergy * main.game.player.energy} role="progressbar">{main.game.player.collection}</div>
           </div> */}
           Starvation <br />
-          {main.game.player.starvation}
+          {/* {main.game.player.starvation} */}
           {/* <div className="progress">
             <div className={"progress-bar w-"+100/main.game.player.collection*main.game.player.energy} role="progressbar">{main.game.player.starvation}</div>
           </div> */}

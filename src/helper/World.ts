@@ -1,5 +1,5 @@
-import { Point } from "../chars/Player";
 import { HeightMap } from "../inits/HeightMap";
+import Point from "./Point";
 import Tile from "./Tile";
 
 export default class World {
