@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState, MouseEvent } from "react";
 import Main from "../actions/main";
 import { Curserstate } from "../actions/OnClickHandler";
 import collector from "../img/Collector.png";
+import blaster from "../img/Blaster.png";
 
 var main = new Main();
 var ctx: CanvasRenderingContext2D;
@@ -48,6 +49,7 @@ function App() {
       <div className="row w-100">
         <div className="col-5">
           <button onClick={() => main.onClick(Curserstate.Collector)}>Collector<img src={collector} alt="Collector" /></button>
+          <button onClick={() => main.onClick(Curserstate.Blaster)}>Blaster<img src={blaster} alt="Blaster" /></button>
         </div>
         <div className="col-5">
           ENGERY

@@ -17,7 +17,7 @@ export class Collector extends Building {
 
             for (let i = -2; i < 3; i++) {
                 for (let j = -2; j < 3; j++) {
-                    let currentPos = new Point(this.pos.x * i, this.pos.y * j);
+                    let currentPos = new Point(this.pos.x + i, this.pos.y + j);
 
                     if (this.game.world.withinWorld(currentPos.x, currentPos.y)) {
                         let tileHeight = this.game.world.tiles[currentPos.x][currentPos.y].height;

@@ -23,6 +23,7 @@ export class OnClickHandler {
 
             case Curserstate.Blaster:
                 console.log("Try to place a Blaster");
+                game.addBuilding(new Point(x, y), EBuilding.Blaster);
                 break;
 
             default:

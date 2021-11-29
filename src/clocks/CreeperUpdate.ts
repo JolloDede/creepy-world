@@ -10,6 +10,7 @@ export default class CreeperUpdate {
         this.game = game;
         this.creeperCounter = 0;
         this.emitterCounter = 0;
+        
         setInterval(this.distribute, 1);
     }
 

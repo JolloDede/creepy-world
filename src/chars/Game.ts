@@ -6,6 +6,11 @@ import Building, { EBuilding } from "./Building";
 import { Collector } from "./Collector";
 import Point, { pointIsInRange } from "../helper/Point";
 import { distance } from "../helper/Helper";
+import { Connection, Connections } from "../helper/Connection";
+import Blaster from "./Blaster";
+import Projectile from "./Projectile";
+import UpdateBuildigns from "../clocks/UpdateBuildings";
+import UpdateProjectiles from "../clocks/UpdateProjectiles";
 
 export class Game {
     gameState: GameState;
@@ -13,6 +18,8 @@ export class Game {
     buildings: Building[] = [];
     emitters: Emitter[] = [];
     world: World;
+    connections: Connections = new Connections();
+    projectiles: Projectile[] = [];
 
     constructor() {
         this.player = new Player(40, 36, this);
@@ -28,6 +35,8 @@ export class Game {
 
         // clocks
         new CreeperUpdate(this);
+        new UpdateBuildigns(this);
+        new UpdateProjectiles(this);
     }
 
     addBuilding(pos: Point, type: EBuilding) {
@@ -35,16 +44,24 @@ export class Game {
         switch (type) {
             case EBuilding.Collector:
                 build = new Collector(pos, this);
-                this.updateCollectionFields(build, UpdateAction.Add);
+                // this.updateCollectionFields(build, UpdateAction.Add);
                 break;
-        
+
+            // todo
+            case EBuilding.Blaster:
+                build = new Blaster(pos, this);
+                break;
+
             default:
                 break;
         }
         if (build == null) return;
         this.buildings.push(build);
         this.updateConnections();
-        this.updateCollectionFields(build, UpdateAction.Add);
+        // todo only update when collector is placed
+        if (build instanceof Collector) {
+            this.updateCollectionFields(build, UpdateAction.Add);
+        }
     }
 
     // todo test this function
@@ -59,6 +76,7 @@ export class Game {
                     const maxDistance = 5;
                     if (dist <= maxDistance) {
                         neighbours.push(this.buildings[i]);
+                        this.connections.add(new Connection(nodeCenter, buildingCenter));
                     }
                 }
             }
@@ -86,19 +104,19 @@ export class Game {
             }
         }
     }
-    
+
     updateCollectionFields(node: Building, action: UpdateAction) {
         let height = this.world.tiles[node.pos.x][node.pos.y].height;
         for (let i = -2; i < 3; i++) {
             for (let j = -2; j < 3; j++) {
-                const currentPos = new Point(node.pos.x +i, node.pos.y + j);
+                const currentPos = new Point(node.pos.x + i, node.pos.y + j);
                 const currentHeight = this.world.tiles[currentPos.x][currentPos.y].height;
                 if (this.world.withinWorld(currentPos.x, currentPos.y)) {
                     // within range
                     if (height == currentHeight) {
                         if (action == UpdateAction.Add) {
-                        this.world.tiles[currentPos.x][currentPos.y].collector = node as Collector;
-                        }else {
+                            this.world.tiles[currentPos.x][currentPos.y].collector = node as Collector;
+                        } else {
                             this.world.tiles[currentPos.x][currentPos.y].collector = null;
                         }
                     }

@@ -2,9 +2,11 @@ import PlayerPath from "../img/Player.png";
 import CollectorPath from "../img/Collector.png";
 import EmitterPath from "../img/Emitter.png";
 import CreeperPath from "../img/Creeper.png";
+import BlasterPath from "../img/Blaster.png";
 import { Game } from "../chars/Game";
 import { Collector } from "../chars/Collector";
 import Player from "../chars/Player";
+import Blaster from "../chars/Blaster";
 
 const PlayerImg = new Image();
 PlayerImg.src = PlayerPath;
@@ -17,6 +19,9 @@ EmitterImg.src = EmitterPath;
 
 const CreeperImg = new Image();
 CreeperImg.src = CreeperPath;
+
+const BlasterImg = new Image();
+BlasterImg.src = BlasterPath;
 
 const emitterSize = 1;
 
@@ -44,6 +49,7 @@ export default class DrawMain {
         this.drawRoutes(pixelWidth, pixelHeight);
         this.drawBuildings(pixelWidth, pixelHeight);
         this.drawCreeper(pixelWidth, pixelHeight);
+        this.drawProjectile(pixelWidth, pixelHeight);
     }
 
     drawTerain(pixelWidth: number, pixelHeight: number) {
@@ -78,7 +84,7 @@ export default class DrawMain {
                 }
                 if (this.game.world.tiles[i][j].collector && this.game.world.tiles[i][j].collector?.connected) {
                     this.g.beginPath();
-                    this.g.fillStyle = "rgba(124,252,0, 0.3)";
+                    this.g.fillStyle = "rgba(124,252,0, 0.2)";
                     this.g.fillRect(pixelWidth * i, pixelHeight * j, pixelWidth, pixelHeight);
                 }
             }
@@ -91,6 +97,8 @@ export default class DrawMain {
             const building = this.game.buildings[i];
             if (building instanceof Collector) {
                 this.g.drawImage(CollectorImg, building.pos.x * pixelWidth, building.pos.y * pixelHeight, building.size * pixelWidth, building.size * pixelHeight);
+            } else if (building instanceof Blaster) {
+                this.g.drawImage(BlasterImg, building.pos.x * pixelWidth, building.pos.y * pixelHeight, building.size * pixelWidth, building.size * pixelHeight);
             } else if (building instanceof Player) {
                 this.g.drawImage(PlayerImg, this.game.player.pos.x * pixelWidth, this.game.player.pos.y * pixelHeight, this.game.player.size * pixelWidth, this.game.player.size * pixelHeight);
             } else {
@@ -100,17 +108,17 @@ export default class DrawMain {
     }
 
     drawRoutes(pixelWidth: number, pixelHeight: number) {
-        // if (this.g === undefined) return;
-        // for (let i = 0; i < this.game.player.connections.length; i++) {
-        //     const route = this.game.player.connections[i];
-        //     this.g.beginPath();
-        //     this.g.strokeStyle = "#354bea";
-        //     this.g.moveTo(route.a.x * pixelWidth + Math.round(pixelWidth / 2), route.a.y * pixelHeight + Math.round(pixelHeight / 2));
-        //     this.g.lineTo(route.b.x * pixelWidth + Math.round(pixelWidth / 2), route.b.y * pixelHeight + Math.round(pixelHeight / 2));
-        //     this.g.lineWidth = 5;
-        //     this.g.stroke();
-        // }
-        // this.g.lineWidth = 1;
+        if (this.g === undefined) return;
+        for (let i = 0; i < this.game.connections.connections.length; i++) {
+            const route = this.game.connections.connections[i];
+            this.g.beginPath();
+            this.g.strokeStyle = "#354bea";
+            this.g.moveTo(route.a.x * pixelWidth, route.a.y * pixelHeight);
+            this.g.lineTo(route.b.x * pixelWidth, route.b.y * pixelHeight);
+            this.g.lineWidth = 5;
+            this.g.stroke();
+        }
+        this.g.lineWidth = 1;
     }
 
     drawEmitter(pixelWidth: number, pixelHeight: number) {
@@ -163,6 +171,19 @@ export default class DrawMain {
                     }
                 }
             }
+        }
+    }
+
+    drawProjectile(pixelWidth: number, pixelHeight: number) {
+        if (this.g === undefined) return;
+        for (let i = 0; i < this.game.projectiles.length; i++) {
+            const projectile = this.game.projectiles[i];
+            this.g.beginPath();
+            this.g.strokeStyle = "red";
+            this.g.moveTo(projectile.pos.x * pixelWidth, projectile.pos.y * pixelHeight);
+            this.g.lineTo(projectile.targetPos.x * pixelWidth, projectile.targetPos.y * pixelHeight);
+            this.g.lineWidth = 1;
+            this.g.stroke();
         }
     }
 

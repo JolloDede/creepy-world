@@ -1,3 +1,4 @@
+import Blaster from "../chars/Blaster";
 import { Collector } from "../chars/Collector";
 import { Game } from "../chars/Game";
 
@@ -6,6 +7,8 @@ export default class UpdateBuildigns {
 
     constructor(game: Game) {
         this.game = game;
+
+        setInterval(this.update, 1000);
     }
 
     update = () => {
@@ -13,6 +16,9 @@ export default class UpdateBuildigns {
             const building = this.game.buildings[i];
             if (building instanceof Collector) {
                 building.collectEnergy();
+            }
+            if (building instanceof Blaster) {
+                building.update();
             }
         }
     }
