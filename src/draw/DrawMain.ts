@@ -7,6 +7,7 @@ import { Game } from "../chars/Game";
 import { Collector } from "../chars/Collector";
 import Player from "../chars/Player";
 import Blaster from "../chars/Blaster";
+import { PacketType } from "../chars/Packet";
 
 const PlayerImg = new Image();
 PlayerImg.src = PlayerPath;
@@ -44,11 +45,13 @@ export default class DrawMain {
         let pixelHeight = (this.height / this.game.world.dimensions.y);
 
         this.drawTerain(pixelWidth, pixelHeight);
+        // draw enemy
         this.drawEmitter(pixelWidth, pixelHeight);
+        this.drawCreeper(pixelWidth, pixelHeight);
         // draw player
         this.drawRoutes(pixelWidth, pixelHeight);
         this.drawBuildings(pixelWidth, pixelHeight);
-        this.drawCreeper(pixelWidth, pixelHeight);
+        this.drawPackets(pixelWidth, pixelHeight);
         this.drawProjectile(pixelWidth, pixelHeight);
     }
 
@@ -184,6 +187,28 @@ export default class DrawMain {
             this.g.lineTo(projectile.targetPos.x * pixelWidth, projectile.targetPos.y * pixelHeight);
             this.g.lineWidth = 1;
             this.g.stroke();
+        }
+    }
+
+    drawPackets(pixelWidth: number, pixelHeight: number) {
+        if (this.g === undefined) return;
+        for (let i = 0; i < this.game.packets.length; i++) {
+            const packet = this.game.packets[i];
+            this.g.beginPath();
+            switch (packet.type) {
+                case PacketType.Health:
+                    this.g.fillStyle = "green";
+                    break;
+                case PacketType.Energy:
+                    this.g.fillStyle = "red";
+                    break;
+
+                default:
+                    console.log("Error new PacketType");
+                    break;
+            }
+            this.g.arc(packet.pos.x * pixelWidth, packet.pos.y * pixelHeight, 3, 0, 2 * Math.PI);
+            this.g.fill();
         }
     }
 

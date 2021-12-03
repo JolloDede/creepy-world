@@ -5,6 +5,14 @@ export function distance(pointA: Point, pointB: Point) {
 }
 
 export function getRandomEntry(list: any) {
-    let rand = Math.floor(Math.random() * list.length-1)+1;
+    let rand = Math.floor(Math.random() * list.length - 1) + 1;
     return list[rand];
+}
+
+export function cloneArray(list: any) {
+    let newList = [];
+    for (let i = 0; i < list.length; i++) {
+        newList.push(list[i]);
+    }
+    return newList;
 }

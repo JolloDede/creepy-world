@@ -5,12 +5,16 @@ import CreeperUpdate from "../clocks/CreeperUpdate";
 import Building, { EBuilding } from "./Building";
 import { Collector } from "./Collector";
 import Point, { pointIsInRange } from "../helper/Point";
-import { distance } from "../helper/Helper";
+import { cloneArray, distance } from "../helper/Helper";
 import { Connection, Connections } from "../helper/Connection";
 import Blaster from "./Blaster";
 import Projectile from "./Projectile";
 import UpdateBuildigns from "../clocks/UpdateBuildings";
 import UpdateProjectiles from "../clocks/UpdateProjectiles";
+import Packet, { PacketType } from "./Packet";
+import UpdatePackets from "../clocks/UpdatePackets";
+import Route from "../helper/Route";
+import UpdatepacketQueue from "../clocks/UpdatePacketQueue";
 
 export class Game {
     gameState: GameState;
@@ -20,6 +24,8 @@ export class Game {
     world: World;
     connections: Connections = new Connections();
     projectiles: Projectile[] = [];
+    packets: Packet[] = [];
+    packetQueue: Packet[] = [];
 
     constructor() {
         this.player = new Player(40, 36, this);
@@ -37,6 +43,8 @@ export class Game {
         new CreeperUpdate(this);
         new UpdateBuildigns(this);
         new UpdateProjectiles(this);
+        new UpdatepacketQueue(this);
+        new UpdatePackets(this);
     }
 
     addBuilding(pos: Point, type: EBuilding) {
@@ -44,7 +52,6 @@ export class Game {
         switch (type) {
             case EBuilding.Collector:
                 build = new Collector(pos, this);
-                // this.updateCollectionFields(build, UpdateAction.Add);
                 break;
 
             // todo
@@ -58,7 +65,7 @@ export class Game {
         if (build == null) return;
         this.buildings.push(build);
         this.updateConnections();
-        // todo only update when collector is placed
+        // only update when collector is placed
         if (build instanceof Collector) {
             this.updateCollectionFields(build, UpdateAction.Add);
         }
@@ -105,6 +112,99 @@ export class Game {
         }
     }
 
+    // a A* algorythm for finding shortest path
+    findRoute = (packet: Packet) => {
+        let routes: Route[] = [];
+
+        let route = new Route();
+        route.nodes.push(packet.currentTarget!);
+        routes.push(route);
+
+        while (routes.length > 0) {
+            if (routes[0].nodes[routes[0].nodes.length - 1] == packet.target) {
+                break;
+            }
+
+            let oldRoute = routes.shift();
+
+            let lastNode = oldRoute?.nodes[oldRoute.nodes.length - 1];
+            let neighbours = this.getNeighbourBuildings(lastNode!, packet.target);
+
+            for (let i = 0; i < neighbours.length; i++) {
+                if (!this.inRoute(neighbours[i], oldRoute?.nodes!)) {
+                    let newRoute = new Route();
+
+                    newRoute.nodes = cloneArray(oldRoute?.nodes);
+
+                    newRoute.nodes.push(neighbours[i]);
+
+                    newRoute.distanceTravelled = oldRoute?.distanceTravelled!;
+
+                    // get the new distance travelled
+                    let centerA = newRoute.nodes[newRoute.nodes.length - 1].getCenter();
+                    let centerB = newRoute.nodes[newRoute.nodes.length - 2].getCenter();
+                    newRoute.distanceTravelled += distance(centerA, centerB);
+
+                    // get remianing distance
+                    let centerC = packet.target.getCenter();
+                    newRoute.distanceRemaining = distance(centerA, centerC);
+                    routes.push(newRoute);
+                }
+            }
+
+            // find routes that end at the same node, remove those with the longer distance travelled
+            for (let i = 0; i < routes.length; i++) {
+                for (let j = 0; j < routes.length; j++) {
+                    if (routes[i].nodes[routes[i].nodes.length - 1] == routes[j].nodes[routes[j].nodes.length - 1]) {
+                        if (routes[i].distanceTravelled < routes[j].distanceTravelled) {
+                            routes[j].remove = true;
+                        } else if (routes[i].distanceTravelled > routes[j].distanceTravelled) {
+                            routes[i].remove = true;
+                        }
+                    }
+                }
+            }
+
+            // remove the routes
+            for (let i = 0; i < routes.length; i++) {
+                if (routes[i].remove) {
+                    routes.splice(i);
+                }
+            }
+
+            routes.sort((a, b) => (
+                (a.distanceTravelled + a.distanceRemaining) - (b.distanceTravelled + b.distanceRemaining)
+            ));
+        }
+
+        // if a route is left set the second element as the next node for the packet
+        if (routes.length > 0) {
+            packet.currentTarget = routes[0].nodes[1];
+        } else {
+            packet.currentTarget = null;
+            if (packet.type == PacketType.Energy) {
+                packet.target.energyRequests--;
+                if (packet.target.energyRequests < 0) packet.target.energyRequests = 0;
+            } else if (packet.type == PacketType.Health) {
+                packet.target.healthRequests--;
+                if (packet.target.healthRequests < 0) packet.target.healthRequests = 0;
+            }
+            console.log("remove here");
+            packet.remove = true;
+        }
+    }
+
+    inRoute = (neighbour: Building, nodes: Building[]): boolean => {
+        let found = false;
+        for (let i = 0; i < nodes.length; i++) {
+            if (neighbour.pos.x == nodes[i].pos.x && neighbour.pos.y == nodes[i].pos.y) {
+                found = true;
+                break;
+            }
+        }
+        return found;
+    }
+
     updateCollectionFields(node: Building, action: UpdateAction) {
         let height = this.world.tiles[node.pos.x][node.pos.y].height;
         for (let i = -2; i < 3; i++) {
@@ -135,6 +235,17 @@ export class Game {
                     }
                 }
             }
+        }
+    }
+
+    queuePacket(target: Building, type: PacketType) {
+        let packet = new Packet(this.player.getCenter(), target, type, this);
+        packet.currentTarget = this.player;
+        this.findRoute(packet);
+        if (packet.currentTarget != null) {
+            if (type == PacketType.Health) target.healthRequests++;
+            if (type == PacketType.Energy) target.energyRequests++;
+            this.packetQueue.push(packet);
         }
     }
 

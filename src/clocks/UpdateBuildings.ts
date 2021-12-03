@@ -14,6 +14,7 @@ export default class UpdateBuildigns {
     update = () => {
         for (let i = 0; i < this.game.buildings.length; i++) {
             const building = this.game.buildings[i];
+            building.requestPacket();
             if (building instanceof Collector) {
                 building.collectEnergy();
             }
