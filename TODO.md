@@ -23,7 +23,6 @@
   * [X] Draw Emmiters
   * [X] Draw Creepers
   * [X] Draw Packets
-  * [ ] Draw Buildings explode
 
 * [ ] Game Logic
   * [X] World
@@ -39,7 +38,7 @@
     * [X] Position
     * [X] Connected
     * [x] Collectors
-      * x ] Collection
+      * [X] Collection
       * [x] CollectionFields
     * [x] Blaster
       * [x] Shoot creepers
@@ -54,6 +53,6 @@
     * [x] packetqueue
   * [X] Emmiter
     * [X] Emmit creepers
-  * [ ] Creeper
+  * [X] Creeper
     * [X] Spread
     * [X] damage buildings
