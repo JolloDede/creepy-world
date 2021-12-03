@@ -34,7 +34,8 @@
     * [X] Energy
     * [X] Position
   * [ ] Buildings
-    * [ ] get destroyed
+    * [X] get destroyed
+      * [X] remove
     * [X] Position
     * [X] Connected
     * [x] Collectors
@@ -55,4 +56,4 @@
     * [X] Emmit creepers
   * [ ] Creeper
     * [X] Spread
-    * [ ] damage buildings
+    * [X] damage buildings

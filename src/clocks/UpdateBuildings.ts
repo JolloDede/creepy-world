@@ -21,6 +21,9 @@ export default class UpdateBuildigns {
             if (building instanceof Blaster) {
                 building.update();
             }
+
+            // take damage
+            building.takeDamage();
         }
     }
 }

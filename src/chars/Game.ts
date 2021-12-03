@@ -54,7 +54,6 @@ export class Game {
                 build = new Collector(pos, this);
                 break;
 
-            // todo
             case EBuilding.Blaster:
                 build = new Blaster(pos, this);
                 break;
@@ -69,6 +68,23 @@ export class Game {
         if (build instanceof Collector) {
             this.updateCollectionFields(build, UpdateAction.Add);
         }
+    }
+
+    removeBuilding = (building: Building) => {
+        // if building is built explode
+
+        this.buildings = this.buildings.filter(build => build != building);
+
+        if (building instanceof Collector) {
+            this.updateConnections();
+            if (building.built) {
+                this.updateCollectionFields(building, UpdateAction.Remove);
+            }
+        }
+
+        // remove all the Packets of this building
+        this.packets = this.packets.filter(packet => packet.target == building);
+        this.packetQueue = this.packetQueue.filter(packet => packet.target == building);
     }
 
     // todo test this function

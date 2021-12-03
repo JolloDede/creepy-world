@@ -43,6 +43,20 @@ export default class Building {
             }
         }
     }
+
+    takeDamage = () => {
+        for (let i = 0; i < this.size; i++) {
+            for (let j = 0; j < this.size; j++) {
+                if (this.game.world.tiles[this.pos.x + i][this.pos.y + j].creep > 0) {
+                    this.health -= this.game.world.tiles[this.pos.x + i][this.pos.y + j].creep / 10;
+                }
+            }       
+        }
+
+        if (this.health < 0) {
+            this.game.removeBuilding(this);
+        }
+    }
 }
 
 export enum EBuilding {
