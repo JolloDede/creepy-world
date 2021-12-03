@@ -1,42 +1,58 @@
 # Water World Todos
 ## Steps
 ### Step 1
-* [ ] draw
-  * [X] draw the map of the game
-  * [X] draw the player on the map
-  * [X] draw collectors on the map
-  * [X] draw the water dispencers
-  * [X] draw connections (collecors, player)
-  * [X] draw the collection fields
-  * [X] draw creeper produced water
-  * [X] display Player atributes
-  * [ ] draw the blaster
-    * [ ] Blasters fire on water
+* [ ] GUI
+  * [X] Canvas
+  * [ ] Buttons
+    * [ ] Buildings
+      * [X] Collector
+      * [X] Blaster
+    * [ ] Game States
+      * [ ] Play
+      * [ ] Sound
+      * [ ] Music
+    * [ ] other
+      * [ ] Options
+      * [ ] Help
+      * [ ] Exit Game
 
-* [X] game option buttons
-  * [X] Options
-  * [X] Help
-  * [X] Exit game
+* [ ] Canvas Draw
+  * [X] Draw terain
+  * [X] Draw Path between Buildings
+  * [X] Draw Buildings
+  * [X] Draw Emmiters
+  * [X] Draw Creepers
+  * [X] Draw Packets
+  * [ ] Draw Buildings explode
 
-* [ ] Canvas Clicks
-  * [X] add collectors to the map
-  * [ ] select Collector
-  * [ ] select Player
-
-* [ ] implement Player
-  * [X] Energy
-  * [X] Collection
-  * [ ] Starvation
-  * [X] Collector list
-    * [X] add collector
-  * [X] routes list (collectors to player)
-    * [X] add collector makes routes
-
-#### style
-* [X] canvas
-
-### Step 2
-* [ ] add functionality to the game options buttons
-  * [ ] Options display options
-  * [ ] Help display help
-  * [ ] Exit game exit the game
+* [ ] Game Logic
+  * [X] World
+    * [X] Tiles
+    * [X] CollectorFields
+    * [X] Creepers
+  * [X] Player
+    * [X] Energy
+    * [X] Position
+  * [ ] Buildings
+    * [ ] get destroyed
+    * [X] Position
+    * [X] Connected
+    * [x] Collectors
+      * x ] Collection
+      * [x] CollectionFields
+    * [x] Blaster
+      * [x] Shoot creepers
+    * [ ] Portal stations
+      * [ ] open Portal
+      * [ ] Player goes trough Portal
+      * [ ] GG and Score
+  * [x] Packets
+    * [x] move along connections
+    * [x] Give energy
+    * [x] give health
+    * [x] packetqueue
+  * [X] Emmiter
+    * [X] Emmit creepers
+  * [ ] Creeper
+    * [X] Spread
+    * [ ] damage buildings

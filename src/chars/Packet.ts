@@ -11,7 +11,7 @@ export default class Packet {
     // currentTarget should not be null when moved
     currentTarget: Building | null = null;
     remove: boolean = false;
-    static baseSpeed = 1;
+    static baseSpeed = 0.2;
 
     game: Game;
 
@@ -43,7 +43,7 @@ export default class Packet {
         this.pos.y += this.speed.y;
 
         let currentCenterTarget = this.currentTarget!.getCenter();
-        if (this.pos.x < currentCenterTarget.x + 1 && this.pos.x > currentCenterTarget.x - 1 && this.pos.y < currentCenterTarget.y + 1 && this.pos.y > currentCenterTarget.y - 1) {
+        if (this.pos.x < currentCenterTarget.x + 0.1 && this.pos.x > currentCenterTarget.x - 0.1 && this.pos.y < currentCenterTarget.y + 0.1 && this.pos.y > currentCenterTarget.y - 0.1) {
             this.pos.x = currentCenterTarget.x;
             this.pos.y = currentCenterTarget.y;
             // if the target is reached

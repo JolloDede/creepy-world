@@ -42,7 +42,6 @@ export default class Blaster extends Building {
                 let dy = target.y -this.getCenter().y;
                 let targetAngle = Math.atan2(dx, dy);
 
-                // targetAngle = Helper.rad2deg(atan2(dy, dx)).floor();
                 // fire
                 // todo uncomment next line for energy use
                 // this.energy -= 1;

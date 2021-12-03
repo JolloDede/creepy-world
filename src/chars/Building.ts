@@ -1,5 +1,4 @@
-import Point, { pointIsInRange } from "../helper/Point";
-import { Collector } from "./Collector";
+import Point from "../helper/Point";
 import { Game } from "./Game";
 import { PacketType } from "./Packet";
 
