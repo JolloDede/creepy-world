@@ -1,4 +1,4 @@
-import { Game } from "../chars/Game";
+import { Game, GameState } from "../chars/Game";
 import Tile from "../helper/Tile";
 
 export default class CreeperUpdate {
@@ -11,10 +11,18 @@ export default class CreeperUpdate {
         this.creeperCounter = 0;
         this.emitterCounter = 0;
         
-        setInterval(this.distribute, 1);
+        setInterval(this.update, 1);
     }
 
-    distribute = () => {
+    update = () => {
+        if (this.game.gameState == GameState.InGame) {
+            this.updateCreeper();
+        }else {
+            console.log("not ingame");
+        }
+    }
+
+    updateCreeper = () => {
         this.emitterCounter++;
         if (this.emitterCounter >= 25) {
             this.spawnInCreeper();

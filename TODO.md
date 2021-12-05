@@ -1,6 +1,7 @@
 # Water World Todos
 ## Steps
 ### Step 1
+#### Gui
 * [ ] GUI
   * [X] Canvas
   * [ ] Buttons
@@ -16,6 +17,7 @@
       * [ ] Help
       * [ ] Exit Game
 
+#### Draw
 * [ ] Canvas Draw
   * [X] Draw terain
   * [X] Draw Path between Buildings
@@ -24,6 +26,7 @@
   * [X] Draw Creepers
   * [X] Draw Packets
 
+#### Logic
 * [ ] Game Logic
   * [X] World
     * [X] Tiles
@@ -42,10 +45,8 @@
       * [x] CollectionFields
     * [x] Blaster
       * [x] Shoot creepers
-    * [ ] Portal stations
-      * [ ] open Portal
-      * [ ] Player goes trough Portal
-      * [ ] GG and Score
+    * [ ] Portal stations (stabilizer)
+      * [ ] when portal are full health gg won
   * [x] Packets
     * [x] move along connections
     * [x] Give energy

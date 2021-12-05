@@ -1,6 +1,7 @@
 import Blaster from "../chars/Blaster";
 import { Collector } from "../chars/Collector";
-import { Game } from "../chars/Game";
+import { Game, GameState } from "../chars/Game";
+import Stabilizer from "../chars/Stabilizer";
 
 export default class UpdateBuildigns {
     game: Game;
@@ -12,9 +13,19 @@ export default class UpdateBuildigns {
     }
 
     update = () => {
+        if (this.game.gameState == GameState.InGame) {
+            this.updateBuildings();
+        }else {
+            console.log("not ingame");
+        }
+    }
+
+    updateBuildings = () => {
         for (let i = 0; i < this.game.buildings.length; i++) {
             const building = this.game.buildings[i];
-            building.requestPacket();
+            if (building.connected) {
+                building.requestPacket();
+            }
             if (building instanceof Collector) {
                 building.collectEnergy();
             }
@@ -22,8 +33,10 @@ export default class UpdateBuildigns {
                 building.update();
             }
 
-            // take damage
-            building.takeDamage();
+            // take no damage
+            if (!(building instanceof Stabilizer)) {
+                building.takeDamage();
+            }
         }
     }
 }

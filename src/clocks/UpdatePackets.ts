@@ -1,5 +1,4 @@
-import { delimiter } from "path";
-import { Game } from "../chars/Game";
+import { Game, GameState } from "../chars/Game";
 
 export default class UpdatePackets {
     game: Game;
@@ -11,6 +10,14 @@ export default class UpdatePackets {
     }
 
     update = () => {
+        if (this.game.gameState == GameState.InGame) {
+            this.movePackets();
+        }else {
+            console.log("not ingame");
+        }
+    }
+
+    movePackets = () => {
         let delIndex: number[] = [];
         for (let i = 0; i < this.game.packets.length; i++) {
             const packet = this.game.packets[i];

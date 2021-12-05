@@ -1,4 +1,4 @@
-import { Game } from "../chars/Game";
+import { Game, GameState } from "../chars/Game";
 
 export default class UpdateProjectiles {
     game: Game;
@@ -10,6 +10,14 @@ export default class UpdateProjectiles {
     }
 
     update = () => {
+        if (this.game.gameState == GameState.InGame) {
+            this.moveProjectiles();
+        }else {
+            console.log("not ingame");
+        }
+    }
+
+    moveProjectiles = () => {
         let removeId: number[] = [];
         for (let i = 0; i < this.game.projectiles.length; i++) {
             const projectile = this.game.projectiles[i];
