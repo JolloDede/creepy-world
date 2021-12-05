@@ -1,4 +1,4 @@
-import { Game } from "../chars/Game";
+import { Game, GameState } from "../chars/Game";
 
 export default class UpdatepacketQueue {
     game: Game;
@@ -10,6 +10,14 @@ export default class UpdatepacketQueue {
     }
 
     update = () => {
+        if (this.game.gameState == GameState.InGame) {
+            this.sendPackets();
+        }else {
+            console.log("not ingame");
+        }
+    }
+
+    sendPackets = () => {
         for (let i = 0; i < this.game.packetQueue.length; i++) {
             if (this.game.player.energy > 0) {
                 this.game.player.energy--;
