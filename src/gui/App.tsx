@@ -10,8 +10,6 @@ var ctx: CanvasRenderingContext2D;
 function App() {
   const [canvasWidth, setCanvasWidth] = useState<number>();
   const [canvasHeight, setCanvasHeight] = useState<number>();
-  const [canvasOffSetX, setCanvasOffSetX] = useState<number>();
-  const [canvasOffSetY, setCanvasOffSetY] = useState<number>();
 
   const canvasRef = useCallback(node => {
     if (node !== null) {
@@ -21,8 +19,6 @@ function App() {
       let offsetY = node.getBoundingClientRect().top;
       setCanvasHeight(height);
       setCanvasWidth(width);
-      setCanvasOffSetX(offsetX);
-      setCanvasOffSetY(offsetY);
       main.setCanvasDim(width, height);
       main.setCanvasOffset(offsetX, offsetY);
       ctx = node.getContext("2d");
@@ -30,7 +26,7 @@ function App() {
   }, []);
 
   function handleCanvasClick(event: MouseEvent<HTMLCanvasElement>) {
-    main.onCanvasClick(event, canvasWidth, canvasHeight)
+    main.onCanvasClick(event, canvasWidth!, canvasHeight!)
   }
 
   useEffect(() => {

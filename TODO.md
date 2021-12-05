@@ -18,7 +18,7 @@
       * [ ] Exit Game
 
 #### Draw
-* [ ] Canvas Draw
+* [X] Canvas Draw
   * [X] Draw terain
   * [X] Draw Path between Buildings
   * [X] Draw Buildings
@@ -45,8 +45,8 @@
       * [x] CollectionFields
     * [x] Blaster
       * [x] Shoot creepers
-    * [ ] Portal stations (stabilizer)
-      * [ ] when portal are full health gg won
+    * [X] Portal stations (stabilizer)
+      * [X] when portal are full health gg won
   * [x] Packets
     * [x] move along connections
     * [x] Give energy

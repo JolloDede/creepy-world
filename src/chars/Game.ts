@@ -240,8 +240,8 @@ export class Game {
         for (let i = -2; i < 3; i++) {
             for (let j = -2; j < 3; j++) {
                 const currentPos = new Point(node.pos.x + i, node.pos.y + j);
-                const currentHeight = this.world.tiles[currentPos.x][currentPos.y].height;
                 if (this.world.withinWorld(currentPos.x, currentPos.y)) {
+                    const currentHeight = this.world.tiles[currentPos.x][currentPos.y].height;
                     // within range
                     if (height == currentHeight) {
                         if (action == UpdateAction.Add) {
@@ -250,16 +250,17 @@ export class Game {
                             this.world.tiles[currentPos.x][currentPos.y].collector = null;
                         }
                     }
-                }
 
-                // fixing 
-                for (let i = 0; i < this.buildings.length; i++) {
-                    const building = this.buildings[i];
-                    if (building instanceof Collector) {
-                        let bHeight = this.world.tiles[building.pos.x][building.pos.y].height;
-                        if (pointIsInRange(currentPos, building.pos, 6)) {
-                            if (bHeight == currentHeight) {
-                                this.world.tiles[currentPos.x][currentPos.y].collector = building;
+
+                    // fixing 
+                    for (let i = 0; i < this.buildings.length; i++) {
+                        const building = this.buildings[i];
+                        if (building instanceof Collector) {
+                            let bHeight = this.world.tiles[building.pos.x][building.pos.y].height;
+                            if (pointIsInRange(currentPos, building.pos, 6)) {
+                                if (bHeight == currentHeight) {
+                                    this.world.tiles[currentPos.x][currentPos.y].collector = building;
+                                }
                             }
                         }
                     }

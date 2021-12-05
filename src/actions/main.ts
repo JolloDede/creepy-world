@@ -32,13 +32,13 @@ export default class Main {
         this.offset = { x, y };
     }
     
-    onCanvasClick(e: any, width?: number, heigth?: number) {
-        width = width ? width : 0;
-        heigth = heigth ? heigth : 0;
-        let pixelWidth = Math.round(width / this.game.world.dimensions.x);
-        let pixelHeight = Math.round(heigth / this.game.world.dimensions.y);
-        let x = Math.round((e.clientX - this.offset.x) / pixelWidth);
-        let y = Math.round((e.clientY - this.offset.y) / pixelHeight);
+    onCanvasClick(e: any, width: number, heigth: number) {
+        let tileWidth = width / this.game.world.dimensions.x;
+        let tileHeight = heigth / this.game.world.dimensions.y;
+
+        let x = Math.floor((e.clientX - this.offset.x) / tileWidth);
+        let y = Math.floor((e.clientY - this.offset.y) / tileHeight);
+
         this.clickHandler.canvasClick(x, y, this.game);
     }
 
