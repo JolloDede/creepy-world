@@ -11,10 +11,10 @@ export default class CreeperUpdate {
         this.creeperCounter = 0;
         this.emitterCounter = 0;
         
-        setInterval(this.distribute, 1);
+        setInterval(this.update, 1);
     }
 
-    distribute = () => {
+    update = () => {
         this.emitterCounter++;
         if (this.emitterCounter >= 25) {
             this.spawnInCreeper();

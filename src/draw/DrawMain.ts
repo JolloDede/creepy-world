@@ -3,11 +3,13 @@ import CollectorPath from "../img/Collector.png";
 import EmitterPath from "../img/Emitter.png";
 import CreeperPath from "../img/Creeper.png";
 import BlasterPath from "../img/Blaster.png";
+import StabilizerPath from "../img/Stabilizer.png";
 import { Game } from "../chars/Game";
 import { Collector } from "../chars/Collector";
 import Player from "../chars/Player";
 import Blaster from "../chars/Blaster";
 import { PacketType } from "../chars/Packet";
+import Stabilizer from "../chars/Stabilizer";
 
 const PlayerImg = new Image();
 PlayerImg.src = PlayerPath;
@@ -23,6 +25,9 @@ CreeperImg.src = CreeperPath;
 
 const BlasterImg = new Image();
 BlasterImg.src = BlasterPath;
+
+const StabilizerImg = new Image();
+StabilizerImg.src = StabilizerPath;
 
 const emitterSize = 1;
 
@@ -102,6 +107,8 @@ export default class DrawMain {
                 this.g.drawImage(CollectorImg, building.pos.x * pixelWidth, building.pos.y * pixelHeight, building.size * pixelWidth, building.size * pixelHeight);
             } else if (building instanceof Blaster) {
                 this.g.drawImage(BlasterImg, building.pos.x * pixelWidth, building.pos.y * pixelHeight, building.size * pixelWidth, building.size * pixelHeight);
+            }else if (building instanceof Stabilizer) {
+                this.g.drawImage(StabilizerImg, building.pos.x * pixelWidth, building.pos.y * pixelHeight, building.size * pixelWidth, building.size * pixelHeight);
             } else if (building instanceof Player) {
                 this.g.drawImage(PlayerImg, this.game.player.pos.x * pixelWidth, this.game.player.pos.y * pixelHeight, this.game.player.size * pixelWidth, this.game.player.size * pixelHeight);
             } else {

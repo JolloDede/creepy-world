@@ -61,5 +61,6 @@ export default class Building {
 
 export enum EBuilding {
     Collector,
-    Blaster
+    Blaster,
+    Stabilizer
 }

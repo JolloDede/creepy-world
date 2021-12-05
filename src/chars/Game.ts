@@ -15,6 +15,8 @@ import Packet, { PacketType } from "./Packet";
 import UpdatePackets from "../clocks/UpdatePackets";
 import Route from "../helper/Route";
 import UpdatepacketQueue from "../clocks/UpdatePacketQueue";
+import Stabilizer from "./Stabilizer";
+import { UpdateGameState } from "../clocks/UpdateGameState";
 
 export class Game {
     gameState: GameState;
@@ -26,20 +28,28 @@ export class Game {
     projectiles: Projectile[] = [];
     packets: Packet[] = [];
     packetQueue: Packet[] = [];
+    stabilizer: Stabilizer[] = [];
 
     constructor() {
         this.player = new Player(40, 36, this);
         this.world = new World({ x: 70, y: 48 });
         this.world.createWorld();
+        // Emitters
         this.emitters.push(new Emitter(new Point(0, 0), this));
         this.emitters.push(new Emitter(new Point(17, 0), this));
         this.emitters.push(new Emitter(new Point(35, 0), this));
         this.emitters.push(new Emitter(new Point(69, 0), this));
+        // Buildings
         this.buildings.push(this.player);
         this.addBuilding(new Point(42, 29), EBuilding.Collector);
+        this.addBuilding(new Point(9, 5), EBuilding.Stabilizer);
+        this.addBuilding(new Point(37, 4), EBuilding.Stabilizer);
+        this.addBuilding(new Point(59, 17), EBuilding.Stabilizer);
+
         this.gameState = GameState.InGame;
 
         // clocks
+        new UpdateGameState(this);
         new CreeperUpdate(this);
         new UpdateBuildigns(this);
         new UpdateProjectiles(this);
@@ -56,6 +66,10 @@ export class Game {
 
             case EBuilding.Blaster:
                 build = new Blaster(pos, this);
+                break;
+
+            case EBuilding.Stabilizer:
+                build = new Stabilizer(pos, this);
                 break;
 
             default:
@@ -273,6 +287,8 @@ export class Game {
 
 export enum GameState {
     InGame,
+    Won,
+    Lost
 }
 
 export enum UpdateAction {
