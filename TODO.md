@@ -57,3 +57,13 @@
   * [X] Creeper
     * [X] Spread
     * [X] damage buildings
+
+#### Problems
+* [ ] Creepers dont rly spread as intended
+* [ ] Creepers dont get drawn right
+* [ ] Images dont get drawn i the right size
+* [ ] Paths between buildings are not the same color
+* [ ] Buildings can be placed on top of each other
+* [ ] Draw health and Energy under buildings
+  * [X] health
+  * [ ] energy

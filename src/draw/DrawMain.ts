@@ -10,6 +10,7 @@ import Player from "../chars/Player";
 import Blaster from "../chars/Blaster";
 import { PacketType } from "../chars/Packet";
 import Stabilizer from "../chars/Stabilizer";
+import Building from "../chars/Building";
 
 const PlayerImg = new Image();
 PlayerImg.src = PlayerPath;
@@ -107,13 +108,24 @@ export default class DrawMain {
                 this.g.drawImage(CollectorImg, building.pos.x * pixelWidth, building.pos.y * pixelHeight, building.size * pixelWidth, building.size * pixelHeight);
             } else if (building instanceof Blaster) {
                 this.g.drawImage(BlasterImg, building.pos.x * pixelWidth, building.pos.y * pixelHeight, building.size * pixelWidth, building.size * pixelHeight);
-            }else if (building instanceof Stabilizer) {
+            } else if (building instanceof Stabilizer) {
                 this.g.drawImage(StabilizerImg, building.pos.x * pixelWidth, building.pos.y * pixelHeight, building.size * pixelWidth, building.size * pixelHeight);
             } else if (building instanceof Player) {
                 this.g.drawImage(PlayerImg, this.game.player.pos.x * pixelWidth, this.game.player.pos.y * pixelHeight, this.game.player.size * pixelWidth, this.game.player.size * pixelHeight);
             } else {
                 console.log("error cant draw this building");
             }
+            this.drawHealthBar(pixelWidth, pixelHeight, building);
+        }
+    }
+
+    drawHealthBar = (pixelWidth: number, pixelHeight: number, build: Building) => {
+        if (this.g === undefined) return;
+        if (build.health < build.maxHealth) {
+            let barWidth = pixelWidth * build.size / build.maxHealth * build.health;
+            this.g.beginPath();
+            this.g.fillStyle = "green";
+            this.g.fillRect(build.pos.x * pixelWidth, build.pos.y * pixelHeight + pixelHeight * build.size - pixelHeight * build.size / 4, barWidth, pixelHeight / 3);
         }
     }
 
@@ -204,7 +216,7 @@ export default class DrawMain {
             this.g.beginPath();
             switch (packet.type) {
                 case PacketType.Health:
-                    this.g.fillStyle = "green";
+                    this.g.fillStyle = "gray";
                     break;
                 case PacketType.Energy:
                     this.g.fillStyle = "red";
