@@ -13,13 +13,11 @@ export default class Blaster extends Building {
         // todo remove
         this.health = 5;
         this.size = 1;
-        this.maxEnergy = 40;
+        this.maxEnergy = 20;
         this.weaponRadius = 8;
     }
 
     update = () => {
-        // todo remove next line
-        this.energy = 1;
         if (this.energy > 0) {
             let targets: Point[] = [];
             for (let r = 0; r < this.weaponRadius; r++) {
@@ -43,8 +41,7 @@ export default class Blaster extends Building {
                 let targetAngle = Math.atan2(dx, dy);
 
                 // fire
-                // todo uncomment next line for energy use
-                // this.energy -= 1;
+                this.energy -= 1;
                 let projectile = new Projectile(this.getCenter(), target, targetAngle);
                 this.game.projectiles.push(projectile);
             }
