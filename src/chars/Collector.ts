@@ -25,8 +25,8 @@ export class Collector extends Building {
                         let tileHeight = this.game.world.tiles[currentPos.x][currentPos.y].height;
 
                         if (pointIsInRange(new Point(this.pos.x, this.pos.y), new Point(currentPos.x, currentPos.y), 3)) {
-                            if (tileHeight == height) {
-                                if (this.game.world.tiles[currentPos.x][currentPos.y].collector == this) {
+                            if (tileHeight === height) {
+                                if (this.game.world.tiles[currentPos.x][currentPos.y].collector === this) {
                                     this.collectedEnergy += 1;
                                 }
                             }

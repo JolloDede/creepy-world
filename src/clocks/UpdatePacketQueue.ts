@@ -10,7 +10,7 @@ export default class UpdatepacketQueue {
     }
 
     update = () => {
-        if (this.game.gameState == GameState.InGame) {
+        if (this.game.gameState === GameState.InGame) {
             this.sendPackets();
         }else {
             console.log("not ingame");
@@ -22,7 +22,7 @@ export default class UpdatepacketQueue {
             if (this.game.player.energy > 0) {
                 this.game.player.energy--;
                 let packet = this.game.packetQueue.shift();
-                if (packet != undefined) {
+                if (packet !== undefined) {
                     this.game.packets.push(packet);
                 }
             }

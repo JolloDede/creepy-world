@@ -2,6 +2,12 @@ import { EBuilding } from "../chars/Building";
 import { Game } from "../chars/Game";
 import Point from "../helper/Point";
 
+export enum Curserstate {
+    Null,
+    Collector,
+    Blaster,
+}
+
 export class OnClickHandler {
     curserState: Curserstate;
 
@@ -36,10 +42,4 @@ export class OnClickHandler {
         console.log("You are holding a " + Curserstate[newCurser]);
         this.curserState = newCurser;
     }
-}
-
-export enum Curserstate {
-    Null,
-    Collector,
-    Blaster,
 }

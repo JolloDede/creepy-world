@@ -1,6 +1,6 @@
 import DrawMain from "../draw/DrawMain";
 import { Curserstate, OnClickHandler } from "./OnClickHandler";
-import { Game, GameState } from "../chars/Game";
+import { Game } from "../chars/Game";
 import Point from "../helper/Point";
 
 export default class Main {

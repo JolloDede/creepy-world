@@ -15,7 +15,7 @@ export default class CreeperUpdate {
     }
 
     update = () => {
-        if (this.game.gameState == GameState.InGame) {
+        if (this.game.gameState === GameState.InGame) {
             this.updateCreeper();
         }else {
             console.log("not ingame");

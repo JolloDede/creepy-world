@@ -13,7 +13,7 @@ export default class UpdateBuildigns {
     }
 
     update = () => {
-        if (this.game.gameState == GameState.InGame) {
+        if (this.game.gameState === GameState.InGame) {
             this.updateBuildings();
         }else {
             console.log("not ingame");

@@ -1,4 +1,3 @@
-import { timeStamp } from "console";
 import Point from "../helper/Point";
 import Building from "./Building";
 import { Game } from "./Game";

@@ -10,7 +10,7 @@ export default class UpdateProjectiles {
     }
 
     update = () => {
-        if (this.game.gameState == GameState.InGame) {
+        if (this.game.gameState === GameState.InGame) {
             this.moveProjectiles();
         }else {
             console.log("not ingame");

@@ -3,6 +3,12 @@ import Point from "../helper/Point";
 import Building from "./Building";
 import { Game } from "./Game";
 
+
+export enum PacketType {
+    Health,
+    Energy
+}
+
 export default class Packet {
     pos: Point;
     speed: Point =  new Point(0, 0);
@@ -47,15 +53,15 @@ export default class Packet {
             this.pos.x = currentCenterTarget.x;
             this.pos.y = currentCenterTarget.y;
             // if the target is reached
-            if (this.currentTarget == this.target) {
+            if (this.currentTarget === this.target) {
                 this.remove = true;
                 // update the target building
-                if (this.type == PacketType.Health) {
+                if (this.type === PacketType.Health) {
                     this.target.health++;
                     this.target.healthRequests--;
                     if (this.target.health > this.target.maxHealth)
                         this.target.health = this.target.maxHealth;
-                }else if (this.type == PacketType.Energy) {
+                }else if (this.type === PacketType.Energy) {
                     this.target.energy++;
                     this.target.energyRequests--;
                     if (this.target.energy > this.target.maxEnergy)
@@ -66,9 +72,4 @@ export default class Packet {
             }
         }
     }
-}
-
-export enum PacketType {
-    Health,
-    Energy
 }

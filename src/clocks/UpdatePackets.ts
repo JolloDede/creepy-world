@@ -10,7 +10,7 @@ export default class UpdatePackets {
     }
 
     update = () => {
-        if (this.game.gameState == GameState.InGame) {
+        if (this.game.gameState === GameState.InGame) {
             this.movePackets();
         }else {
             console.log("not ingame");
