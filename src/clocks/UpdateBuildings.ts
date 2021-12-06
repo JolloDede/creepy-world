@@ -23,7 +23,7 @@ export default class UpdateBuildigns {
     updateBuildings = () => {
         for (let i = 0; i < this.game.buildings.length; i++) {
             const building = this.game.buildings[i];
-            if (building.connected) {
+            if (building.connected && building !== this.game.player) {
                 building.requestPacket();
             }
             if (building instanceof Collector) {

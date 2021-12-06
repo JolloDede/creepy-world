@@ -29,7 +29,7 @@ export default class Packet {
         this.game = game;
     }
 
-    calSpeed() {
+    calSpeed = () => {
         let currentTargetCenter = this.currentTarget?.getCenter()!;
         let delta = new Point(currentTargetCenter.x - this.pos.x, currentTargetCenter.y - this.pos.y);
         let dist = distance(this.pos, currentTargetCenter);
