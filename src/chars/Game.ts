@@ -70,6 +70,11 @@ export class Game {
 
     addBuilding(pos: Point, type: EBuilding) {
         let build: Building | null = null;
+        // buildings can be built
+        if (!this.buildingCanBePlaced(pos)) {
+            console.log("building cant be placed");
+            return;
+        }
         switch (type) {
             case EBuilding.Collector:
                 build = new Collector(pos, this);
@@ -93,6 +98,7 @@ export class Game {
         if (build instanceof Collector) {
             this.updateCollectionFields(build, UpdateAction.Add);
         }
+        console.log("new building has been placed at: "+pos.x+" "+pos.y);
     }
 
     removeBuilding = (building: Building) => {
@@ -289,6 +295,18 @@ export class Game {
             if (type === PacketType.Energy) target.energyRequests++;
             this.packetQueue.push(packet);
         }
+    }
+
+    buildingCanBePlaced(pos: Point): boolean {
+        for (let i = 0; i < this.buildings.length; i++) {
+            const building = this.buildings[i];
+            if (pos.x >= building.pos.x && pos.y >= building.pos.y) {
+                if (pos.x < building.pos.x + building.size && pos.y < building.pos.y + building.size) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     isPointEqual = (pointA: Point, pointB: Point) => {
