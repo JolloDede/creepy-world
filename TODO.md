@@ -64,6 +64,6 @@
 * [ ] Images dont get drawn i the right size
 * [ ] Paths between buildings are not the same color
 * [ ] Buildings can be placed on top of each other
-* [ ] Draw health and Energy under buildings
+* [X] Draw health and Energy under buildings
   * [X] health
-  * [ ] energy
+  * [X] energy

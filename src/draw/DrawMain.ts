@@ -104,6 +104,8 @@ export default class DrawMain {
         if (this.g === undefined) return;
         for (let i = 0; i < this.game.buildings.length; i++) {
             const building = this.game.buildings[i];
+            this.drawHealthBar(pixelWidth, pixelHeight, building);
+            this.drawEnergyBar(pixelWidth, pixelHeight, building);
             if (building instanceof Collector) {
                 this.g.drawImage(CollectorImg, building.pos.x * pixelWidth, building.pos.y * pixelHeight, building.size * pixelWidth, building.size * pixelHeight);
             } else if (building instanceof Blaster) {
@@ -115,17 +117,35 @@ export default class DrawMain {
             } else {
                 console.log("error cant draw this building");
             }
-            this.drawHealthBar(pixelWidth, pixelHeight, building);
         }
     }
 
     drawHealthBar = (pixelWidth: number, pixelHeight: number, build: Building) => {
         if (this.g === undefined) return;
         if (build.health < build.maxHealth) {
+            this.g.beginPath();
+            this.g.fillStyle = "black";
+            this.g.fillRect(build.pos.x * pixelWidth, build.pos.y * pixelHeight + pixelHeight * build.size - pixelHeight * build.size / 4, pixelWidth, pixelHeight / 3);
+
             let barWidth = pixelWidth * build.size / build.maxHealth * build.health;
             this.g.beginPath();
             this.g.fillStyle = "green";
             this.g.fillRect(build.pos.x * pixelWidth, build.pos.y * pixelHeight + pixelHeight * build.size - pixelHeight * build.size / 4, barWidth, pixelHeight / 3);
+        }
+    }
+
+    drawEnergyBar = (pixelWidth: number, pixelHeight: number, build: Building) => {
+        if (this.g === undefined) return;
+        if (build instanceof Player) return;
+        if (build.maxEnergy > 0) {
+            this.g.beginPath();
+            this.g.fillStyle = "black";
+            this.g.fillRect(build.pos.x * pixelWidth, build.pos.y * pixelHeight - pixelHeight / 4, pixelWidth, pixelHeight / 3);
+
+            let barWidth = pixelWidth * build.size / build.maxEnergy * build.energy;
+            this.g.beginPath();
+            this.g.fillStyle = "red";
+            this.g.fillRect(build.pos.x * pixelWidth, build.pos.y * pixelHeight - pixelHeight / 4, barWidth, pixelHeight / 3);
         }
     }
 
