@@ -65,10 +65,10 @@ export default class DrawMain {
         if (this.g === undefined) return;
         for (let i = 0; i < this.game.world.dimensions.x; i++) {
             for (let j = 0; j < this.game.world.dimensions.y; j++) {
-                // todo draws the lines
-                this.g.beginPath();
-                this.g.strokeStyle = "#FFFFFF";
-                this.g.strokeRect(pixelWidth * i, pixelHeight * j, pixelWidth, pixelHeight);
+                // todo draws the lines (remove)
+                // this.g.beginPath();
+                // this.g.strokeStyle = "#FFFFFF";
+                // this.g.strokeRect(pixelWidth * i, pixelHeight * j, pixelWidth, pixelHeight);
                 switch (this.game.world.tiles[i][j].height) {
                     case 0:
                         this.g.beginPath();
@@ -154,10 +154,10 @@ export default class DrawMain {
         for (let i = 0; i < this.game.connections.connections.length; i++) {
             const route = this.game.connections.connections[i];
             this.g.beginPath();
-            this.g.strokeStyle = "#354bea";
+            this.g.strokeStyle = "white";
             this.g.moveTo(route.a.x * pixelWidth, route.a.y * pixelHeight);
             this.g.lineTo(route.b.x * pixelWidth, route.b.y * pixelHeight);
-            this.g.lineWidth = 5;
+            this.g.lineWidth = 2;
             this.g.stroke();
         }
         this.g.lineWidth = 1;

@@ -62,7 +62,7 @@
 * [ ] Creepers dont rly spread as intended
 * [ ] Creepers dont get drawn right
 * [ ] Images dont get drawn in the right size (building size)
-* [ ] Paths between buildings are not the same color
+* [X] Paths between buildings are not the same color
 * [X] Buildings cant be placed on top of each other
 * [ ] Buildings are gosts when placed
 * [X] Draw health and Energy under buildings
