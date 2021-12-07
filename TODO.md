@@ -64,9 +64,9 @@
 * [ ] Images dont get drawn in the right size (building size)
 * [X] Paths between buildings are not the same color
 * [X] Buildings cant be placed on top of each other
-* [ ] Buildings are gosts when placed
+* [X] Buildings are gosts when placed
   * [X] Paths need to be made even when Things are Ghosts
-  * [ ] draw buildings as ghosts
+  * [X] draw buildings as ghosts
 * [X] Draw health and Energy under buildings
   * [X] health
   * [X] energy
