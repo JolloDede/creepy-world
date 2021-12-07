@@ -106,6 +106,9 @@ export default class DrawMain {
             const building = this.game.buildings[i];
             this.drawHealthBar(pixelWidth, pixelHeight, building);
             this.drawEnergyBar(pixelWidth, pixelHeight, building);
+            if (!building.built) {
+                this.g.filter = "grayscale(1)";
+            }
             if (building instanceof Collector) {
                 this.g.drawImage(CollectorImg, building.pos.x * pixelWidth, building.pos.y * pixelHeight, building.size * pixelWidth, building.size * pixelHeight);
             } else if (building instanceof Blaster) {
@@ -117,6 +120,7 @@ export default class DrawMain {
             } else {
                 console.log("error cant draw this building");
             }
+            this.g.filter = "grayscale(0)";
         }
     }
 

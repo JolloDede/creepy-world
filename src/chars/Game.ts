@@ -2,10 +2,10 @@ import { Emitter } from "./Emitter";
 import Player from "./Player";
 import World from "../helper/World";
 import CreeperUpdate from "../clocks/UpdateCreeper";
-import Building, { EBuilding } from "./Building";
+import Building from "./Building";
 import { Collector } from "./Collector";
 import Point, { pointIsInRange } from "../helper/Point";
-import { cloneArray, distance } from "../helper/Helper";
+import { cloneArray, distance, EBuilding, GameState, UpdateAction } from "../helper/Helper";
 import { Connection, Connections } from "../helper/Connection";
 import Blaster from "./Blaster";
 import Projectile from "./Projectile";
@@ -17,17 +17,6 @@ import Route from "../helper/Route";
 import UpdatepacketQueue from "../clocks/UpdatePacketQueue";
 import Stabilizer from "./Stabilizer";
 import { UpdateGameState } from "../clocks/UpdateGameState";
-
-export enum GameState {
-    InGame,
-    Won,
-    Lost
-}
-
-export enum UpdateAction {
-    Add,
-    Remove
-}
 
 export class Game {
     gameState: GameState;
@@ -52,7 +41,10 @@ export class Game {
         this.emitters.push(new Emitter(new Point(69, 0), this));
         // Buildings
         this.buildings.push(this.player);
+        // Collector is already built
         this.addBuilding(new Point(42, 29), EBuilding.Collector);
+        this.buildings[1].built = true;
+        this.buildings[1].health = this.buildings[1].maxHealth;
         this.addBuilding(new Point(9, 5), EBuilding.Stabilizer);
         this.addBuilding(new Point(37, 4), EBuilding.Stabilizer);
         this.addBuilding(new Point(59, 17), EBuilding.Stabilizer);
@@ -94,20 +86,15 @@ export class Game {
         if (build === null) return;
         this.buildings.push(build);
         this.updateConnections();
-        // only update when collector is placed
-        if (build instanceof Collector) {
-            this.updateCollectionFields(build, UpdateAction.Add);
-        }
-        console.log("new building has been placed at: "+pos.x+" "+pos.y);
+        console.log("new building has been placed at: " + pos.x + " " + pos.y);
     }
 
     removeBuilding = (building: Building) => {
-        // if building is built explode
 
         this.buildings = this.buildings.filter(build => build !== building);
-
+        // todo maybe not working
+        this.updateConnections();
         if (building instanceof Collector) {
-            this.updateConnections();
             if (building.built) {
                 this.updateCollectionFields(building, UpdateAction.Remove);
             }
@@ -123,7 +110,8 @@ export class Game {
         let neighbours: Building[] = [];
         for (let i = 0; i < this.buildings.length; i++) {
             if (!(node.pos.x === this.buildings[i].pos.x && node.pos.y === this.buildings[i].pos.y)) {
-                if (this.buildings[i] === target || this.buildings[i].built) {
+                // it must either be the target or be built or target undefined
+                if (this.buildings[i] === target || this.buildings[i].built || target === undefined) {
                     let buildingCenter = this.buildings[i].getCenter();
                     let nodeCenter = node.getCenter();
                     let dist = distance(nodeCenter, buildingCenter);

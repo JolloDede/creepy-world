@@ -1,6 +1,7 @@
-import { distance } from "../helper/Helper";
+import { distance, UpdateAction } from "../helper/Helper";
 import Point from "../helper/Point";
 import Building from "./Building";
+import { Collector } from "./Collector";
 import { Game } from "./Game";
 
 
@@ -43,7 +44,7 @@ export default class Packet {
             this.speed.y = delta.y;
     }
 
-    move() {
+    move = () => {
         this.calSpeed();
         this.pos.x += this.speed.x;
         this.pos.y += this.speed.y;
@@ -59,8 +60,15 @@ export default class Packet {
                 if (this.type === PacketType.Health) {
                     this.target.health++;
                     this.target.healthRequests--;
-                    if (this.target.health > this.target.maxHealth)
+                    if (this.target.health >= this.target.maxHealth) {
                         this.target.health = this.target.maxHealth;
+                        if (!this.target.built) {
+                            this.target.built = true;
+                            if (this.target instanceof Collector) {
+                                this.game.updateCollectionFields(this.target, UpdateAction.Add);
+                            }
+                        }
+                    }
                 }else if (this.type === PacketType.Energy) {
                     this.target.energy++;
                     this.target.energyRequests--;

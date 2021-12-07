@@ -16,3 +16,20 @@ export function cloneArray(list: any) {
     }
     return newList;
 }
+
+export enum UpdateAction {
+    Add,
+    Remove
+}
+
+export enum GameState {
+    InGame,
+    Won,
+    Lost
+}
+
+export enum EBuilding {
+    Collector,
+    Blaster,
+    Stabilizer
+}

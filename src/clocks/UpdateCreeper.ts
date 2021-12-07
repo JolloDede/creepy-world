@@ -1,5 +1,7 @@
-import { Game, GameState } from "../chars/Game";
+import { Game } from "../chars/Game";
 import Tile from "../helper/Tile";
+import { GameState } from "../helper/Helper";
+
 
 export default class CreeperUpdate {
     game: Game;

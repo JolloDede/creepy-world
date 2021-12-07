@@ -1,5 +1,5 @@
-import { EBuilding } from "../chars/Building";
 import { Game } from "../chars/Game";
+import { EBuilding } from "../helper/Helper";
 import Point from "../helper/Point";
 
 export enum Curserstate {

@@ -21,9 +21,6 @@ export default class Building {
         this.health = 0;
         this.energy = 0;
 
-        // todo needs to be entfernt for having gosts
-        this.built = true;
-
         this.game = game;
     }
 
@@ -57,10 +54,4 @@ export default class Building {
             this.game.removeBuilding(this);
         }
     }
-}
-
-export enum EBuilding {
-    Collector,
-    Blaster,
-    Stabilizer
 }

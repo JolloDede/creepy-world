@@ -1,5 +1,6 @@
-import { Game, GameState } from "../chars/Game";
+import { Game } from "../chars/Game";
 import Stabilizer from "../chars/Stabilizer";
+import { GameState } from "../helper/Helper";
 
 export class UpdateGameState {
     game: Game;

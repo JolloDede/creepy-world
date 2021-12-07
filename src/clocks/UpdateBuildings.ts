@@ -1,7 +1,8 @@
 import Blaster from "../chars/Blaster";
 import { Collector } from "../chars/Collector";
-import { Game, GameState } from "../chars/Game";
+import { Game } from "../chars/Game";
 import Stabilizer from "../chars/Stabilizer";
+import { GameState } from "../helper/Helper";
 
 export default class UpdateBuildigns {
     game: Game;

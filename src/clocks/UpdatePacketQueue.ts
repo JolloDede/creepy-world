@@ -1,4 +1,5 @@
-import { Game, GameState } from "../chars/Game";
+import { Game } from "../chars/Game";
+import { GameState } from "../helper/Helper";
 
 export default class UpdatepacketQueue {
     game: Game;
