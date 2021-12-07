@@ -70,3 +70,4 @@
 * [X] Draw health and Energy under buildings
   * [X] health
   * [X] energy
+* [X] my path algorithm doesnt work properly

@@ -29,7 +29,7 @@ export default class UpdateProjectiles {
         }
         // remove projectiles todo maybe doesnt work
         for (let i = 0; i < removeId.length; i++) {
-            this.game.projectiles.splice(removeId[i]);
+            this.game.projectiles.splice(removeId[i], 1);
         }
     }
 }

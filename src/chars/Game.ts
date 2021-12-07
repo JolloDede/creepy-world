@@ -182,7 +182,7 @@ export class Game {
 
                     // get remianing distance
                     let centerC = packet.target.getCenter();
-                    newRoute.distanceRemaining = distance(centerA, centerC);
+                    newRoute.distanceRemaining = distance(centerC, centerA);
                     routes.push(newRoute);
                 }
             }
@@ -190,11 +190,13 @@ export class Game {
             // find routes that end at the same node, remove those with the longer distance travelled
             for (let i = 0; i < routes.length; i++) {
                 for (let j = 0; j < routes.length; j++) {
-                    if (routes[i].nodes[routes[i].nodes.length - 1] === routes[j].nodes[routes[j].nodes.length - 1]) {
-                        if (routes[i].distanceTravelled < routes[j].distanceTravelled) {
-                            routes[j].remove = true;
-                        } else if (routes[i].distanceTravelled > routes[j].distanceTravelled) {
-                            routes[i].remove = true;
+                    if (i !== j) {
+                        if (routes[i].nodes[routes[i].nodes.length - 1] === routes[j].nodes[routes[j].nodes.length - 1]) {
+                            if (routes[i].distanceTravelled < routes[j].distanceTravelled) {
+                                routes[j].remove = true;
+                            } else if (routes[i].distanceTravelled > routes[j].distanceTravelled) {
+                                routes[i].remove = true;
+                            }
                         }
                     }
                 }
@@ -203,7 +205,7 @@ export class Game {
             // remove the routes
             for (let i = 0; i < routes.length; i++) {
                 if (routes[i].remove) {
-                    routes.splice(i);
+                    routes.splice(i, 1);
                 }
             }
 
