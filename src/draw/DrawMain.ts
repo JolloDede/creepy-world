@@ -127,14 +127,16 @@ export default class DrawMain {
     drawHealthBar = (pixelWidth: number, pixelHeight: number, build: Building) => {
         if (this.g === undefined) return;
         if (build.health < build.maxHealth) {
+            let barPosY = build.pos.y * pixelHeight + pixelHeight * build.size;
+
             this.g.beginPath();
             this.g.fillStyle = "black";
-            this.g.fillRect(build.pos.x * pixelWidth, build.pos.y * pixelHeight + pixelHeight * build.size - pixelHeight * build.size / 4, pixelWidth, pixelHeight / 3);
+            this.g.fillRect(build.pos.x * pixelWidth, barPosY, pixelWidth, pixelHeight / 3);
 
             let barWidth = pixelWidth * build.size / build.maxHealth * build.health;
             this.g.beginPath();
             this.g.fillStyle = "green";
-            this.g.fillRect(build.pos.x * pixelWidth, build.pos.y * pixelHeight + pixelHeight * build.size - pixelHeight * build.size / 4, barWidth, pixelHeight / 3);
+            this.g.fillRect(build.pos.x * pixelWidth, barPosY, barWidth, pixelHeight / 3);
         }
     }
 
