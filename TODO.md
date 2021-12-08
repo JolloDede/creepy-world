@@ -61,7 +61,7 @@
 #### Problems
 * [ ] Creepers dont rly spread as intended
 * [ ] Creepers dont get drawn right
-* [ ] Images dont get drawn in the right size (building size)
+* [X] Images dont get drawn in the right size (building size)
 * [X] Paths between buildings are not the same color
 * [X] Buildings cant be placed on top of each other
 * [X] Buildings are gosts when placed

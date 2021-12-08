@@ -134,6 +134,9 @@ export class Game {
         for (let i = 0; i < neighbours.length; i++) {
             const building = neighbours[i];
             building.connected = true;
+            if (building instanceof Collector && building.built) {
+                this.updateCollectionFields(building, UpdateAction.Add); 
+            }
         }
     }
 
