@@ -11,6 +11,7 @@ import Blaster from "../chars/Blaster";
 import { PacketType } from "../chars/Packet";
 import Stabilizer from "../chars/Stabilizer";
 import Building from "../chars/Building";
+import Point from "../helper/Point";
 
 const PlayerImg = new Image();
 PlayerImg.src = PlayerPath;
@@ -65,10 +66,6 @@ export default class DrawMain {
         if (this.g === undefined) return;
         for (let i = 0; i < this.game.world.dimensions.x; i++) {
             for (let j = 0; j < this.game.world.dimensions.y; j++) {
-                // todo draws the lines (remove)
-                // this.g.beginPath();
-                // this.g.strokeStyle = "#FFFFFF";
-                // this.g.strokeRect(pixelWidth * i, pixelHeight * j, pixelWidth, pixelHeight);
                 switch (this.game.world.tiles[i][j].height) {
                     case 0:
                         this.g.beginPath();
@@ -96,7 +93,35 @@ export default class DrawMain {
                     this.g.fillStyle = "rgba(124,252,0, 0.2)";
                     this.g.fillRect(pixelWidth * i, pixelHeight * j, pixelWidth, pixelHeight);
                 }
+                this.drawShadows(pixelWidth, pixelHeight, new Point(i, j));
             }
+        }
+    }
+
+    drawShadows = (pixelWidth: number, pixelHeight: number, pos: Point) => {
+        if (this.g === undefined) return;
+        let height = this.game.world.tiles[pos.x][pos.y].height;
+        this.g.beginPath();
+        // this.g.lineWidth = 0;
+        if (this.game.world.withinWorld(pos.x + 1, pos.y) && height > this.game.world.tiles[pos.x + 1][pos.y].height) {
+            this.g.moveTo((pos.x + 1) * pixelWidth, pos.y * pixelHeight);
+            this.g.lineTo((pos.x + 1) * pixelWidth, pos.y * pixelHeight + pixelHeight);
+            this.g.stroke();
+        }
+        if (this.game.world.withinWorld(pos.x - 1, pos.y) && height > this.game.world.tiles[pos.x - 1][pos.y].height) {
+            this.g.moveTo(pos.x * pixelWidth - 1, pos.y * pixelHeight);
+            this.g.lineTo(pos.x * pixelWidth - 1, pos.y * pixelHeight + pixelHeight);
+            this.g.stroke();
+        }
+        if (this.game.world.withinWorld(pos.x, pos.y + 1) && height > this.game.world.tiles[pos.x][pos.y + 1].height) {
+            this.g.moveTo(pos.x * pixelWidth, (pos.y + 1) * pixelHeight);
+            this.g.lineTo(pos.x * pixelWidth + pixelWidth, (pos.y + 1) * pixelHeight);
+            this.g.stroke();
+        }
+        if (this.game.world.withinWorld(pos.x, pos.y - 1) && height > this.game.world.tiles[pos.x][pos.y - 1].height) {
+            this.g.moveTo(pos.x * pixelWidth, pos.y * pixelHeight - 1);
+            this.g.lineTo(pos.x * pixelWidth + pixelWidth, pos.y * pixelHeight - 1);
+            this.g.stroke();
         }
     }
 

@@ -59,8 +59,8 @@
     * [X] damage buildings
 
 #### Problems
-* [ ] Creepers dont rly spread as intended
-* [ ] Creepers dont get drawn right
+* [X] Creepers dont rly spread as intended
+* [X] Creepers dont get drawn right
 * [X] Images dont get drawn in the right size (building size)
 * [X] Paths between buildings are not the same color
 * [X] Buildings cant be placed on top of each other
@@ -71,3 +71,4 @@
   * [X] health
   * [X] energy
 * [X] my path algorithm doesnt work properly
+* [X] shadows from the terrain
