@@ -39,6 +39,8 @@ export class Game {
         this.emitters.push(new Emitter(new Point(17, 0), this));
         this.emitters.push(new Emitter(new Point(35, 0), this));
         this.emitters.push(new Emitter(new Point(69, 0), this));
+        // todo remove
+        this.emitters.push(new Emitter(new Point(12, 31), this));
         // Buildings
         this.buildings.push(this.player);
         // Collector is already built

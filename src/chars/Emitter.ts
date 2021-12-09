@@ -13,6 +13,6 @@ export class Emitter {
     }
 
     spawnCreeper = () => {
-        this.game.world.tiles[this.pos.x][this.pos.y].creep = this.strength;
+        this.game.world.tiles[this.pos.x][this.pos.y].creep += this.strength;
     }
 }

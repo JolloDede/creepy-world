@@ -26,7 +26,7 @@ export default class CreeperUpdate {
 
     updateCreeper = () => {
         this.emitterCounter++;
-        if (this.emitterCounter >= 25) {
+        if (this.emitterCounter >= 20) {
             this.spawnInCreeper();
             this.emitterCounter = 0;
         }
@@ -38,8 +38,8 @@ export default class CreeperUpdate {
         }
 
         this.creeperCounter++;
-        if (this.creeperCounter > 25) {
-            this.creeperCounter -= 25;
+        if (this.creeperCounter > 20) {
+            this.creeperCounter -= 20;
             for (let i = 0; i < this.game.world.dimensions.x; i++) {
                 for (let j = 0; j < this.game.world.dimensions.y; j++) {
                     // right side neighbor
