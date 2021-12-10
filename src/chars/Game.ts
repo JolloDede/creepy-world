@@ -39,8 +39,6 @@ export class Game {
         this.emitters.push(new Emitter(new Point(17, 0), this));
         this.emitters.push(new Emitter(new Point(35, 0), this));
         this.emitters.push(new Emitter(new Point(69, 0), this));
-        // todo remove
-        this.emitters.push(new Emitter(new Point(12, 31), this));
         // Buildings
         this.buildings.push(this.player);
         // Collector is already built
@@ -92,9 +90,7 @@ export class Game {
     }
 
     removeBuilding = (building: Building) => {
-
         this.buildings = this.buildings.filter(build => build !== building);
-        // todo maybe not working
         this.updateConnections();
         if (building instanceof Collector) {
             if (building.built) {
@@ -107,7 +103,6 @@ export class Game {
         this.packetQueue = this.packetQueue.filter(packet => packet.target === building);
     }
 
-    // todo test this function
     getNeighbourBuildings(node: Building, target?: Building): Building[] {
         let neighbours: Building[] = [];
         for (let i = 0; i < this.buildings.length; i++) {
@@ -231,7 +226,6 @@ export class Game {
                 packet.target.healthRequests--;
                 if (packet.target.healthRequests < 0) packet.target.healthRequests = 0;
             }
-            console.log("remove here");
             packet.remove = true;
         }
     }

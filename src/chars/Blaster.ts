@@ -10,8 +10,6 @@ export default class Blaster extends Building {
     constructor(pos: Point, game: Game) {
         super(pos, game);
         this.maxHealth = 5;
-        // todo remove
-        this.health = 5;
         this.size = 1;
         this.maxEnergy = 20;
         this.weaponRadius = 8;
