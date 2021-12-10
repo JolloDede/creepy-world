@@ -102,7 +102,7 @@ export default class DrawMain {
         if (this.g === undefined) return;
         let height = this.game.world.tiles[pos.x][pos.y].height;
         this.g.beginPath();
-        // this.g.lineWidth = 0;
+        this.g.strokeStyle = "black";
         if (this.game.world.withinWorld(pos.x + 1, pos.y) && height > this.game.world.tiles[pos.x + 1][pos.y].height) {
             this.g.moveTo((pos.x + 1) * pixelWidth, pos.y * pixelHeight);
             this.g.lineTo((pos.x + 1) * pixelWidth, pos.y * pixelHeight + pixelHeight);

@@ -72,3 +72,4 @@
   * [X] energy
 * [X] my path algorithm doesnt work properly
 * [X] shadows from the terrain
+* [ ] Arrays get changed at the same time and errors occure
