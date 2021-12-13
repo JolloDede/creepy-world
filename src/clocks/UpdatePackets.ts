@@ -25,19 +25,6 @@ export default class UpdatePackets {
             }else {
                 packet.move();
             }
-        })
-        // let delIndex: number[] = [];
-        // for (let i = 0; i < this.game.packets.length; i++) {
-        //     const packet = this.game.packets[i];
-        //     if (packet.remove) {
-        //         delIndex.push(i);
-        //     }else {
-        //         packet.move();
-        //     }
-        // }
-
-        // for (let i = 0; i < delIndex.length; i++) {
-        //     this.game.packets.splice(delIndex[i], 1);
-        // }
+        });
     }
 }
