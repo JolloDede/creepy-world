@@ -1,0 +1,57 @@
+import Point from "../helper/Point";
+import { Game } from "./Game";
+import { PacketType } from "./Packet";
+
+export default class Building {
+    pos: Point;
+    size: number = 0;
+    health: number;
+    built: boolean = false;
+    maxHealth: number = 0;
+    energy: number;
+    maxEnergy: number = 0;
+    healthRequests: number = 0;
+    energyRequests: number = 0;
+    connected: boolean = false;
+
+    game: Game;
+
+    constructor(pos: Point, game: Game) {
+        this.pos = pos;
+        this.health = 0;
+        this.energy = 0;
+
+        this.game = game;
+    }
+
+    getCenter = () => {
+        return new Point(this.pos.x + (this.size / 2), this.pos.y + (this.size / 2));
+    }
+
+    requestPacket = () => {
+        let healthDelta = this.maxHealth - this.health - this.healthRequests;
+        if (healthDelta > 0) {
+            this.game.queuePacket(this, PacketType.Health);
+        }
+        if (this.built) {
+            let energyDelta = this.maxEnergy - this.energy - this.energyRequests;
+            if (energyDelta > 0) {
+                this.game.queuePacket(this, PacketType.Energy);
+            }
+        }
+    }
+
+    takeDamage = () => {
+        for (let i = 0; i < this.size; i++) {
+            for (let j = 0; j < this.size; j++) {
+                if (this.game.world.tiles[this.pos.x + i][this.pos.y + j].creep > 0) {
+                    this.health -= this.game.world.tiles[this.pos.x + i][this.pos.y + j].creep / 10;
+                }
+            }       
+        }
+
+        if (this.health < 0) {
+            this.game.removeBuilding(this);
+        }
+    }
+}
