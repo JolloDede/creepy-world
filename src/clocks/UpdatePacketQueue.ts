@@ -24,7 +24,7 @@ export default class UpdatepacketQueue {
                 this.game.player.energy--;
                 let packet = this.game.packetQueue.shift();
                 if (packet !== undefined) {
-                    this.game.packets.push(packet);
+                    this.game.packets.add(packet);
                 }
             }
         }

@@ -262,8 +262,7 @@ export default class DrawMain {
 
     drawPackets(pixelWidth: number, pixelHeight: number) {
         if (this.g === undefined) return;
-        for (let i = 0; i < this.game.packets.length; i++) {
-            const packet = this.game.packets[i];
+        for (let packet of this.game.packets) {
             this.g.beginPath();
             switch (packet.type) {
                 case PacketType.Health:

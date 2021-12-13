@@ -26,7 +26,7 @@ export class Game {
     world: World;
     connections: Connections = new Connections();
     projectiles: Projectile[] = [];
-    packets: Packet[] = [];
+    packets = new Set<Packet>();
     packetQueue: Packet[] = [];
     stabilizer: Stabilizer[] = [];
 
@@ -98,8 +98,11 @@ export class Game {
             }
         }
 
-        // remove all the Packets of this building
-        this.packets = this.packets.filter(packet => packet.target === building);
+        this.packets.forEach(packet => {
+            if (packet.target === building) {
+                this.packets.delete(packet);
+            }
+        });
         this.packetQueue = this.packetQueue.filter(packet => packet.target === building);
     }
 
