@@ -19,18 +19,25 @@ export default class UpdatePackets {
     }
 
     movePackets = () => {
-        let delIndex: number[] = [];
-        for (let i = 0; i < this.game.packets.length; i++) {
-            const packet = this.game.packets[i];
+        this.game.packets.forEach(packet => {
             if (packet.remove) {
-                delIndex.push(i);
+                this.game.packets.delete(packet);
             }else {
                 packet.move();
             }
-        }
+        })
+        // let delIndex: number[] = [];
+        // for (let i = 0; i < this.game.packets.length; i++) {
+        //     const packet = this.game.packets[i];
+        //     if (packet.remove) {
+        //         delIndex.push(i);
+        //     }else {
+        //         packet.move();
+        //     }
+        // }
 
-        for (let i = 0; i < delIndex.length; i++) {
-            this.game.packets.splice(delIndex[i], 1);
-        }
+        // for (let i = 0; i < delIndex.length; i++) {
+        //     this.game.packets.splice(delIndex[i], 1);
+        // }
     }
 }
