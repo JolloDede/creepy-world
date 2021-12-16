@@ -35,9 +35,11 @@ export class Collector extends Building {
             }
         }
         if (this.collectedEnergy >= 100) {
+            let newEnergy = this.game.player.energy + 1;
             this.collectedEnergy -= 100;
-            this.game.player.energy += 1;
-            if (this.game.player.energy > this.game.player.maxEnergy) this.game.player.energy = this.game.player.maxEnergy;
+            if (newEnergy > this.game.player.maxEnergy) 
+                newEnergy = this.game.player.maxEnergy;
+            this.game.player.energy = newEnergy;
         }
     }
 }
