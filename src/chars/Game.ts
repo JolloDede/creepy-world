@@ -103,7 +103,7 @@ export class Game {
                 this.packets.delete(packet);
             }
         });
-        this.packetQueue = this.packetQueue.filter(packet => packet.target === building);
+        this.packetQueue = this.packetQueue.filter(packet => packet.target !== building);
     }
 
     getNeighbourBuildings(node: Building, target?: Building): Building[] {
@@ -128,6 +128,7 @@ export class Game {
 
     updateConnections() {
         let neighbours: Building[] = [];
+        this.connections.clear();
         this.getAllConnections(this.player, neighbours);
 
         // set the connected buildings to connected

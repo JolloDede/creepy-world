@@ -34,4 +34,8 @@ export class Connections {
             this.connections.push(newConnection);
         }
     }
+
+    clear = () => {
+        this.connections = [];
+    }
 }
