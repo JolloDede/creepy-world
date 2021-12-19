@@ -10,12 +10,29 @@ export enum Curserstate {
 
 export class OnClickHandler {
     curserState: Curserstate;
+    game: Game
 
-    constructor() {
+    constructor(game: Game) {
         this.curserState = Curserstate.Null;
+        this.game = game;
+        document.getElementById("canvas")?.addEventListener("click", this.click);
+        document.getElementById("collector")?.addEventListener("click", this.handleCollectorClick);
+        document.getElementById("blaster")?.addEventListener("click", this.handleBlasterClick);
     }
 
-    canvasClick(x: number, y: number, game: Game) {
+    click = (e: MouseEvent) => {
+        // todo maybe not calculating right
+        let canvas = document.getElementById("canvas");
+        let tileWidth = canvas!.clientWidth / this.game.world.dimensions.x;
+        let tileHeight = canvas!.clientHeight / this.game.world.dimensions.y;
+
+        let x = Math.floor((e.clientX - canvas!.offsetLeft) / tileWidth);
+        let y = Math.floor((e.clientY - canvas!.offsetTop) / tileHeight);
+
+        this.canvasClick(x, y);
+    }
+
+    canvasClick(x: number, y: number) {
         switch (this.curserState) {
             case Curserstate.Null:
                 // here things that are on the canvas get handeld
@@ -24,18 +41,26 @@ export class OnClickHandler {
 
             case Curserstate.Collector:
                 console.log("Try to place a Collector at " + x + " " + y);
-                game.addBuilding(new Point(x, y), EBuilding.Collector);
+                this.game.addBuilding(new Point(x, y), EBuilding.Collector);
                 break;
 
             case Curserstate.Blaster:
                 console.log("Try to place a Blaster");
-                game.addBuilding(new Point(x, y), EBuilding.Blaster);
+                this.game.addBuilding(new Point(x, y), EBuilding.Blaster);
                 break;
 
             default:
                 break;
         }
         this.curserState = Curserstate.Null;
+    }
+
+    handleCollectorClick = () => {
+        this.changeCurser(Curserstate.Collector);
+    }
+
+    handleBlasterClick = () => {
+        this.changeCurser(Curserstate.Blaster);
     }
 
     changeCurser(newCurser: Curserstate) {

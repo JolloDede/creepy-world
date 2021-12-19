@@ -1,9 +1,3 @@
-import PlayerPath from "../img/Player.png";
-import CollectorPath from "../img/Collector.png";
-import EmitterPath from "../img/Emitter.png";
-import CreeperPath from "../img/Creeper.png";
-import BlasterPath from "../img/Blaster.png";
-import StabilizerPath from "../img/Stabilizer.png";
 import { Game } from "../chars/Game";
 import { Collector } from "../chars/Collector";
 import Player from "../chars/Player";
@@ -14,22 +8,22 @@ import Building from "../chars/Building";
 import Point from "../helper/Point";
 
 const PlayerImg = new Image();
-PlayerImg.src = PlayerPath;
+PlayerImg.src = "../img/Player.png";
 
 const CollectorImg = new Image();
-CollectorImg.src = CollectorPath;
+CollectorImg.src = "../img/Collector.png";
 
 const EmitterImg = new Image();
-EmitterImg.src = EmitterPath;
+EmitterImg.src = "../img/Emitter.png";
 
 const CreeperImg = new Image();
-CreeperImg.src = CreeperPath;
+CreeperImg.src = "../img/Creeper.png";
 
 const BlasterImg = new Image();
-BlasterImg.src = BlasterPath;
+BlasterImg.src = "../img/Blaster.png";
 
 const StabilizerImg = new Image();
-StabilizerImg.src = StabilizerPath;
+StabilizerImg.src = "../img/Stabilizer.png";
 
 const emitterSize = 1;
 
@@ -37,17 +31,16 @@ export default class DrawMain {
     width: number;
     height: number;
     game: Game;
-    g: CanvasRenderingContext2D | undefined;
+    g: CanvasRenderingContext2D;
 
-    constructor(game: Game) {
+    constructor(game: Game, ctx: CanvasRenderingContext2D) {
         this.width = 0;
         this.height = 0;
         this.game = game;
+        this.g = ctx;
     }
 
     render() {
-        if (this.g === undefined) return;
-
         let pixelWidth = (this.width / this.game.world.dimensions.x);
         let pixelHeight = (this.height / this.game.world.dimensions.y);
 
@@ -63,24 +56,20 @@ export default class DrawMain {
     }
 
     drawTerain(pixelWidth: number, pixelHeight: number) {
-        if (this.g === undefined) return;
         for (let i = 0; i < this.game.world.dimensions.x; i++) {
             for (let j = 0; j < this.game.world.dimensions.y; j++) {
                 switch (this.game.world.tiles[i][j].height) {
                     case 0:
-                        this.g.beginPath();
                         this.g.fillStyle = "#bba6a5";
                         this.g.fillRect(pixelWidth * i, pixelHeight * j, pixelWidth, pixelHeight);
                         break;
 
                     case 1:
-                        this.g.beginPath();
                         this.g.fillStyle = "#95897e";
                         this.g.fillRect(pixelWidth * i, pixelHeight * j, pixelWidth, pixelHeight);
                         break;
 
                     case 2:
-                        this.g.beginPath();
                         this.g.fillStyle = "#7c6d68";
                         this.g.fillRect(pixelWidth * i, pixelHeight * j, pixelWidth, pixelHeight);
                         break;
@@ -102,27 +91,25 @@ export default class DrawMain {
         if (this.g === undefined) return;
         let height = this.game.world.tiles[pos.x][pos.y].height;
         this.g.beginPath();
+        this.g.lineWidth = 1;
         this.g.strokeStyle = "black";
         if (this.game.world.withinWorld(pos.x + 1, pos.y) && height > this.game.world.tiles[pos.x + 1][pos.y].height) {
             this.g.moveTo((pos.x + 1) * pixelWidth, pos.y * pixelHeight);
             this.g.lineTo((pos.x + 1) * pixelWidth, pos.y * pixelHeight + pixelHeight);
-            this.g.stroke();
         }
         if (this.game.world.withinWorld(pos.x - 1, pos.y) && height > this.game.world.tiles[pos.x - 1][pos.y].height) {
             this.g.moveTo(pos.x * pixelWidth - 1, pos.y * pixelHeight);
             this.g.lineTo(pos.x * pixelWidth - 1, pos.y * pixelHeight + pixelHeight);
-            this.g.stroke();
         }
         if (this.game.world.withinWorld(pos.x, pos.y + 1) && height > this.game.world.tiles[pos.x][pos.y + 1].height) {
             this.g.moveTo(pos.x * pixelWidth, (pos.y + 1) * pixelHeight);
             this.g.lineTo(pos.x * pixelWidth + pixelWidth, (pos.y + 1) * pixelHeight);
-            this.g.stroke();
         }
         if (this.game.world.withinWorld(pos.x, pos.y - 1) && height > this.game.world.tiles[pos.x][pos.y - 1].height) {
             this.g.moveTo(pos.x * pixelWidth, pos.y * pixelHeight - 1);
             this.g.lineTo(pos.x * pixelWidth + pixelWidth, pos.y * pixelHeight - 1);
-            this.g.stroke();
         }
+        this.g.stroke();
     }
 
     drawBuildings = (pixelWidth: number, pixelHeight: number) => {
@@ -284,9 +271,5 @@ export default class DrawMain {
     setWidthHeight(width: number, height: number) {
         this.width = width;
         this.height = height;
-    }
-
-    setRenderContext(g: CanvasRenderingContext2D) {
-        this.g = g;
     }
 }
