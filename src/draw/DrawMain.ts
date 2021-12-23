@@ -7,6 +7,14 @@ import Stabilizer from "../chars/Stabilizer";
 import Building from "../chars/Building";
 import Point from "../helper/Point";
 
+// only that the img get packed with webpack
+const PlayerSrc = require("../img/Player.png");
+const CollecotrSrc = require("../img/Collector.png");
+const EmitterSrc = require("../img/Emitter.png");
+const CreeperSrc = require("../img/Creeper.png");
+const BlasterSrc = require("../img/Blaster.png");
+const StabilizerSrc = require("../img/Stabilizer.png");
+
 const PlayerImg = new Image();
 PlayerImg.src = "../img/Player.png";
 
