@@ -24,6 +24,7 @@ export enum UpdateAction {
 
 export enum GameState {
     InGame,
+    Pause,
     Won,
     Lost
 }
