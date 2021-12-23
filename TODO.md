@@ -5,15 +5,12 @@
 * [ ] GUI
   * [X] Canvas
   * [ ] Buttons
-    * [ ] Buildings
+    * [X] Buildings
       * [X] Collector
       * [X] Blaster
-    * [ ] Game States
-      * [ ] Play
-      * [ ] Sound
-      * [ ] Music
+    * [X] Game States
+      * [X] Play
     * [ ] other
-      * [ ] Options
       * [ ] Help
       * [ ] Exit Game
 
