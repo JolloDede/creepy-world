@@ -32,7 +32,7 @@
   * [X] Player
     * [X] Energy
     * [X] Position
-  * [ ] Buildings
+  * [X] Buildings
     * [X] get destroyed
       * [X] remove
     * [X] Position
