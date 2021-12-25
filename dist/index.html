@@ -68,14 +68,72 @@
         </div>
         <div class="col-8">
           <!-- <button class="w-100 bg-warning text-white">Options</button> -->
-          <button class="w-100 bg-success text-white">Help</button>
+          <button class="w-100 bg-success text-white" data-bs-toggle="modal" data-bs-target="#help-modal">Help</button>
           <button class="w-100 bg-danger text-white">Exit Game</button>
         </div>
       </div>
     </div>
+
+    <div class="modal fade" id="help-modal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div>
+              <h1 class="modal-title">Help</h1>
+              <p>Structures like a Collector can be selected and placed by first clicking on the Collector button and then
+                clicking on the Canvas where you whant to place it. If Strucutres get placed near the Player the get
+                connected and and can then be built by the packages the Player sends.</p>
+            </div>
+            <hr>
+            <div>
+              <img src="img/Player.png" alt="Player" class="float-start">
+              <h1>Player</h1>
+              <p>The Player distributes with the use of Energy packtes to the Structures. If the Player has no more
+                Health the game is lost.</p>
+            </div>
+            <hr>
+            <div>
+              <img src="img/Stabilizer.png" alt="Stabilizer" class="float-start">
+              <h1>Stabilizer</h1>
+              <p>The Stabilizer is the wincon. If the Stabilizer get their health fully filled up the game is won.</p>
+            </div>
+          </div>
+          <hr>
+          <div>
+            <img src="img/Collector.png" alt="Collector" class="float-start">
+            <h1>Collector</h1>
+            <p>The Collector collects Energy and gives that to the Player. The green fields around the Collector are
+              collectionareas.</p>
+          </div>
+          <hr>
+          <div>
+            <img src="img/Blaster.png" alt="Blaster" class="float-start">
+            <h1>Blaster</h1>
+            <p>The Blaster has Energy and Health and can shoots at Creepers in its range.</p>
+          </div>
+          <hr>
+          <div>
+            <img src="img/Emitter.png" alt="Emitter" class="float-start">
+            <h1>Emitter</h1>
+            <p>The Emitter emitts Creepers that spread and try to take over the world. An Emitter can't be destoyed.</p>
+          </div>
+          <hr>
+          <div>
+            <img src="img/Creeper.png" alt="Creeper" class="float-start">
+            <h1>Creeper</h1>
+            <p>The Creeper can destroy Structures and can make you lose the game if the Player has lost all its Health.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   </div>
 
   <script src="bundle.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
 </body>
 
 </html>

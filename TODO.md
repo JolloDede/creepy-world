@@ -11,7 +11,7 @@
     * [X] Game States
       * [X] Play
     * [ ] other
-      * [ ] Help
+      * [X] Help
       * [ ] Exit Game
 
 #### Draw
@@ -24,7 +24,7 @@
   * [X] Draw Packets
 
 #### Logic
-* [ ] Game Logic
+* [X] Game Logic
   * [X] World
     * [X] Tiles
     * [X] CollectorFields
