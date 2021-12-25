@@ -2,20 +2,17 @@
 ## Steps
 ### Step 1
 #### Gui
-* [ ] GUI
+* [X] GUI
   * [X] Canvas
-  * [ ] Buttons
-    * [ ] Buildings
+  * [X] Buttons
+    * [X] Buildings
       * [X] Collector
       * [X] Blaster
-    * [ ] Game States
-      * [ ] Play
-      * [ ] Sound
-      * [ ] Music
-    * [ ] other
-      * [ ] Options
-      * [ ] Help
-      * [ ] Exit Game
+    * [X] Game States
+      * [X] Play
+    * [X] other
+      * [X] Help
+      * [X] Exit Game
 
 #### Draw
 * [X] Canvas Draw
@@ -27,7 +24,7 @@
   * [X] Draw Packets
 
 #### Logic
-* [ ] Game Logic
+* [X] Game Logic
   * [X] World
     * [X] Tiles
     * [X] CollectorFields

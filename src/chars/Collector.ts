@@ -39,7 +39,7 @@ export class Collector extends Building {
             this.collectedEnergy -= 100;
             if (newEnergy > this.game.player.maxEnergy) 
                 newEnergy = this.game.player.maxEnergy;
-            this.game.player.energy = newEnergy;
+            this.game.player.setEnergy(newEnergy);
         }
     }
 }
