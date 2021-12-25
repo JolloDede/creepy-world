@@ -2,17 +2,17 @@
 ## Steps
 ### Step 1
 #### Gui
-* [ ] GUI
+* [X] GUI
   * [X] Canvas
-  * [ ] Buttons
+  * [X] Buttons
     * [X] Buildings
       * [X] Collector
       * [X] Blaster
     * [X] Game States
       * [X] Play
-    * [ ] other
+    * [X] other
       * [X] Help
-      * [ ] Exit Game
+      * [X] Exit Game
 
 #### Draw
 * [X] Canvas Draw
