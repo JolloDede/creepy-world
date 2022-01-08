@@ -13,6 +13,7 @@ export default class Blaster extends Building {
         this.size = 1;
         this.maxEnergy = 20;
         this.weaponRadius = 8;
+        this.canMove = true;
     }
 
     update = () => {

@@ -34,3 +34,8 @@ export enum EBuilding {
     Blaster,
     Stabilizer
 }
+
+export enum BuildingStatus {
+    Idle,
+    Moving
+}

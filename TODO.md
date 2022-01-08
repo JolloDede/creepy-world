@@ -70,3 +70,10 @@
 * [X] my path algorithm doesnt work properly
 * [X] shadows from the terrain
 * [X] packets get removed that should not be removed
+
+### Step 2
+#### features
+* [ ] Some Structures can move
+  * [X] Player
+  * [X] Blaster
+  * [ ] Connections need to be fixed

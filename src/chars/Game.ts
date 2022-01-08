@@ -4,7 +4,7 @@ import World from "../helper/World";
 import CreeperUpdate from "../clocks/UpdateCreeper";
 import Building from "./Building";
 import { Collector } from "./Collector";
-import Point, { pointIsInRange } from "../helper/Point";
+import Point, { isPointEqual, pointIsInRange } from "../helper/Point";
 import { cloneArray, distance, EBuilding, GameState, UpdateAction } from "../helper/Helper";
 import { Connection, Connections } from "../helper/Connection";
 import Blaster from "./Blaster";
@@ -302,8 +302,12 @@ export class Game {
         return true;
     }
 
-    isPointEqual = (pointA: Point, pointB: Point) => {
-        if (pointA.x === pointB.x && pointA.y === pointB.y) return true;
-        return false;
+    getBuildingAt = (pos: Point) => {
+        for (let i = 0; i < this.buildings.length; i++) {
+            const building = this.buildings[i];
+            if (pos.x >= building.pos.x && pos.y >= building.pos.y && pos.x < building.pos.x+building.size && pos.y < building.pos.y+building.size) {
+                return building;
+            }
+        }
     }
 }

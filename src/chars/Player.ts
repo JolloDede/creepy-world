@@ -13,6 +13,7 @@ export default class Player extends Building {
 
         this.built = true;
         this.size = 5;
+        this.canMove = true;
     }
 
 
