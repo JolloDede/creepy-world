@@ -42,7 +42,7 @@ export default class Blaster extends Building {
                 // fire
                 this.energy -= 1;
                 let projectile = new Projectile(this.getCenter(), target, targetAngle);
-                this.game.projectiles.push(projectile);
+                this.game.projectiles.add(projectile);
             }
         }
     }

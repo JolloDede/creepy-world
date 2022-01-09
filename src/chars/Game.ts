@@ -23,7 +23,7 @@ export class Game {
     buildings: Building[] = [];
     emitters: Emitter[] = [];
     world: World;
-    projectiles: Projectile[] = [];
+    projectiles = new Set<Projectile>();
     packets = new Set<Packet>();
     packetQueue: Packet[] = [];
     stabilizer: Stabilizer[] = [];

@@ -256,8 +256,7 @@ export default class DrawMain {
 
     drawProjectile(pixelWidth: number, pixelHeight: number) {
         if (this.g === undefined) return;
-        for (let i = 0; i < this.game.projectiles.length; i++) {
-            const projectile = this.game.projectiles[i];
+        for (let projectile of this.game.projectiles) {
             this.g.beginPath();
             this.g.strokeStyle = "red";
             this.g.moveTo(projectile.pos.x * pixelWidth, projectile.pos.y * pixelHeight);
