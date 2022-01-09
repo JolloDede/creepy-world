@@ -15,7 +15,6 @@ export default class Building {
     maxEnergy: number = 0;
     healthRequests: number = 0;
     energyRequests: number = 0;
-    connected: boolean = false;
     canMove: boolean = false;
     status: BuildingStatus = BuildingStatus.Idle;
 

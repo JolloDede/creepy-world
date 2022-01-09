@@ -127,14 +127,10 @@ export class Game {
 
     updateConnections() {
         let neighbours: Building[] = [];
-        // todo remove
-        // this.connections.clear();
         this.getAllConnections(this.player, neighbours);
 
-        // set the connected buildings to connected
         for (let i = 0; i < neighbours.length; i++) {
             const building = neighbours[i];
-            building.connected = true;
             if (building instanceof Collector && building.built) {
                 this.updateCollectionFields(building, UpdateAction.Add);
             }
@@ -258,19 +254,6 @@ export class Game {
                             this.world.tiles[currentPos.x][currentPos.y].collector = node as Collector;
                         } else {
                             this.world.tiles[currentPos.x][currentPos.y].collector = null;
-                        }
-                    }
-
-                    // fixing 
-                    for (let i = 0; i < this.buildings.length; i++) {
-                        const building = this.buildings[i];
-                        if (building instanceof Collector) {
-                            let bHeight = this.world.tiles[building.pos.x][building.pos.y].height;
-                            if (pointIsInRange(currentPos, building.pos, 6)) {
-                                if (bHeight === currentHeight) {
-                                    this.world.tiles[currentPos.x][currentPos.y].collector = building;
-                                }
-                            }
                         }
                     }
                 }
