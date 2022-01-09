@@ -4,9 +4,8 @@ import World from "../helper/World";
 import CreeperUpdate from "../clocks/UpdateCreeper";
 import Building from "./Building";
 import { Collector } from "./Collector";
-import Point, { isPointEqual, pointIsInRange } from "../helper/Point";
+import Point, { pointIsInRange } from "../helper/Point";
 import { cloneArray, distance, EBuilding, GameState, UpdateAction } from "../helper/Helper";
-import { Connection, Connections } from "../helper/Connection";
 import Blaster from "./Blaster";
 import Projectile from "./Projectile";
 import UpdateBuildigns from "../clocks/UpdateBuildings";
@@ -24,7 +23,6 @@ export class Game {
     buildings: Building[] = [];
     emitters: Emitter[] = [];
     world: World;
-    connections: Connections = new Connections();
     projectiles: Projectile[] = [];
     packets = new Set<Packet>();
     packetQueue: Packet[] = [];
@@ -118,7 +116,8 @@ export class Game {
                     const maxDistance = 5;
                     if (dist <= maxDistance) {
                         neighbours.push(this.buildings[i]);
-                        this.connections.add(new Connection(nodeCenter, buildingCenter));
+                        // todo remove
+                        // this.connections.add(new Connection(nodeCenter, buildingCenter));
                     }
                 }
             }
@@ -128,7 +127,8 @@ export class Game {
 
     updateConnections() {
         let neighbours: Building[] = [];
-        this.connections.clear();
+        // todo remove
+        // this.connections.clear();
         this.getAllConnections(this.player, neighbours);
 
         // set the connected buildings to connected
@@ -136,7 +136,7 @@ export class Game {
             const building = neighbours[i];
             building.connected = true;
             if (building instanceof Collector && building.built) {
-                this.updateCollectionFields(building, UpdateAction.Add); 
+                this.updateCollectionFields(building, UpdateAction.Add);
             }
         }
     }
@@ -261,7 +261,6 @@ export class Game {
                         }
                     }
 
-
                     // fixing 
                     for (let i = 0; i < this.buildings.length; i++) {
                         const building = this.buildings[i];
@@ -285,7 +284,7 @@ export class Game {
         this.findRoute(packet);
         if (packet.currentTarget !== null) {
             if (type === PacketType.Health) target.healthRequests++;
-            if (type === PacketType.Energy) target.energyRequests++;
+            if (type === PacketType.Energy) target.energyRequests += 4;
             this.packetQueue.push(packet);
         }
     }

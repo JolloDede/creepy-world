@@ -70,8 +70,8 @@ export default class Packet {
                         }
                     }
                 }else if (this.type === PacketType.Energy) {
-                    this.target.energy++;
-                    this.target.energyRequests--;
+                    this.target.energy += 4;
+                    this.target.energyRequests -= 4;
                     if (this.target.energy > this.target.maxEnergy)
                         this.target.energy = this.target.maxEnergy;
                 }

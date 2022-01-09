@@ -76,4 +76,9 @@
 * [ ] Some Structures can move
   * [X] Player
   * [X] Blaster
-  * [ ] Connections need to be fixed
+  * [X] Connections need to be fixed
+
+Structures that are not connected and get connected by moving something can get packets
+
+performance
+https://www.html5rocks.com/en/tutorials/canvas/performance/
