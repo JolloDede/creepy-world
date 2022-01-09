@@ -116,8 +116,6 @@ export class Game {
                     const maxDistance = 5;
                     if (dist <= maxDistance) {
                         neighbours.push(this.buildings[i]);
-                        // todo remove
-                        // this.connections.add(new Connection(nodeCenter, buildingCenter));
                     }
                 }
             }
