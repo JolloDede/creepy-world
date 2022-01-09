@@ -1,9 +1,12 @@
+import { BuildingStatus, distance } from "../helper/Helper";
 import Point from "../helper/Point";
 import { Game } from "./Game";
 import { PacketType } from "./Packet";
 
 export default class Building {
     pos: Point;
+    moveTargetPos: Point = new Point(0, 0);
+    speed: Point = new Point(0, 0);
     size: number = 0;
     health: number;
     built: boolean = false;
@@ -12,7 +15,10 @@ export default class Building {
     maxEnergy: number = 0;
     healthRequests: number = 0;
     energyRequests: number = 0;
-    connected: boolean = false;
+    canMove: boolean = false;
+    status: BuildingStatus = BuildingStatus.Idle;
+
+    static baseSpeed = 0.5;
 
     game: Game;
 
@@ -22,6 +28,38 @@ export default class Building {
         this.energy = 0;
 
         this.game = game;
+    }
+
+    calSpeed() {
+        if (this.moveTargetPos.x != this.pos.x || this.moveTargetPos.y != this.pos.y) {
+            let delta = new Point(this.moveTargetPos.x - this.pos.x, this.moveTargetPos.y - this.pos.y);
+            let dist = distance(this.moveTargetPos, this.pos);
+
+            this.speed.x = (delta.x / dist) * Building.baseSpeed;
+            this.speed.y = (delta.y / dist) * Building.baseSpeed;
+
+            if (Math.abs(this.speed.x) > Math.abs(delta.x))
+                this.speed.x = delta.x;
+            if (Math.abs(this.speed.y) > Math.abs(delta.y))
+                this.speed.y = delta.y;
+        }
+    }
+
+    move() {
+        if (!this.canMove || this.status != BuildingStatus.Moving) {
+            return;
+        }
+        this.calSpeed();
+
+        this.pos.x += this.speed.x;
+        this.pos.y += this.speed.y;
+
+        if (this.pos.x < this.moveTargetPos.x + 1 && this.pos.x > this.moveTargetPos.x - 1 &&
+            this.pos.y < this.moveTargetPos.y + 1 && this.pos.y > this.moveTargetPos.y - 1) {
+                this.pos.x = this.moveTargetPos.x;
+                this.pos.y = this.moveTargetPos.y;
+                this.status = BuildingStatus.Idle;
+            }
     }
 
     getCenter = () => {
@@ -47,7 +85,7 @@ export default class Building {
                 if (this.game.world.tiles[this.pos.x + i][this.pos.y + j].creep > 0) {
                     this.health -= this.game.world.tiles[this.pos.x + i][this.pos.y + j].creep / 10;
                 }
-            }       
+            }
         }
 
         if (this.health < 0) {

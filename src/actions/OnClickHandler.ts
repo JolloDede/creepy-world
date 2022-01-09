@@ -1,5 +1,6 @@
+import Building from "../chars/Building";
 import { Game } from "../chars/Game";
-import { EBuilding, GameState } from "../helper/Helper";
+import { BuildingStatus, EBuilding, GameState } from "../helper/Helper";
 import Point from "../helper/Point";
 
 export enum Curserstate {
@@ -10,7 +11,8 @@ export enum Curserstate {
 
 export class OnClickHandler {
     curserState: Curserstate;
-    game: Game
+    game: Game;
+    selectedBuilding: Building | undefined;
 
     constructor(game: Game) {
         this.curserState = Curserstate.Null;
@@ -38,8 +40,7 @@ export class OnClickHandler {
     gameClick(x: number, y: number) {
         switch (this.curserState) {
             case Curserstate.Null:
-                // here things that are on the canvas get handeld
-                console.log("Nothing todo here. Not yet implemented");
+                this.selectOrMove({ x, y });
                 break;
 
             case Curserstate.Collector:
@@ -56,6 +57,21 @@ export class OnClickHandler {
                 break;
         }
         this.curserState = Curserstate.Null;
+    }
+
+    selectOrMove(pos: Point) {
+        let build = this.game.getBuildingAt(pos);
+        if (build) {
+            console.log("Select building");
+            this.selectedBuilding = build;
+        }else if (this.selectedBuilding) {
+            console.log("Selected Building move");
+            this.selectedBuilding.status = BuildingStatus.Moving;
+            this.selectedBuilding.moveTargetPos = pos;
+            this.selectedBuilding = undefined;
+        }else {
+            console.log("Nothing todo here");
+        }
     }
 
     handleCollectorClick = () => {

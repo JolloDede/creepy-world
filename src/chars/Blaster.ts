@@ -1,4 +1,4 @@
-import { getRandomEntry } from "../helper/Helper";
+import { BuildingStatus, getRandomEntry } from "../helper/Helper";
 import Point from "../helper/Point";
 import Building from "./Building";
 import { Game } from "./Game";
@@ -13,10 +13,11 @@ export default class Blaster extends Building {
         this.size = 1;
         this.maxEnergy = 20;
         this.weaponRadius = 8;
+        this.canMove = true;
     }
 
     update = () => {
-        if (this.energy > 0) {
+        if (this.energy > 0 && this.status == BuildingStatus.Idle) {
             let targets: Point[] = [];
             for (let r = 0; r < this.weaponRadius; r++) {
                 for (let i = this.pos.x - r; i <= this.pos.x + r; i++) {

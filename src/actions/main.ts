@@ -21,7 +21,9 @@ export default class Main {
 
     run = () => {
         requestAnimationFrame(this.run);
+        // console.time("Hallo");
         this.render();
+        // console.timeEnd("Hallo");
     }
 
     render(): void {

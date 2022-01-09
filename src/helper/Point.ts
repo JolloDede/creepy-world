@@ -23,3 +23,8 @@ function pointInRange(a: number, b: number, x: number, y: number, range: number)
 export function pointIsInRange(pointA: Point, pointB: Point, range: number): boolean {
     return pointInRange(pointA.x, pointA.y, pointB.x, pointB.y, range);
 }
+
+export function isPointEqual(pointA: Point, pointB: Point) {
+    if (pointA.x === pointB.x && pointA.y === pointB.y) return true;
+    return false;
+}

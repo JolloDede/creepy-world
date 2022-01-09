@@ -6,6 +6,7 @@ import { PacketType } from "../chars/Packet";
 import Stabilizer from "../chars/Stabilizer";
 import Building from "../chars/Building";
 import Point from "../helper/Point";
+import { BuildingStatus } from "../helper/Helper";
 
 // only that the img get packed with webpack
 const PlayerSrc = require("../img/Player.png");
@@ -176,17 +177,28 @@ export default class DrawMain {
     }
 
     drawRoutes(pixelWidth: number, pixelHeight: number) {
-        if (this.g === undefined) return;
-        for (let i = 0; i < this.game.connections.connections.length; i++) {
-            const route = this.game.connections.connections[i];
-            this.g.beginPath();
-            this.g.strokeStyle = "white";
-            this.g.moveTo(route.a.x * pixelWidth, route.a.y * pixelHeight);
-            this.g.lineTo(route.b.x * pixelWidth, route.b.y * pixelHeight);
-            this.g.lineWidth = 2;
-            this.g.stroke();
+        for (let i = 0; i < this.game.buildings.length; i++) {
+            let centerI = this.game.buildings[i].getCenter();
+            let drawCenterI = new Point(centerI.x * pixelWidth, centerI.y * pixelHeight);
+            for (let j = 0; j < this.game.buildings.length; j++) {
+                if (i != j) {
+                    if (this.game.buildings[i].status == BuildingStatus.Idle && this.game.buildings[j].status == BuildingStatus.Idle) {
+                        let centerJ = this.game.buildings[j].getCenter();
+                        let drawCenterJ = new Point(centerJ.x * pixelWidth, centerJ.y * pixelHeight);
+
+                        let allowedDistance = 5;
+                        if (Math.pow(centerJ.x - centerI.x, 2) + Math.pow(centerJ.y - centerI.y, 2) <= Math.pow(allowedDistance, 2)) {
+                            this.g.beginPath();
+                            this.g.strokeStyle = "white";
+                            this.g.lineWidth = 3;
+                            this.g.moveTo(drawCenterI.x, drawCenterI.y);
+                            this.g.lineTo(drawCenterJ.x, drawCenterJ.y);
+                            this.g.stroke();
+                        }
+                    }
+                }
+            }
         }
-        this.g.lineWidth = 1;
     }
 
     drawEmitter(pixelWidth: number, pixelHeight: number) {
