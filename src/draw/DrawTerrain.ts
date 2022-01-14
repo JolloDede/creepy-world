@@ -40,11 +40,6 @@ export default class DrawTerrain {
                     default:
                         break;
                 }
-                if (this.world.tiles[i][j].collector && this.world.tiles[i][j].collector?.connected) {
-                    this.g.beginPath();
-                    this.g.fillStyle = "rgba(124,252,0, 0.2)";
-                    this.g.fillRect(this.width * i, this.height * j, this.width, this.height);
-                }
             }
         }
         this.setUpShadow();

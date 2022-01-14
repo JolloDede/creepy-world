@@ -57,10 +57,9 @@ export default class DrawMain {
     render() {
         let pixelWidth = (this.width / this.game.world.dimensions.x);
         let pixelHeight = (this.height / this.game.world.dimensions.y);
-        // todo remove
-        // this.drawTerain(pixelWidth, pixelHeight);
+        // Terrain
         this.g.drawImage(this.terrain.getTerrain(), 0, 0, this.width, this.height);
-        // this.g.drawImage(this.terrain.getTerrain(), 0, 0);
+        this.drawCollectionFields(pixelWidth, pixelHeight);
         // draw enemy
         this.drawEmitter(pixelWidth, pixelHeight);
         // this.drawCreeper(pixelWidth, pixelHeight);
@@ -71,63 +70,16 @@ export default class DrawMain {
         this.drawProjectile(pixelWidth, pixelHeight);
     }
 
-    // todo remove
-    drawTerain(pixelWidth: number, pixelHeight: number) {
-        // for (let i = 0; i < this.game.world.dimensions.x; i++) {
-        //     for (let j = 0; j < this.game.world.dimensions.y; j++) {
-        //         switch (this.game.world.tiles[i][j].height) {
-        //             case 0:
-        //                 this.g.fillStyle = "#bba6a5";
-        //                 this.g.fillRect(pixelWidth * i, pixelHeight * j, pixelWidth, pixelHeight);
-        //                 break;
-
-        //             case 1:
-        //                 this.g.fillStyle = "#95897e";
-        //                 this.g.fillRect(pixelWidth * i, pixelHeight * j, pixelWidth, pixelHeight);
-        //                 break;
-
-        //             case 2:
-        //                 this.g.fillStyle = "#7c6d68";
-        //                 this.g.fillRect(pixelWidth * i, pixelHeight * j, pixelWidth, pixelHeight);
-        //                 break;
-
-        //             default:
-        //                 break;
-        //         }
-        //         if (this.game.world.tiles[i][j].collector && this.game.world.tiles[i][j].collector?.connected) {
-        //             this.g.beginPath();
-        //             this.g.fillStyle = "rgba(124,252,0, 0.2)";
-        //             this.g.fillRect(pixelWidth * i, pixelHeight * j, pixelWidth, pixelHeight);
-        //         }
-        //         this.drawShadows(pixelWidth, pixelHeight, new Point(i, j));
-        //     }
-        // }
-    }
-
-    // todo remove
-    drawShadows = (pixelWidth: number, pixelHeight: number, pos: Point) => {
-        // if (this.g === undefined) return;
-        // let height = this.game.world.tiles[pos.x][pos.y].height;
-        // this.g.beginPath();
-        // this.g.lineWidth = 1;
-        // this.g.strokeStyle = "black";
-        // if (this.game.world.withinWorld(pos.x + 1, pos.y) && height > this.game.world.tiles[pos.x + 1][pos.y].height) {
-        //     this.g.moveTo((pos.x + 1) * pixelWidth, pos.y * pixelHeight);
-        //     this.g.lineTo((pos.x + 1) * pixelWidth, pos.y * pixelHeight + pixelHeight);
-        // }
-        // if (this.game.world.withinWorld(pos.x - 1, pos.y) && height > this.game.world.tiles[pos.x - 1][pos.y].height) {
-        //     this.g.moveTo(pos.x * pixelWidth - 1, pos.y * pixelHeight);
-        //     this.g.lineTo(pos.x * pixelWidth - 1, pos.y * pixelHeight + pixelHeight);
-        // }
-        // if (this.game.world.withinWorld(pos.x, pos.y + 1) && height > this.game.world.tiles[pos.x][pos.y + 1].height) {
-        //     this.g.moveTo(pos.x * pixelWidth, (pos.y + 1) * pixelHeight);
-        //     this.g.lineTo(pos.x * pixelWidth + pixelWidth, (pos.y + 1) * pixelHeight);
-        // }
-        // if (this.game.world.withinWorld(pos.x, pos.y - 1) && height > this.game.world.tiles[pos.x][pos.y - 1].height) {
-        //     this.g.moveTo(pos.x * pixelWidth, pos.y * pixelHeight - 1);
-        //     this.g.lineTo(pos.x * pixelWidth + pixelWidth, pos.y * pixelHeight - 1);
-        // }
-        // this.g.stroke();
+    drawCollectionFields(pixelWidth: number, pixelHeight: number) {
+        for (let i = 0; i < this.game.world.dimensions.x; i++) {
+            for (let j = 0; j < this.game.world.dimensions.y; j++) {
+                if (this.game.world.tiles[i][j].collector && this.game.world.tiles[i][j].collector?.connected) {
+                    this.g.beginPath();
+                    this.g.fillStyle = "rgba(124,252,0, 0.2)";
+                    this.g.fillRect(pixelWidth * i, pixelHeight * j, pixelWidth, pixelHeight);
+                }
+            }
+        }
     }
 
     drawBuildings = (pixelWidth: number, pixelHeight: number) => {
