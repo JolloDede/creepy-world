@@ -62,7 +62,7 @@ export default class DrawMain {
         this.drawCollectionFields(pixelWidth, pixelHeight);
         // draw enemy
         this.drawEmitter(pixelWidth, pixelHeight);
-        // this.drawCreeper(pixelWidth, pixelHeight);
+        this.drawCreeper(pixelWidth, pixelHeight);
         // draw player
         this.drawRoutes(pixelWidth, pixelHeight);
         this.drawBuildings(pixelWidth, pixelHeight);
