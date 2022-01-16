@@ -2,6 +2,7 @@ import DrawMain from "../draw/DrawMain";
 import { Curserstate, OnClickHandler } from "./OnClickHandler";
 import { Game } from "../chars/Game";
 import Point from "../helper/Point";
+import HoverHandler from "./HoverHandler";
 
 export default class Main {
     clickHandler: OnClickHandler;
@@ -12,6 +13,7 @@ export default class Main {
     constructor() {
         this.game = new Game();
         this.clickHandler = new OnClickHandler(this.game);
+        new HoverHandler(this.game);
 
         let canvas = (document.getElementById("canvas") as HTMLCanvasElement);
         this.draw = new DrawMain(this.game, canvas.getContext("2d")!);

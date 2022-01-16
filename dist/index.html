@@ -21,10 +21,19 @@
         <button id="blaster">Blaster<img src="img/Blaster.png" alt="Blaster" /></button>
       </div>
       <div class="col-4">
-        ENGERY
-        <div class="progress">
-          <div class="progress-bar" id="energy-progress" role="progressbar">{main.game.player.energy + "/" +
-            main.game.player.maxEnergy}</div>
+        <div>
+          Elevation
+          <div class="progress">
+            <div class="progress-bar bg-success" id="elevation-terrain-progress"></div>
+            <div class="progress-bar" id="elevation-creeper-progress"></div>
+          </div>
+        </div>
+        <div>
+          ENGERY
+          <div class="progress">
+            <div class="progress-bar" id="energy-progress" role="progressbar">{main.game.player.energy + "/" +
+              main.game.player.maxEnergy}</div>
+          </div>
         </div>
         <!-- Collection <br />
         {main.game.player.collection}
@@ -80,7 +89,8 @@
           <div class="modal-body">
             <div>
               <h1 class="modal-title">Help</h1>
-              <p>Structures like a Collector can be selected and placed by first clicking on the Collector button and then
+              <p>Structures like a Collector can be selected and placed by first clicking on the Collector button and
+                then
                 clicking on the Canvas where you whant to place it. If Strucutres get placed near the Player the get
                 connected and and can then be built by the packages the Player sends.</p>
             </div>
