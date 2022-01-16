@@ -77,6 +77,9 @@
   * [X] Player
   * [X] Blaster
   * [X] Connections need to be fixed
+* [ ] Terrain bar
+  * [ ] terrain
+  * [ ] creeper
 
 #### Fixes
 * [ ] water spreading
@@ -85,6 +88,3 @@
 * [X] canvas prerendering
   * [X] terrain
   * [X] shadows
-
-performance
-https://www.html5rocks.com/en/tutorials/canvas/performance/
