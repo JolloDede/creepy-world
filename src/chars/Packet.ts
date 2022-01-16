@@ -65,6 +65,7 @@ export default class Packet {
                         if (!this.target.built) {
                             this.target.built = true;
                             if (this.target instanceof Collector) {
+                                this.target.connected = true;
                                 this.game.updateCollectionFields(this.target, UpdateAction.Add);
                             }
                         }
