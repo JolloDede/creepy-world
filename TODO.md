@@ -82,7 +82,7 @@
   * [ ] creeper
 
 #### Fixes
-* [ ] water spreading
+* [X] water spreading
 
 #### performance
 * [X] canvas prerendering

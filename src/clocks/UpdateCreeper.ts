@@ -64,10 +64,9 @@ export default class CreeperUpdate {
             // // put the values back to draw and fix the creep amount
             for (let i = 0; i < this.game.world.dimensions.x; i++) {
                 for (let j = 0; j < this.game.world.dimensions.y; j++) {
-                    // todo creep to 6 with the height
                     if (this.game.world.tiles[i][j].height + this.game.world.tiles[i][j].newcreep >= 6) {
                         this.game.world.tiles[i][j].newcreep = 6 - this.game.world.tiles[i][j].height;
-                    } else if (this.game.world.tiles[i][j].newcreep < 0.1) {
+                    } else if (this.game.world.tiles[i][j].newcreep < 0.04) {
                         this.game.world.tiles[i][j].newcreep = 0;
                     }
                     this.game.world.tiles[i][j].creep = this.game.world.tiles[i][j].newcreep;
