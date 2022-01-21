@@ -89,7 +89,7 @@
   * [X] terrain
   * [X] shadows
 
-creeper lvl only to 6 with the world height
+* [X] creeper lvl only to 6 with the world height
 
 * [X] terrain not 0 but 1 atleast
 

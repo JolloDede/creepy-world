@@ -12,14 +12,14 @@ export default class CreeperUpdate {
         this.game = game;
         this.creeperCounter = 0;
         this.emitterCounter = 0;
-        
+
         setInterval(this.update, 1);
     }
 
     update = () => {
         if (this.game.gameState === GameState.InGame) {
             this.updateCreeper();
-        }else {
+        } else {
             console.log("not ingame");
         }
     }
@@ -64,8 +64,9 @@ export default class CreeperUpdate {
             // // put the values back to draw and fix the creep amount
             for (let i = 0; i < this.game.world.dimensions.x; i++) {
                 for (let j = 0; j < this.game.world.dimensions.y; j++) {
-                    if (this.game.world.tiles[i][j].newcreep > 10) {
-                        this.game.world.tiles[i][j].newcreep = 10;
+                    // todo creep to 6 with the height
+                    if (this.game.world.tiles[i][j].height + this.game.world.tiles[i][j].newcreep >= 6) {
+                        this.game.world.tiles[i][j].newcreep = 6 - this.game.world.tiles[i][j].height;
                     } else if (this.game.world.tiles[i][j].newcreep < 0.1) {
                         this.game.world.tiles[i][j].newcreep = 0;
                     }
