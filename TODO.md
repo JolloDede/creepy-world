@@ -77,9 +77,9 @@
   * [X] Player
   * [X] Blaster
   * [X] Connections need to be fixed
-* [ ] Terrain bar
-  * [ ] terrain
-  * [ ] creeper
+* [X] Terrain bar
+  * [X] terrain
+  * [X] creeper
 
 #### Fixes
 * [X] water spreading
@@ -93,4 +93,4 @@
 
 * [X] terrain not 0 but 1 atleast
 
-terrainbar with lines every 1 height
+* [X] terrainbar with lines every 1 height
