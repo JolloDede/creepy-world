@@ -23,16 +23,21 @@ export default class DrawTerrain {
             for (let j = 0; j < this.world.dimensions.y; j++) {
                 switch (this.world.tiles[i][j].height) {
                     case 0:
-                        this.g.fillStyle = "#bba6a5";
+                        this.g.fillStyle = "white";
                         this.g.fillRect(this.width * i, this.height * j, this.width, this.height);
                         break;
 
                     case 1:
-                        this.g.fillStyle = "#95897e";
+                        this.g.fillStyle = "#bba6a5";
                         this.g.fillRect(this.width * i, this.height * j, this.width, this.height);
                         break;
 
                     case 2:
+                        this.g.fillStyle = "#95897e";
+                        this.g.fillRect(this.width * i, this.height * j, this.width, this.height);
+                        break;
+
+                    case 3:
                         this.g.fillStyle = "#7c6d68";
                         this.g.fillRect(this.width * i, this.height * j, this.width, this.height);
                         break;

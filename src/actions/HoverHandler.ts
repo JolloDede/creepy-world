@@ -29,6 +29,7 @@ export default class HoverHandler {
 
         ele = document.getElementById("elevation-creeper-progress");
         let creeper = this.game.world.tiles[pos.x][pos.y].creep;
+        console.log(creeper);
         ele!.style.width = (100 / 6 * creeper).toString() + "%";
     }
 }
