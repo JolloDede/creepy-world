@@ -24,6 +24,7 @@ export enum UpdateAction {
 
 export enum GameState {
     InGame,
+    Pause,
     Won,
     Lost
 }
@@ -32,4 +33,9 @@ export enum EBuilding {
     Collector,
     Blaster,
     Stabilizer
+}
+
+export enum BuildingStatus {
+    Idle,
+    Moving
 }

@@ -2,20 +2,17 @@
 ## Steps
 ### Step 1
 #### Gui
-* [ ] GUI
+* [X] GUI
   * [X] Canvas
-  * [ ] Buttons
-    * [ ] Buildings
+  * [X] Buttons
+    * [X] Buildings
       * [X] Collector
       * [X] Blaster
-    * [ ] Game States
-      * [ ] Play
-      * [ ] Sound
-      * [ ] Music
-    * [ ] other
-      * [ ] Options
-      * [ ] Help
-      * [ ] Exit Game
+    * [X] Game States
+      * [X] Play
+    * [X] other
+      * [X] Help
+      * [X] Exit Game
 
 #### Draw
 * [X] Canvas Draw
@@ -27,7 +24,7 @@
   * [X] Draw Packets
 
 #### Logic
-* [ ] Game Logic
+* [X] Game Logic
   * [X] World
     * [X] Tiles
     * [X] CollectorFields
@@ -35,7 +32,7 @@
   * [X] Player
     * [X] Energy
     * [X] Position
-  * [ ] Buildings
+  * [X] Buildings
     * [X] get destroyed
       * [X] remove
     * [X] Position
@@ -73,3 +70,31 @@
 * [X] my path algorithm doesnt work properly
 * [X] shadows from the terrain
 * [X] packets get removed that should not be removed
+
+### Step 2
+#### features
+* [X] Some Structures can move
+  * [X] Player
+  * [X] Blaster
+  * [X] Connections need to be fixed
+* [X] Terrain bar
+  * [X] terrain
+  * [X] creeper
+
+#### Fixes
+* [X] water spreading
+
+#### performance
+* [X] canvas prerendering
+  * [X] terrain
+  * [X] shadows
+
+* [X] creeper lvl only to 6 with the world height
+
+* [X] terrain not 0 but 1 atleast
+
+* [X] terrainbar with lines every 1 height
+
+### Step 3
+#### canvas engine
+* [ ] pixijs

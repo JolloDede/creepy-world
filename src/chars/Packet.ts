@@ -65,13 +65,14 @@ export default class Packet {
                         if (!this.target.built) {
                             this.target.built = true;
                             if (this.target instanceof Collector) {
+                                this.target.connected = true;
                                 this.game.updateCollectionFields(this.target, UpdateAction.Add);
                             }
                         }
                     }
                 }else if (this.type === PacketType.Energy) {
-                    this.target.energy++;
-                    this.target.energyRequests--;
+                    this.target.energy += 4;
+                    this.target.energyRequests -= 4;
                     if (this.target.energy > this.target.maxEnergy)
                         this.target.energy = this.target.maxEnergy;
                 }

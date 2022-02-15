@@ -2,7 +2,7 @@ import Blaster from "../chars/Blaster";
 import { Collector } from "../chars/Collector";
 import { Game } from "../chars/Game";
 import Stabilizer from "../chars/Stabilizer";
-import { GameState } from "../helper/Helper";
+import { BuildingStatus, GameState } from "../helper/Helper";
 
 export default class UpdateBuildigns {
     game: Game;
@@ -24,7 +24,7 @@ export default class UpdateBuildigns {
     updateBuildings = () => {
         for (let i = 0; i < this.game.buildings.length; i++) {
             const building = this.game.buildings[i];
-            if (building.connected && building !== this.game.player) {
+            if (building !== this.game.player) {
                 building.requestPacket();
             }
             if (building instanceof Collector) {
@@ -33,9 +33,10 @@ export default class UpdateBuildigns {
             if (building instanceof Blaster) {
                 building.update();
             }
+            building.move();
 
             // take no damage
-            if (!(building instanceof Stabilizer)) {
+            if (!(building instanceof Stabilizer) && building.status != BuildingStatus.Moving) {
                 building.takeDamage();
             }
         }

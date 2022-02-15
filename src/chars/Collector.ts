@@ -1,9 +1,11 @@
 import Point, { pointIsInRange } from "../helper/Point";
 import Building from "./Building";
 import { Game } from "./Game";
+import Packet, { PacketType } from "./Packet";
 
 export class Collector extends Building {
     collectedEnergy: number = 0;
+    connected: boolean = false;
 
     constructor(pos: Point, game: Game) {
         super(pos, game);
@@ -13,7 +15,7 @@ export class Collector extends Building {
     }
 
     collectEnergy() {
-        if (this.built && this.connected) {
+        if (this.built) {
             let height = this.game.world.tiles[this.pos.x][this.pos.y].height;
 
             for (let i = -2; i < 3; i++) {
@@ -35,9 +37,21 @@ export class Collector extends Building {
             }
         }
         if (this.collectedEnergy >= 100) {
+            // set connected if packet can be transported to player
+            let newEnergy = this.game.player.energy + 1;
             this.collectedEnergy -= 100;
-            this.game.player.energy += 1;
-            if (this.game.player.energy > this.game.player.maxEnergy) this.game.player.energy = this.game.player.maxEnergy;
+            if (newEnergy > this.game.player.maxEnergy) 
+                newEnergy = this.game.player.maxEnergy;
+            // check if connected
+            let packet = new Packet(this.getCenter(), this.game.player, PacketType.Energy, this.game);
+            packet.currentTarget = this;
+            this.game.findRoute(packet);
+            if (packet.currentTarget != null) {
+                this.connected = true;
+                this.game.player.setEnergy(newEnergy);
+            }else {
+                this.connected = false;
+            }
         }
     }
 }

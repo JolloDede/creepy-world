@@ -1,9 +1,3 @@
-import PlayerPath from "../img/Player.png";
-import CollectorPath from "../img/Collector.png";
-import EmitterPath from "../img/Emitter.png";
-import CreeperPath from "../img/Creeper.png";
-import BlasterPath from "../img/Blaster.png";
-import StabilizerPath from "../img/Stabilizer.png";
 import { Game } from "../chars/Game";
 import { Collector } from "../chars/Collector";
 import Player from "../chars/Player";
@@ -12,24 +6,34 @@ import { PacketType } from "../chars/Packet";
 import Stabilizer from "../chars/Stabilizer";
 import Building from "../chars/Building";
 import Point from "../helper/Point";
+import { BuildingStatus } from "../helper/Helper";
+import DrawTerrain from "./DrawTerrain";
+
+// only that the img get packed with webpack
+const PlayerSrc = require("../img/Player.png");
+const CollecotrSrc = require("../img/Collector.png");
+const EmitterSrc = require("../img/Emitter.png");
+const CreeperSrc = require("../img/Creeper.png");
+const BlasterSrc = require("../img/Blaster.png");
+const StabilizerSrc = require("../img/Stabilizer.png");
 
 const PlayerImg = new Image();
-PlayerImg.src = PlayerPath;
+PlayerImg.src = "../img/Player.png";
 
 const CollectorImg = new Image();
-CollectorImg.src = CollectorPath;
+CollectorImg.src = "../img/Collector.png";
 
 const EmitterImg = new Image();
-EmitterImg.src = EmitterPath;
+EmitterImg.src = "../img/Emitter.png";
 
 const CreeperImg = new Image();
-CreeperImg.src = CreeperPath;
+CreeperImg.src = "../img/Creeper.png";
 
 const BlasterImg = new Image();
-BlasterImg.src = BlasterPath;
+BlasterImg.src = "../img/Blaster.png";
 
 const StabilizerImg = new Image();
-StabilizerImg.src = StabilizerPath;
+StabilizerImg.src = "../img/Stabilizer.png";
 
 const emitterSize = 1;
 
@@ -37,21 +41,25 @@ export default class DrawMain {
     width: number;
     height: number;
     game: Game;
-    g: CanvasRenderingContext2D | undefined;
+    g: CanvasRenderingContext2D;
+    terrain: DrawTerrain;
 
-    constructor(game: Game) {
+    constructor(game: Game, ctx: CanvasRenderingContext2D) {
         this.width = 0;
         this.height = 0;
         this.game = game;
+        this.g = ctx;
+        // todo set a point
+        this.terrain = new DrawTerrain(game.world, new Point(1000, 800));
+        this.terrain.setUp();
     }
 
     render() {
-        if (this.g === undefined) return;
-
         let pixelWidth = (this.width / this.game.world.dimensions.x);
         let pixelHeight = (this.height / this.game.world.dimensions.y);
-
-        this.drawTerain(pixelWidth, pixelHeight);
+        // Terrain
+        this.g.drawImage(this.terrain.getTerrain(), 0, 0, this.width, this.height);
+        this.drawCollectionFields(pixelWidth, pixelHeight);
         // draw enemy
         this.drawEmitter(pixelWidth, pixelHeight);
         this.drawCreeper(pixelWidth, pixelHeight);
@@ -62,66 +70,15 @@ export default class DrawMain {
         this.drawProjectile(pixelWidth, pixelHeight);
     }
 
-    drawTerain(pixelWidth: number, pixelHeight: number) {
-        if (this.g === undefined) return;
+    drawCollectionFields(pixelWidth: number, pixelHeight: number) {
         for (let i = 0; i < this.game.world.dimensions.x; i++) {
             for (let j = 0; j < this.game.world.dimensions.y; j++) {
-                switch (this.game.world.tiles[i][j].height) {
-                    case 0:
-                        this.g.beginPath();
-                        this.g.fillStyle = "#bba6a5";
-                        this.g.fillRect(pixelWidth * i, pixelHeight * j, pixelWidth, pixelHeight);
-                        break;
-
-                    case 1:
-                        this.g.beginPath();
-                        this.g.fillStyle = "#95897e";
-                        this.g.fillRect(pixelWidth * i, pixelHeight * j, pixelWidth, pixelHeight);
-                        break;
-
-                    case 2:
-                        this.g.beginPath();
-                        this.g.fillStyle = "#7c6d68";
-                        this.g.fillRect(pixelWidth * i, pixelHeight * j, pixelWidth, pixelHeight);
-                        break;
-
-                    default:
-                        break;
-                }
                 if (this.game.world.tiles[i][j].collector && this.game.world.tiles[i][j].collector?.connected) {
                     this.g.beginPath();
                     this.g.fillStyle = "rgba(124,252,0, 0.2)";
                     this.g.fillRect(pixelWidth * i, pixelHeight * j, pixelWidth, pixelHeight);
                 }
-                this.drawShadows(pixelWidth, pixelHeight, new Point(i, j));
             }
-        }
-    }
-
-    drawShadows = (pixelWidth: number, pixelHeight: number, pos: Point) => {
-        if (this.g === undefined) return;
-        let height = this.game.world.tiles[pos.x][pos.y].height;
-        this.g.beginPath();
-        this.g.strokeStyle = "black";
-        if (this.game.world.withinWorld(pos.x + 1, pos.y) && height > this.game.world.tiles[pos.x + 1][pos.y].height) {
-            this.g.moveTo((pos.x + 1) * pixelWidth, pos.y * pixelHeight);
-            this.g.lineTo((pos.x + 1) * pixelWidth, pos.y * pixelHeight + pixelHeight);
-            this.g.stroke();
-        }
-        if (this.game.world.withinWorld(pos.x - 1, pos.y) && height > this.game.world.tiles[pos.x - 1][pos.y].height) {
-            this.g.moveTo(pos.x * pixelWidth - 1, pos.y * pixelHeight);
-            this.g.lineTo(pos.x * pixelWidth - 1, pos.y * pixelHeight + pixelHeight);
-            this.g.stroke();
-        }
-        if (this.game.world.withinWorld(pos.x, pos.y + 1) && height > this.game.world.tiles[pos.x][pos.y + 1].height) {
-            this.g.moveTo(pos.x * pixelWidth, (pos.y + 1) * pixelHeight);
-            this.g.lineTo(pos.x * pixelWidth + pixelWidth, (pos.y + 1) * pixelHeight);
-            this.g.stroke();
-        }
-        if (this.game.world.withinWorld(pos.x, pos.y - 1) && height > this.game.world.tiles[pos.x][pos.y - 1].height) {
-            this.g.moveTo(pos.x * pixelWidth, pos.y * pixelHeight - 1);
-            this.g.lineTo(pos.x * pixelWidth + pixelWidth, pos.y * pixelHeight - 1);
-            this.g.stroke();
         }
     }
 
@@ -181,17 +138,28 @@ export default class DrawMain {
     }
 
     drawRoutes(pixelWidth: number, pixelHeight: number) {
-        if (this.g === undefined) return;
-        for (let i = 0; i < this.game.connections.connections.length; i++) {
-            const route = this.game.connections.connections[i];
-            this.g.beginPath();
-            this.g.strokeStyle = "white";
-            this.g.moveTo(route.a.x * pixelWidth, route.a.y * pixelHeight);
-            this.g.lineTo(route.b.x * pixelWidth, route.b.y * pixelHeight);
-            this.g.lineWidth = 2;
-            this.g.stroke();
+        for (let i = 0; i < this.game.buildings.length; i++) {
+            let centerI = this.game.buildings[i].getCenter();
+            let drawCenterI = new Point(centerI.x * pixelWidth, centerI.y * pixelHeight);
+            for (let j = 0; j < this.game.buildings.length; j++) {
+                if (i != j) {
+                    if (this.game.buildings[i].status == BuildingStatus.Idle && this.game.buildings[j].status == BuildingStatus.Idle) {
+                        let centerJ = this.game.buildings[j].getCenter();
+                        let drawCenterJ = new Point(centerJ.x * pixelWidth, centerJ.y * pixelHeight);
+
+                        let allowedDistance = 5;
+                        if (Math.pow(centerJ.x - centerI.x, 2) + Math.pow(centerJ.y - centerI.y, 2) <= Math.pow(allowedDistance, 2)) {
+                            this.g.beginPath();
+                            this.g.strokeStyle = "white";
+                            this.g.lineWidth = 3;
+                            this.g.moveTo(drawCenterI.x, drawCenterI.y);
+                            this.g.lineTo(drawCenterJ.x, drawCenterJ.y);
+                            this.g.stroke();
+                        }
+                    }
+                }
+            }
         }
-        this.g.lineWidth = 1;
     }
 
     drawEmitter(pixelWidth: number, pixelHeight: number) {
@@ -249,8 +217,7 @@ export default class DrawMain {
 
     drawProjectile(pixelWidth: number, pixelHeight: number) {
         if (this.g === undefined) return;
-        for (let i = 0; i < this.game.projectiles.length; i++) {
-            const projectile = this.game.projectiles[i];
+        for (let projectile of this.game.projectiles) {
             this.g.beginPath();
             this.g.strokeStyle = "red";
             this.g.moveTo(projectile.pos.x * pixelWidth, projectile.pos.y * pixelHeight);
@@ -284,9 +251,5 @@ export default class DrawMain {
     setWidthHeight(width: number, height: number) {
         this.width = width;
         this.height = height;
-    }
-
-    setRenderContext(g: CanvasRenderingContext2D) {
-        this.g = g;
     }
 }

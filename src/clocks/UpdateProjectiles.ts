@@ -19,17 +19,12 @@ export default class UpdateProjectiles {
     }
 
     moveProjectiles = () => {
-        let removeId: number[] = [];
-        for (let i = 0; i < this.game.projectiles.length; i++) {
-            const projectile = this.game.projectiles[i];
+        this.game.projectiles.forEach(projectile => {
             if (projectile.remove) {
-                removeId.push(i);
+                this.game.projectiles.delete(projectile);
+            }else {
+                projectile.move(this.game);
             }
-            projectile.move(this.game);
-        }
-        // remove projectiles todo maybe doesnt work
-        for (let i = 0; i < removeId.length; i++) {
-            this.game.projectiles.splice(removeId[i], 1);
-        }
+        });
     }
 }
