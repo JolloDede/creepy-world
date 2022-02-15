@@ -94,3 +94,7 @@
 * [X] terrain not 0 but 1 atleast
 
 * [X] terrainbar with lines every 1 height
+
+### Step 3
+#### canvas engine
+* [ ] pixijs
