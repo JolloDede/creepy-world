@@ -2,6 +2,4 @@ node_modules
 
 src/img
 
-# dist
-# dist/img
-# dist/bundle.js
+dist
