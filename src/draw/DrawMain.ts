@@ -8,6 +8,7 @@ import Building from "../chars/Building";
 import Point from "../helper/Point";
 import { BuildingStatus } from "../helper/Helper";
 import DrawTerrain from "./DrawTerrain";
+import * as PIXI from 'pixi.js';
 
 // only that the img get packed with webpack
 const PlayerSrc = require("../img/Player.png");
@@ -17,48 +18,42 @@ const CreeperSrc = require("../img/Creeper.png");
 const BlasterSrc = require("../img/Blaster.png");
 const StabilizerSrc = require("../img/Stabilizer.png");
 
-const PlayerImg = new Image();
-PlayerImg.src = "../img/Player.png";
-
-const CollectorImg = new Image();
-CollectorImg.src = "../img/Collector.png";
-
-const EmitterImg = new Image();
-EmitterImg.src = "../img/Emitter.png";
-
-const CreeperImg = new Image();
-CreeperImg.src = "../img/Creeper.png";
-
-const BlasterImg = new Image();
-BlasterImg.src = "../img/Blaster.png";
-
-const StabilizerImg = new Image();
-StabilizerImg.src = "../img/Stabilizer.png";
-
-const emitterSize = 1;
+const PlayerTex = PIXI.Texture.from("./img/Player.png");
+const CollectorTex = PIXI.Texture.from("./img/Collector.png");
+const EmitterTex = PIXI.Texture.from("./img/Emitter.png");
+const CrepperTex = PIXI.BaseTexture.from("./img/Creeper.png");
+const BlasterTex = PIXI.Texture.from("./img/Blaster.png");
+const StabilizerTex = PIXI.Texture.from("./img/Stabilizer.png");
 
 export default class DrawMain {
-    width: number;
-    height: number;
     game: Game;
-    g: CanvasRenderingContext2D;
     terrain: DrawTerrain;
+    app: PIXI.Application;
 
-    constructor(game: Game, ctx: CanvasRenderingContext2D) {
-        this.width = 0;
-        this.height = 0;
+    constructor(game: Game) {
         this.game = game;
-        this.g = ctx;
+        // set up pixi
+        this.app = new PIXI.Application({
+            view: document.getElementById("canvas") as HTMLCanvasElement,
+            width: 800,
+            height: 500,
+            transparent: true,
+            antialias: true
+        });
+        document.getElementById("display")?.append(this.app.view);
         // todo set a point
-        this.terrain = new DrawTerrain(game.world, new Point(1000, 800));
-        this.terrain.setUp();
+        this.terrain = new DrawTerrain(game.world);
+        this.terrain.setUp(this.app.renderer.width / this.game.world.dimensions.x, this.app.renderer.height / this.game.world.dimensions.y);
+        this.app.ticker.add(() => {
+            this.render();
+        })
     }
 
     render() {
-        let pixelWidth = (this.width / this.game.world.dimensions.x);
-        let pixelHeight = (this.height / this.game.world.dimensions.y);
+        let pixelWidth = (this.app.renderer.width / this.game.world.dimensions.x);
+        let pixelHeight = (this.app.renderer.height / this.game.world.dimensions.y);
         // Terrain
-        this.g.drawImage(this.terrain.getTerrain(), 0, 0, this.width, this.height);
+        this.app.stage.addChild(this.terrain.getTerrain());
         this.drawCollectionFields(pixelWidth, pixelHeight);
         // draw enemy
         this.drawEmitter(pixelWidth, pixelHeight);
@@ -70,110 +65,137 @@ export default class DrawMain {
         this.drawProjectile(pixelWidth, pixelHeight);
     }
 
-    drawCollectionFields(pixelWidth: number, pixelHeight: number) {
+    drawCollectionFields(x: number, y: number) {
+        const fields = new PIXI.Graphics();
         for (let i = 0; i < this.game.world.dimensions.x; i++) {
             for (let j = 0; j < this.game.world.dimensions.y; j++) {
                 if (this.game.world.tiles[i][j].collector && this.game.world.tiles[i][j].collector?.connected) {
-                    this.g.beginPath();
-                    this.g.fillStyle = "rgba(124,252,0, 0.2)";
-                    this.g.fillRect(pixelWidth * i, pixelHeight * j, pixelWidth, pixelHeight);
+                    fields.beginFill(0x008000, 0.3);
+                    fields.drawRect(x * i, y * j, x, y);
+                    fields.endFill();
                 }
             }
         }
+        this.app.stage.addChild(fields);
     }
 
-    drawBuildings = (pixelWidth: number, pixelHeight: number) => {
-        if (this.g === undefined) return;
-        for (let i = 0; i < this.game.buildings.length; i++) {
-            const building = this.game.buildings[i];
-            this.drawHealthBar(pixelWidth, pixelHeight, building);
-            this.drawEnergyBar(pixelWidth, pixelHeight, building);
-            if (!building.built) {
-                this.g.filter = "grayscale(1)";
-            }
+    drawBuildings = (x: number, y: number) => {
+        const filter = new PIXI.filters.ColorMatrixFilter;
+        filter.grayscale(0.3, false);
+        for (let building of this.game.buildings) {
+            this.drawHealthBar(x, y, building);
+            this.drawEnergyBar(x, y, building);
             if (building instanceof Collector) {
-                this.g.drawImage(CollectorImg, building.pos.x * pixelWidth, building.pos.y * pixelHeight, building.size * pixelWidth, building.size * pixelHeight);
+                const collector = new PIXI.Sprite(CollectorTex);
+                collector.x = building.pos.x * x;
+                collector.y = building.pos.y * y;
+                collector.width = building.size * x;
+                collector.height = building.size * y;
+                collector.filters = building.built ? [] : [filter];
+                this.app.stage.addChild(collector);
             } else if (building instanceof Blaster) {
-                this.g.drawImage(BlasterImg, building.pos.x * pixelWidth, building.pos.y * pixelHeight, building.size * pixelWidth, building.size * pixelHeight);
+                const blaster = new PIXI.Sprite(BlasterTex);
+                blaster.x = building.pos.x * x;
+                blaster.y = building.pos.y * y;
+                blaster.filters = building.built ? [] : [filter];
+                blaster.width = building.size * x;
+                blaster.height = building.size * y;
+                this.app.stage.addChild(blaster);
             } else if (building instanceof Stabilizer) {
-                this.g.drawImage(StabilizerImg, building.pos.x * pixelWidth, building.pos.y * pixelHeight, building.size * pixelWidth, building.size * pixelHeight);
+                const stabilizer = new PIXI.Sprite(StabilizerTex);
+                stabilizer.x = building.pos.x * x;
+                stabilizer.y = building.pos.y * y;
+                stabilizer.filters = building.built ? [] : [filter];
+                stabilizer.width = building.size * x;
+                stabilizer.height = building.size * y;
+                this.app.stage.addChild(stabilizer);
             } else if (building instanceof Player) {
-                this.g.drawImage(PlayerImg, this.game.player.pos.x * pixelWidth, this.game.player.pos.y * pixelHeight, this.game.player.size * pixelWidth, this.game.player.size * pixelHeight);
+                const player = new PIXI.Sprite(PlayerTex);
+                player.x = building.pos.x * x;
+                player.y = building.pos.y * y;
+                player.filters = building.built ? [] : [filter];
+                player.width = building.size * x;
+                player.height = building.size * y;
+                this.app.stage.addChild(player);
             } else {
                 console.log("error cant draw this building");
             }
-            this.g.filter = "grayscale(0)";
         }
     }
 
-    drawHealthBar = (pixelWidth: number, pixelHeight: number, build: Building) => {
-        if (this.g === undefined) return;
+    drawHealthBar = (x: number, y: number, build: Building) => {
+        const bar = new PIXI.Graphics();
         if (build.health < build.maxHealth) {
-            let barPosY = build.pos.y * pixelHeight + pixelHeight * build.size;
+            let barPosY = build.pos.y * y + y * build.size;
 
-            this.g.beginPath();
-            this.g.fillStyle = "black";
-            this.g.fillRect(build.pos.x * pixelWidth, barPosY, pixelWidth, pixelHeight / 3);
+            bar.beginFill(0x000000);
+            bar.drawRect(build.pos.x * x, barPosY, x, y / 3);
+            bar.endFill();
 
-            let barWidth = pixelWidth * build.size / build.maxHealth * build.health;
-            this.g.beginPath();
-            this.g.fillStyle = "green";
-            this.g.fillRect(build.pos.x * pixelWidth, barPosY, barWidth, pixelHeight / 3);
+            let barWidth = x * build.size / build.maxHealth * build.health;
+            bar.beginFill(0x008000);
+            bar.drawRect(build.pos.x * x, barPosY, barWidth, y / 3);
+            bar.endFill();
         }
+        this.app.stage.addChild(bar);
     }
 
-    drawEnergyBar = (pixelWidth: number, pixelHeight: number, build: Building) => {
-        if (this.g === undefined) return;
+    drawEnergyBar = (x: number, y: number, build: Building) => {
+        const bar = new PIXI.Graphics();
         if (build instanceof Player) return;
         if (build.maxEnergy > 0) {
-            this.g.beginPath();
-            this.g.fillStyle = "black";
-            this.g.fillRect(build.pos.x * pixelWidth, build.pos.y * pixelHeight - pixelHeight / 4, pixelWidth, pixelHeight / 3);
+            bar.beginFill(0x000000);
+            bar.drawRect(build.pos.x * x, build.pos.y * y - y / 4, x, y / 3);
+            bar.endFill();
 
-            let barWidth = pixelWidth * build.size / build.maxEnergy * build.energy;
-            this.g.beginPath();
-            this.g.fillStyle = "red";
-            this.g.fillRect(build.pos.x * pixelWidth, build.pos.y * pixelHeight - pixelHeight / 4, barWidth, pixelHeight / 3);
+            let barWidth = x * build.size / build.maxEnergy * build.energy;
+            bar.beginFill(0xff0000);
+            bar.drawRect(build.pos.x * x, build.pos.y * y - y / 4, barWidth, y / 3)
         }
+        this.app.stage.addChild(bar);
     }
 
-    drawRoutes(pixelWidth: number, pixelHeight: number) {
+    drawRoutes(x: number, y: number) {
+        const graphics = new PIXI.Graphics();
         for (let i = 0; i < this.game.buildings.length; i++) {
             let centerI = this.game.buildings[i].getCenter();
-            let drawCenterI = new Point(centerI.x * pixelWidth, centerI.y * pixelHeight);
+            let drawCenterI = new Point(centerI.x * x, centerI.y * y);
             for (let j = 0; j < this.game.buildings.length; j++) {
                 if (i != j) {
                     if (this.game.buildings[i].status == BuildingStatus.Idle && this.game.buildings[j].status == BuildingStatus.Idle) {
                         let centerJ = this.game.buildings[j].getCenter();
-                        let drawCenterJ = new Point(centerJ.x * pixelWidth, centerJ.y * pixelHeight);
+                        let drawCenterJ = new Point(centerJ.x * x, centerJ.y * y);
 
                         let allowedDistance = 5;
                         if (Math.pow(centerJ.x - centerI.x, 2) + Math.pow(centerJ.y - centerI.y, 2) <= Math.pow(allowedDistance, 2)) {
-                            this.g.beginPath();
-                            this.g.strokeStyle = "white";
-                            this.g.lineWidth = 3;
-                            this.g.moveTo(drawCenterI.x, drawCenterI.y);
-                            this.g.lineTo(drawCenterJ.x, drawCenterJ.y);
-                            this.g.stroke();
+                            graphics.beginFill(0xffffff);
+                            graphics.lineStyle(3, 0xffffff, 1);
+                            graphics.moveTo(drawCenterI.x, drawCenterI.y);
+                            graphics.lineTo(drawCenterJ.x, drawCenterJ.y);
+                            graphics.closePath();
+                            graphics.endFill();
                         }
                     }
                 }
             }
         }
+        this.app.stage.addChild(graphics);
     }
 
-    drawEmitter(pixelWidth: number, pixelHeight: number) {
-        if (this.g === undefined) return;
-        for (let i = 0; i < this.game.emitters.length; i++) {
-            const creeper = this.game.emitters[i];
-            this.g.drawImage(EmitterImg, creeper.pos.x * pixelWidth, creeper.pos.y * pixelHeight, emitterSize * pixelWidth, emitterSize * pixelHeight);
+    drawEmitter(x: number, y: number) {
+        for (let emitter of this.game.emitters) {
+            const emitterImg = new PIXI.Sprite(EmitterTex);
+            emitterImg.x = emitter.pos.x * x;
+            emitterImg.y = emitter.pos.y * y;
+            emitterImg.width = x;
+            emitterImg.height = y;
+            this.app.stage.addChild(emitterImg);
         }
     }
 
-    drawCreeper(pixelWidth: number, pixelHeight: number) {
-        let crepperTileSize = 16;
+    drawCreeper(x: number, y: number) {
+        const crepperTileSize = 16;
 
-        if (this.g === undefined) return;
         for (let i = -this.game.world.dimensions.x; i <= this.game.world.dimensions.x; i++) {
             for (let j = -this.game.world.dimensions.x; j <= this.game.world.dimensions.y; j++) {
                 if (this.game.world.withinWorld(i, j)) {
@@ -205,9 +227,12 @@ export default class DrawMain {
 
                             // index of the Images image 1 is right image 2 is up image 4 is left image 8 is down
                             let index = (8 * down) + (4 * left) + (2 * up) + right;
-                            this.g.beginPath();
-                            this.g.drawImage(CreeperImg, index * crepperTileSize, 0, crepperTileSize, crepperTileSize,
-                                pixelWidth * i, pixelHeight * j, pixelWidth, pixelHeight);
+                            const creep = new PIXI.Sprite(new PIXI.Texture(CrepperTex, new PIXI.Rectangle(index * crepperTileSize, 0, crepperTileSize, crepperTileSize)));
+                            creep.x = x*i;
+                            creep.y = y*j;
+                            creep.width = x;
+                            creep.height = y;
+                            this.app.stage.addChild(creep);
                         }
                     }
                 }
@@ -216,40 +241,37 @@ export default class DrawMain {
     }
 
     drawProjectile(pixelWidth: number, pixelHeight: number) {
-        if (this.g === undefined) return;
+        const graphic = new PIXI.Graphics();
         for (let projectile of this.game.projectiles) {
-            this.g.beginPath();
-            this.g.strokeStyle = "red";
-            this.g.moveTo(projectile.pos.x * pixelWidth, projectile.pos.y * pixelHeight);
-            this.g.lineTo(projectile.targetPos.x * pixelWidth, projectile.targetPos.y * pixelHeight);
-            this.g.lineWidth = 1;
-            this.g.stroke();
+            graphic.beginFill(0xff0000);
+            graphic.lineStyle(1, 0xff0000);
+            graphic.moveTo(projectile.pos.x * pixelWidth, projectile.pos.y * pixelHeight);
+            graphic.lineTo(projectile.targetPos.x * pixelWidth, projectile.targetPos.y * pixelHeight);
+            graphic.closePath();
+            graphic.endFill();
         }
+        this.app.stage.addChild(graphic);
     }
 
     drawPackets(pixelWidth: number, pixelHeight: number) {
-        if (this.g === undefined) return;
+        const graphic = new PIXI.Graphics();
         for (let packet of this.game.packets) {
-            this.g.beginPath();
+            graphic.lineStyle(1, 0x404040);
             switch (packet.type) {
                 case PacketType.Health:
-                    this.g.fillStyle = "gray";
+                    graphic.beginFill(0x808080);
                     break;
                 case PacketType.Energy:
-                    this.g.fillStyle = "red";
+                    graphic.beginFill(0xff0000);
                     break;
 
                 default:
                     console.log("Error new PacketType");
                     break;
             }
-            this.g.arc(packet.pos.x * pixelWidth, packet.pos.y * pixelHeight, 3, 0, 2 * Math.PI);
-            this.g.fill();
+            graphic.drawCircle(packet.pos.x * pixelWidth, packet.pos.y * pixelHeight, 4);
+            graphic.endFill();
         }
-    }
-
-    setWidthHeight(width: number, height: number) {
-        this.width = width;
-        this.height = height;
+        this.app.stage.addChild(graphic);
     }
 }

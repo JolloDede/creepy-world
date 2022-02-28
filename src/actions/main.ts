@@ -6,7 +6,6 @@ import HoverHandler from "./HoverHandler";
 
 export default class Main {
     clickHandler: OnClickHandler;
-    draw: DrawMain;
     game: Game;
     offset: Point = { x: 0, y: 0 };
 
@@ -15,21 +14,7 @@ export default class Main {
         this.clickHandler = new OnClickHandler(this.game);
         new HoverHandler(this.game);
 
-        let canvas = (document.getElementById("canvas") as HTMLCanvasElement);
-        this.draw = new DrawMain(this.game, canvas.getContext("2d")!);
-        this.draw.setWidthHeight(canvas.width, canvas.height);
-        this.run();
-    }
-
-    run = () => {
-        requestAnimationFrame(this.run);
-        // console.time("Hallo");
-        this.render();
-        // console.timeEnd("Hallo");
-    }
-
-    render(): void {
-        this.draw.render();
+        new DrawMain(this.game);
     }
 
     onClick(state: Curserstate) {
