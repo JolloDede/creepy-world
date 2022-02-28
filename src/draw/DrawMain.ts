@@ -9,21 +9,20 @@ import Point from "../helper/Point";
 import { BuildingStatus } from "../helper/Helper";
 import DrawTerrain from "./DrawTerrain";
 import * as PIXI from 'pixi.js';
+// images
+import playerImg from "/img/Player.png";
+import collectorImg from "/img/Collector.png";
+import emitterImg from "/img/Emitter.png";
+import creeperImg from "/img/Creeper.png";
+import blasterImg from "/img/Blaster.png";
+import stabilizerImg from "/img/Stabilizer.png";
 
-// only that the img get packed with webpack
-const PlayerSrc = require("../img/Player.png");
-const CollecotrSrc = require("../img/Collector.png");
-const EmitterSrc = require("../img/Emitter.png");
-const CreeperSrc = require("../img/Creeper.png");
-const BlasterSrc = require("../img/Blaster.png");
-const StabilizerSrc = require("../img/Stabilizer.png");
-
-const PlayerTex = PIXI.Texture.from("./img/Player.png");
-const CollectorTex = PIXI.Texture.from("./img/Collector.png");
-const EmitterTex = PIXI.Texture.from("./img/Emitter.png");
-const CrepperTex = PIXI.BaseTexture.from("./img/Creeper.png");
-const BlasterTex = PIXI.Texture.from("./img/Blaster.png");
-const StabilizerTex = PIXI.Texture.from("./img/Stabilizer.png");
+const PlayerTex = PIXI.Texture.from(playerImg);
+const CollectorTex = PIXI.Texture.from(collectorImg);
+const EmitterTex = PIXI.Texture.from(emitterImg);
+const CrepperTex = PIXI.BaseTexture.from(creeperImg);
+const BlasterTex = PIXI.Texture.from(blasterImg);
+const StabilizerTex = PIXI.Texture.from(stabilizerImg);
 
 export default class DrawMain {
     game: Game;
