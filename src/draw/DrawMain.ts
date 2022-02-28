@@ -18,12 +18,12 @@ const CreeperSrc = require("../img/Creeper.png");
 const BlasterSrc = require("../img/Blaster.png");
 const StabilizerSrc = require("../img/Stabilizer.png");
 
-const PlayerTex = PIXI.Texture.from("../img/Player.png");
-const CollectorTex = PIXI.Texture.from("../img/Collector.png");
-const EmitterTex = PIXI.Texture.from("../img/Emitter.png");
-const CrepperTex = PIXI.BaseTexture.from("../img/Creeper.png");
-const BlasterTex = PIXI.Texture.from("../img/Blaster.png");
-const StabilizerTex = PIXI.Texture.from("../img/Stabilizer.png");
+const PlayerTex = PIXI.Texture.from("./img/Player.png");
+const CollectorTex = PIXI.Texture.from("./img/Collector.png");
+const EmitterTex = PIXI.Texture.from("./img/Emitter.png");
+const CrepperTex = PIXI.BaseTexture.from("./img/Creeper.png");
+const BlasterTex = PIXI.Texture.from("./img/Blaster.png");
+const StabilizerTex = PIXI.Texture.from("./img/Stabilizer.png");
 
 export default class DrawMain {
     game: Game;
